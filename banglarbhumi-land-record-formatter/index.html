@@ -1,0 +1,3848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Land Record Formatter</title>
+
+<!-- External Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+
+<style>
+/* ============================================
+   CSS VARIABLES & THEME
+   ============================================ */
+:root {
+  --bg-primary: #0f0f14;
+  --bg-secondary: #16161d;
+  --bg-tertiary: #1c1c26;
+  --bg-surface: #1e1e28;
+  --bg-elevated: #24242f;
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --text-primary: #e4e4e8;
+  --text-secondary: #9191a4;
+  --text-muted: #55556a;
+  --accent: #6c8dfa;
+  --accent-hover: #8ba5ff;
+  --accent-dim: rgba(108,141,250,0.1);
+  --accent-glow: rgba(108,141,250,0.15);
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #f87171;
+  --shadow: 0 1px 3px rgba(0,0,0,0.5);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.6);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --transition: 0.15s cubic-bezier(.4,0,.2,1);
+  --sidebar-width: 260px;
+  --toolbar-height: 44px;
+  --statusbar-height: 26px;
+  --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  --font-sans: -apple-system, 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ============================================
+   APP LAYOUT
+   ============================================ */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ============================================
+   TITLE BAR
+   ============================================ */
+#titlebar {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 0 14px;
+  gap: 10px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+#titlebar .logo-icon {
+  width: 22px; height: 22px;
+  background: var(--accent);
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 10px; color: #fff;
+  letter-spacing: -0.5px;
+}
+
+#titlebar .app-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--text-primary);
+}
+
+#titlebar .menu-items {
+  display: flex; gap: 1px; margin-left: 12px;
+}
+
+#titlebar .menu-item {
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+#titlebar .menu-item:hover {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary);
+}
+
+/* ============================================
+   TOOLBAR
+   ============================================ */
+#toolbar {
+  display: flex;
+  align-items: center;
+  height: var(--toolbar-height);
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border);
+  padding: 0 10px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.toolbar-group {
+  display: flex; align-items: center; gap: 2px;
+  padding: 0 6px;
+  border-right: 1px solid var(--border);
+  height: 28px;
+}
+.toolbar-group:last-child { border-right: none; }
+
+.tb-btn {
+  display: flex; align-items: center; justify-content: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 11.5px;
+  font-family: var(--font-sans);
+  transition: var(--transition);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.tb-btn:hover {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary);
+}
+
+.tb-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.tb-btn.primary:hover {
+  background: var(--accent-hover);
+}
+
+.tb-btn.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.tb-btn.danger { color: var(--error); }
+.tb-btn.danger:hover { background: rgba(248,113,113,0.1); }
+
+.tb-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+.tb-separator {
+  width: 1px; height: 20px; background: var(--border); margin: 0 2px;
+}
+
+.zoom-input {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0 6px;
+  height: 26px;
+  font-size: 11px;
+  color: var(--text-primary);
+  width: 54px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  outline: none;
+  transition: var(--transition);
+}
+
+.zoom-input:focus {
+  border-color: var(--accent);
+  background: var(--bg-elevated);
+}
+
+.zoom-presets {
+  display: flex; gap: 1px;
+}
+
+.zoom-preset {
+  padding: 3px 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.zoom-preset:hover, .zoom-preset.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+#main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+#sidebar {
+  width: var(--sidebar-width);
+  min-width: 180px;
+  max-width: 400px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.25s cubic-bezier(.4,0,.2,1);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+#sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+  border-right: none;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.sidebar-toggle {
+  width: 22px; height: 22px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  font-size: 12px;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-primary);
+}
+
+.file-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.file-item:hover { background: rgba(255,255,255,0.04); }
+.file-item.active {
+  background: var(--accent-dim);
+  border-left: 2px solid var(--accent);
+  padding-left: 8px;
+}
+
+.file-item .fi-icon {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+
+.file-item .fi-icon.mhtml { background: var(--accent-dim); color: var(--accent); }
+
+.file-item .fi-info { flex: 1; min-width: 0; }
+.file-item .fi-name {
+  font-size: 12px; color: var(--text-primary); font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.file-item .fi-meta {
+  display: flex; gap: 8px; font-size: 10px; color: var(--text-muted); margin-top: 3px;
+}
+
+.file-item .fi-status {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+
+.fi-status.pending { background: var(--text-muted); }
+.fi-status.processing { background: var(--warning); animation: pulse 1.2s infinite; }
+.fi-status.done { background: var(--success); }
+.fi-status.error { background: var(--error); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.file-item .fi-remove {
+  width: 20px; height: 20px; border: none; background: transparent;
+  color: var(--text-muted); cursor: pointer; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: var(--transition); font-size: 13px;
+}
+
+.file-item:hover .fi-remove { opacity: 0.6; }
+.file-item .fi-remove:hover { opacity: 1; background: rgba(248,113,113,0.12); color: var(--error); }
+
+.sidebar-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-footer .stats {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: var(--text-muted); font-weight: 500;
+}
+
+/* ============================================
+   RESIZE HANDLE
+   ============================================ */
+.resize-handle {
+  width: 3px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+
+.resize-handle:hover, .resize-handle.active {
+  background: var(--accent);
+}
+
+/* ============================================
+   PREVIEW AREA
+   ============================================ */
+#preview-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+#preview-scroll {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+  background: var(--bg-primary);
+}
+
+/* ============================================
+   A4 PAGE
+   ============================================ */
+.a4-page {
+  width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  background: #fff;
+  color: #000;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 20px;
+  padding: 12mm 15mm 12mm 15mm;
+  font-family: 'Noto Sans Bengali', 'Nirmala UI', 'Kalpurush', sans-serif;
+  font-size: 11pt;
+  line-height: 1.5;
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.a4-page .page-footer {
+  position: absolute;
+  left: 15mm;
+  right: 15mm;
+  bottom: 4mm;
+  text-align: center;
+  font-size: 9pt;
+  color: #000;
+}
+
+.a4-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.a4-page .logo-section {
+  margin-bottom: 0;
+  position: relative;
+}
+
+.a4-page .logo-section.uploadable {
+  cursor: pointer;
+}
+
+.a4-page .logo-section img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.a4-page .logo-section.no-banner {
+  min-height: 24mm;
+  border: 1px dashed rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.a4-page .banner-upload-placeholder {
+  font-size: 9pt;
+  color: #555;
+  text-align: center;
+}
+
+.a4-page .banner-upload-hint {
+  position: absolute;
+  right: 3mm;
+  bottom: 2mm;
+  background: rgba(15,15,20,0.82);
+  color: #fff;
+  font-size: 8pt;
+  padding: 0.8mm 2mm;
+  border-radius: 999px;
+  opacity: 0;
+  transition: var(--transition);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.a4-page .logo-section.uploadable:hover .banner-upload-hint {
+  opacity: 1;
+}
+
+.a4-page .page-heading {
+  text-align: left;
+  font-weight: 700;
+  font-size: 12pt;
+  padding: 2mm 4mm;
+  background: rgb(139, 79, 28);
+  color: rgb(255, 255, 255);
+  margin: 1mm 0 0;
+}
+
+.a4-page .hr-line {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 0.7mm 0;
+}
+
+.a4-page .hr-line-thin {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 1.2mm 0;
+}
+
+.a4-page .location-line {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 8px;
+  align-items: center;
+  font-size: 10pt;
+  margin: 0.6mm 0;
+  width: 100%;
+}
+
+.a4-page .location-line .loc-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.a4-page .location-line .loc-group.loc-left {
+  justify-content: flex-start;
+}
+
+.a4-page .location-line .loc-group.loc-center {
+  justify-content: center;
+}
+
+.a4-page .location-line .loc-group.loc-right {
+  justify-content: flex-end;
+}
+
+.a4-page .location-line .loc-label {
+  font-weight: 700;
+  white-space: nowrap;
+  font-size: 9pt;
+}
+
+.a4-page .location-line .loc-input {
+  flex: 1;
+  min-width: 0;
+  max-width: 180px;
+  border: none;
+  border-bottom: 1px solid #999;
+  background: transparent;
+  font-family: inherit;
+  font-size: 9pt;
+  padding: 1mm 1mm;
+  outline: none;
+  color: #000;
+}
+
+.a4-page .location-line .loc-input:focus {
+  border-bottom: 2px solid #1a5276;
+  background: #f0f7ff;
+}
+
+.a4-page .location-line .loc-select-btn {
+  width: 18px;
+  height: 18px;
+  border: none;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: 0.15s;
+}
+
+.a4-page .location-line .loc-select-btn:hover {
+  background: #e0e0e0;
+  color: #000;
+}
+
+.loc-dropdown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: transparent;
+}
+
+.loc-dropdown {
+  position: fixed;
+  z-index: 9999;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  max-height: 260px;
+  overflow-y: auto;
+  min-width: 200px;
+  padding: 4px 0;
+}
+
+.loc-dropdown .dd-item {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 10pt;
+  color: #000;
+  white-space: nowrap;
+  transition: 0.1s;
+}
+
+.loc-dropdown .dd-item:hover {
+  background: #e8f0fe;
+}
+
+.loc-dropdown .dd-item.active {
+  background: #d0e2ff;
+  font-weight: 600;
+}
+
+.a4-page .center-text {
+  text-align: center;
+  font-size: 10pt;
+  margin: 1.5mm 0;
+  color: #000;
+}
+
+.a4-page .section-heading {
+  text-align: center;
+  font-weight: 700;
+  font-size: 11pt;
+  margin: 3mm 0 1mm;
+  color: #000;
+  background: #fff;
+}
+
+.a4-page .section-note {
+  text-align: center;
+  font-size: 8pt;
+  color: #000;
+  margin: 0 0 2mm;
+  background: #fff;
+}
+
+.a4-page table.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2mm 0;
+  font-size: 10pt;
+  background: #fff;
+  color: #000;
+}
+
+.a4-page table.info-table td {
+  border: 1px solid #000;
+  padding: 0;
+  vertical-align: middle;
+  color: #000;
+  background: #fff;
+  height: 100%;
+}
+
+.a4-page table.info-table td:first-child {
+  width: 45%;
+  font-weight: 600;
+  padding: 1mm 1.8mm;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+.a4-page table.info-table .label-text {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.a4-page table.info-table .label-colon {
+  float: right;
+  font-weight: 600;
+  padding-right: 1.2mm;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.a4-page table.info-table td .cell-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 10pt;
+  padding: 1mm 1.8mm;
+  margin-top: 0;
+  margin-bottom: 0;
+  outline: none;
+  color: #000;
+  box-sizing: border-box;
+  line-height: 1.15;
+  vertical-align: middle;
+}
+
+.a4-page table.info-table td .cell-input:focus {
+  background: #f0f7ff;
+}
+
+.a4-page table.dag-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2mm 0;
+  font-size: 10pt;
+  background: #fff;
+  color: #000;
+}
+
+.a4-page table.dag-table th {
+  border: 1px solid #000;
+  padding: 1.4mm 2.2mm;
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  text-align: center;
+  font-size: 9pt;
+}
+
+.a4-page table.dag-table td {
+  border: 1px solid #000;
+  padding: 0;
+  text-align: center;
+  font-size: 9pt;
+  color: #000;
+  background: #fff;
+}
+
+.a4-page table.dag-table td .cell-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 9pt;
+  padding: 1.3mm 1.8mm;
+  outline: none;
+  color: #000;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.a4-page table.dag-table td .cell-input:focus {
+  background: #f0f7ff;
+}
+
+.a4-page .missing-field {
+  background: #fff3cd;
+  border: 1px dashed #ffc107;
+  padding: 1mm 2mm;
+  border-radius: 2px;
+  color: #856404;
+  font-size: 9pt;
+}
+
+/* ============================================
+   DROP ZONE
+   ============================================ */
+#drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  gap: 20px;
+  color: var(--text-muted);
+}
+
+#drop-zone.drag-over {
+  background: var(--accent-dim);
+}
+
+#drop-zone .drop-icon {
+  width: 72px; height: 72px;
+  border: 2px dashed rgba(255,255,255,0.12);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  transition: var(--transition);
+}
+
+#drop-zone.drag-over .drop-icon {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: scale(1.08);
+  background: var(--accent-dim);
+}
+
+#drop-zone h3 {
+  font-size: 15px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
+#drop-zone p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.drop-btn {
+  padding: 10px 28px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-sans);
+}
+
+.drop-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(108,141,250,0.25);
+}
+
+/* ============================================
+   PROGRESS BAR
+   ============================================ */
+.progress-container {
+  width: 100%;
+  padding: 0 10px;
+}
+
+.progress-bar-outer {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+/* ============================================
+   STATUS BAR
+   ============================================ */
+#statusbar {
+  display: flex;
+  align-items: center;
+  height: var(--statusbar-height);
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 0 14px;
+  font-size: 11px;
+  color: var(--text-muted);
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+#statusbar .status-left {
+  display: flex; gap: 16px; flex: 1;
+}
+
+#statusbar .status-right {
+  display: flex; gap: 14px; font-weight: 500;
+}
+
+.status-item {
+  display: flex; align-items: center; gap: 5px;
+}
+
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+
+/* ============================================
+   MODAL / DIALOG
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  width: 480px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow: auto;
+  padding: 24px;
+}
+
+.modal h3 {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.modal .error-log {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.modal .error-log .log-entry {
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.modal .error-log .log-error { color: var(--error); }
+.modal .error-log .log-warn { color: var(--warning); }
+.modal .error-log .log-info { color: var(--accent); }
+.modal .error-log .log-success { color: var(--success); }
+
+.modal-actions {
+  display: flex; gap: 8px; margin-top: 20px; justify-content: flex-end;
+}
+
+.btn-modal {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.btn-modal:hover {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary);
+}
+
+.btn-modal.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.btn-modal.primary:hover {
+  background: var(--accent-hover);
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+#toast-container {
+  position: fixed;
+  bottom: 36px;
+  right: 16px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+}
+
+.toast {
+  padding: 11px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  font-size: 12px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideIn 0.25s cubic-bezier(.4,0,.2,1);
+  max-width: 380px;
+  font-weight: 500;
+}
+
+.toast.success { border-left: 3px solid var(--success); }
+.toast.error { border-left: 3px solid var(--error); }
+.toast.warning { border-left: 3px solid var(--warning); }
+.toast.info { border-left: 3px solid var(--accent); }
+
+@keyframes slideIn {
+  from { transform: translateX(40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ============================================
+   BATCH PROGRESS
+   ============================================ */
+#batch-bar {
+  display: none;
+  align-items: center;
+  padding: 6px 14px;
+  background: var(--accent-dim);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+#batch-bar.active { display: flex; }
+
+#batch-bar .batch-text { color: var(--text-secondary); flex: 1; font-weight: 500; }
+#batch-bar .batch-progress {
+  flex: 2;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+#batch-bar .batch-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+/* ============================================
+   PRINT / EXPORT SURFACES
+   ============================================ */
+#print-target {
+  display: none;
+}
+
+#export-target {
+  position: fixed;
+  left: -100000px;
+  top: 0;
+  width: 210mm;
+  background: #fff;
+  z-index: -1;
+  display: none;
+}
+
+#export-target .a4-page {
+  width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  margin: 0 0 8mm 0;
+  padding: 12mm 15mm 12mm 15mm;
+  box-shadow: none;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#print-target .banner-upload-hint,
+#export-target .banner-upload-hint {
+  display: none !important;
+}
+
+#print-target .loc-select-btn,
+#export-target .loc-select-btn {
+  display: none !important;
+}
+
+#print-target .logo-section.no-banner,
+#export-target .logo-section.no-banner {
+  display: none !important;
+}
+
+/* Explicit export-only styling so downloaded PDF matches preview/print better */
+/* Use separate borders in export mode to avoid visually doubled inner lines */
+#export-target .a4-page table.info-table,
+#export-target .a4-page table.dag-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+#export-target .a4-page table.info-table td,
+#export-target .a4-page table.info-table th,
+#export-target .a4-page table.dag-table td,
+#export-target .a4-page table.dag-table th {
+  border: 0 !important;
+  border-right: 1px solid #000 !important;
+  border-bottom: 1px solid #000 !important;
+}
+
+#export-target .a4-page table.info-table tr:first-child td,
+#export-target .a4-page table.info-table tr:first-child th,
+#export-target .a4-page table.dag-table tr:first-child td,
+#export-target .a4-page table.dag-table tr:first-child th {
+  border-top: 1px solid #000 !important;
+}
+
+#export-target .a4-page table.info-table td:first-child,
+#export-target .a4-page table.info-table th:first-child,
+#export-target .a4-page table.dag-table td:first-child,
+#export-target .a4-page table.dag-table th:first-child {
+  border-left: 1px solid #000 !important;
+}
+
+/* Prevent doubled line below plot table header in downloaded PDF */
+#export-target .a4-page table.dag-table thead + tbody tr:first-child td {
+  border-top: 0 !important;
+}
+
+#export-target .a4-page table.info-table td:first-child {
+  padding: 1mm 1.8mm !important;
+  line-height: 1.15 !important;
+}
+
+#export-target .a4-page table.info-table td .print-cell-text {
+  display: block;
+  padding: 1mm 1.8mm !important;
+  line-height: 1.15 !important;
+  color: #000 !important;
+  background: transparent !important;
+  margin: 0 !important;
+}
+
+#export-target .a4-page table.dag-table th {
+  padding: 1.4mm 2.2mm !important;
+}
+
+#export-target .a4-page table.dag-table td .print-cell-text {
+  display: block;
+  padding: 1.3mm 1.8mm !important;
+  color: #000 !important;
+  background: transparent !important;
+  margin: 0 !important;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  body * { visibility: hidden; }
+  #print-target, #print-target * { visibility: visible; }
+  #print-target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+  }
+
+  .a4-page {
+    width: 210mm;
+    height: 297mm;
+    min-height: 297mm;
+    margin: 0;
+    padding: 12mm 15mm 12mm 15mm;
+    box-shadow: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .a4-page .loc-input,
+  .a4-page .cell-input {
+    border: none !important;
+    border-bottom: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .banner-upload-hint,
+  .banner-upload-placeholder,
+  .logo-section.no-banner,
+  .loc-select-btn {
+    display: none !important;
+  }
+
+  /* Keep compact table spacing identical in print/PDF */
+  .a4-page table.info-table td:first-child {
+    padding: 1mm 1.8mm !important;
+    line-height: 1.15 !important;
+  }
+
+  .a4-page table.info-table td .print-cell-text {
+    display: block;
+    padding: 1mm 1.8mm !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1.15 !important;
+    vertical-align: middle !important;
+  }
+
+  .a4-page table.dag-table th {
+    padding: 1.4mm 2.2mm !important;
+  }
+
+  .a4-page table.dag-table td .print-cell-text {
+    display: block;
+    padding: 1.3mm 1.8mm !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+#mobile-overlay {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --sidebar-width: 220px;
+  }
+
+  #titlebar .menu-items {
+    gap: 0;
+    margin-left: 8px;
+  }
+
+  #titlebar .menu-item {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  #preview-scroll {
+    padding: 18px;
+  }
+
+  #sidebar {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  #toolbar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  #toolbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .toolbar-group {
+    flex-shrink: 0;
+  }
+
+  #preview-scroll {
+    padding: 14px;
+  }
+
+  .modal {
+    width: min(94vw, 520px);
+    padding: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  #titlebar {
+    height: 44px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  #titlebar .app-title {
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 42vw;
+  }
+
+  #titlebar .menu-items {
+    display: none;
+  }
+
+  #titlebar > div[style*="v1.0.0"] {
+    display: none;
+  }
+
+  #main {
+    position: relative;
+  }
+
+  #mobile-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 60;
+  }
+
+  #mobile-overlay.active {
+    display: block;
+  }
+
+  #sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(82vw, 300px);
+    min-width: 0;
+    max-width: 300px;
+    z-index: 80;
+    transform: translateX(-102%);
+    transition: transform 0.22s cubic-bezier(.4,0,.2,1);
+    border-right: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  #sidebar.collapsed {
+    width: min(82vw, 300px);
+    border-right: 1px solid var(--border);
+  }
+
+  #sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .resize-handle {
+    display: none;
+  }
+
+  #toolbar {
+    gap: 4px;
+    padding: 0 8px;
+  }
+
+  .toolbar-group {
+    padding: 0 4px;
+    height: 30px;
+  }
+
+  .tb-btn {
+    height: 28px;
+    padding: 0 8px;
+    min-width: 30px;
+  }
+
+  .toolbar-group .tb-btn span {
+    display: none;
+  }
+
+  .zoom-input {
+    width: 46px;
+    font-size: 10px;
+  }
+
+  .zoom-presets {
+    display: none;
+  }
+
+  #preview-scroll {
+    padding: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .a4-container {
+    width: 100%;
+    align-items: flex-start;
+    transform-origin: top left !important;
+  }
+
+  #statusbar {
+    padding: 0 8px;
+    font-size: 10px;
+    gap: 8px;
+  }
+
+  #statusbar .status-right {
+    gap: 8px;
+  }
+
+  .file-item .fi-remove {
+    opacity: 1;
+  }
+
+  #batch-bar {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --toolbar-height: 42px;
+    --statusbar-height: 24px;
+  }
+
+  #titlebar .logo-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  #titlebar .app-title {
+    max-width: 56vw;
+  }
+
+  #toolbar {
+    padding: 0 6px;
+  }
+
+  .toolbar-group {
+    padding: 0 3px;
+  }
+
+  #statusbar .status-right {
+    display: none;
+  }
+
+  .modal {
+    width: 96vw;
+    max-height: 84vh;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  #drop-zone {
+    padding: 0 18px;
+    text-align: center;
+  }
+
+  #drop-zone .drop-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+  }
+
+  #drop-zone h3 {
+    font-size: 14px;
+  }
+
+  .drop-btn {
+    width: 100%;
+    max-width: 260px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- TITLE BAR -->
+  <div id="titlebar">
+    <div class="logo-icon">LR</div>
+    <div class="app-title">LAND RECORD FORMATTER</div>
+    <div class="menu-items">
+      <div class="menu-item" onclick="document.getElementById('file-input').click()">File</div>
+      <div class="menu-item" id="menu-view" onclick="toggleSidebar()">View</div>
+      <div class="menu-item" id="menu-export" onclick="showExportMenu()">Export</div>
+      <div class="menu-item" onclick="showErrorLog()">Log</div>
+      <div class="menu-item" onclick="showAbout()">Help</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="font-size:11px;color:var(--text-muted)">v1.0.0</div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div id="toolbar">
+    <div class="toolbar-group">
+      <button class="tb-btn primary" onclick="document.getElementById('file-input').click()" title="Open Files">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+        <span>Open</span>
+      </button>
+      <input type="file" id="file-input" multiple accept=".mhtml,.mht" style="display:none" onchange="handleFileInput(this.files)">
+      <input type="file" id="banner-upload-input" accept="image/*" style="display:none" onchange="handleBannerUpload(this.files)">
+    </div>
+
+    <div class="toolbar-group">
+      <button class="tb-btn" id="btn-toggle-sidebar" onclick="toggleSidebar()" title="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+      </button>
+    </div>
+
+    <div class="toolbar-group">
+      <button class="tb-btn" onclick="zoomOut()" title="Zoom Out (Ctrl+-)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      </button>
+      <input type="text" class="zoom-input" id="zoom-display" value="100%" title="Type zoom % and press Enter" onkeydown="handleZoomInput(event)" onfocus="this.select()">
+      <button class="tb-btn" onclick="zoomIn()" title="Zoom In (Ctrl+=)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      </button>
+      <div class="zoom-presets">
+        <button class="zoom-preset" onclick="fitWidth()">Fit W</button>
+        <button class="zoom-preset" onclick="fitPage()">Fit P</button>
+      </div>
+    </div>
+
+    <div style="flex:1"></div>
+
+    <div class="toolbar-group">
+      <button class="tb-btn" id="btn-page-breaks" onclick="togglePageBreaks()" title="Toggle page breaks in preview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H3"/><path d="M21 14H3"/><path d="M4 4v2"/><path d="M4 18v2"/><path d="M12 4v2"/><path d="M12 18v2"/><path d="M20 4v2"/><path d="M20 18v2"/></svg>
+        <span>Page Breaks</span>
+      </button>
+      <button class="tb-btn" onclick="printDocument()" title="Print">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span>Print</span>
+      </button>
+    </div>
+
+    <div class="toolbar-group">
+      <button class="tb-btn" onclick="exportCurrentPDF()" title="Export PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+        <span>PDF</span>
+      </button>
+    </div>
+
+    <div class="toolbar-group">
+      <button class="tb-btn" onclick="exportAllPDF()" title="Export All PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8z"/><polyline points="16 4 16 8 18 8"/><path d="M14 2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2"/><path d="M9 16l3 3 3-3"/><line x1="12" y1="12" x2="12" y2="19"/></svg>
+        <span>All PDF</span>
+      </button>
+
+    </div>
+
+    <div class="toolbar-group">
+      <button class="tb-btn danger" onclick="cancelBatch()" id="btn-cancel" style="display:none" title="Cancel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <span>Cancel</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- BATCH PROGRESS BAR -->
+  <div id="batch-bar">
+    <span class="batch-text" id="batch-text">Processing...</span>
+    <div class="batch-progress"><div class="batch-fill" id="batch-fill"></div></div>
+    <span id="batch-count" style="color:var(--text-muted);font-size:11px;">0/0</span>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div id="main">
+    <div id="mobile-overlay" onclick="closeMobileSidebar()"></div>
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+      <div class="sidebar-header">
+        <span>Files</span>
+        <button class="sidebar-toggle" onclick="toggleSidebar()" title="Collapse">✕</button>
+      </div>
+      <div class="file-list" id="file-list"></div>
+      <div class="sidebar-footer">
+        <div class="progress-container" id="queue-progress-container" style="display:none">
+          <div class="progress-bar-outer"><div class="progress-bar-inner" id="queue-progress"></div></div>
+        </div>
+        <div class="stats">
+          <span id="stats-files">0 files</span>
+          <span id="stats-processed">0 processed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESIZE HANDLE -->
+    <div class="resize-handle" id="resize-handle"></div>
+
+    <!-- PREVIEW AREA -->
+    <div id="preview-area">
+      <div id="preview-scroll">
+        <!-- Drop Zone (shown when no files) -->
+        <div id="drop-zone">
+          <div class="drop-icon">📄</div>
+          <h3>Drop BanglarBhumi MHT/MHTML files here</h3>
+          <p>or click to browse • Supports .mhtml .mht</p>
+          <button class="drop-btn" onclick="document.getElementById('file-input').click()">Browse Files</button>
+          <p style="margin-top:12px; font-size:11px;">Supports batch processing of 1000+ files</p>
+        </div>
+
+        <!-- A4 Preview Container (hidden until files loaded) -->
+        <div class="a4-container" id="a4-container" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div id="statusbar">
+    <div class="status-left">
+      <div class="status-item">
+        <div class="status-dot" id="status-dot" style="background:var(--text-muted)"></div>
+        <span id="status-text">Ready</span>
+      </div>
+    </div>
+    <div class="status-right">
+      <span id="status-pages">Pages: 0</span>
+      <span id="status-zoom">Zoom: 100%</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- ERROR LOG MODAL -->
+<div class="modal-overlay" id="modal-errorlog">
+  <div class="modal">
+    <h3>Processing Log</h3>
+    <div class="error-log" id="error-log-content"></div>
+    <div class="modal-actions">
+      <button class="btn-modal" onclick="clearLog()">Clear</button>
+      <button class="btn-modal primary" onclick="closeModal('modal-errorlog')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT MODAL -->
+<div class="modal-overlay" id="modal-about">
+  <div class="modal">
+    <h3>Land Record Formatter v1.0.0</h3>
+    <p style="color:var(--text-secondary);font-size:12px;line-height:1.8;margin-top:8px;">
+      Converts BanglarBhumi Land Record HTML/MHTML pages into professionally formatted A4 documents.<br><br>
+      <strong>Features:</strong><br>
+      • Parse HTML/MHTML land records<br>
+      • Extract data using Bengali keywords<br>
+      • Generate A4 formatted preview<br>
+      • Export to PDF (with selectable text)<br>
+
+      • Batch processing 1000+ files<br>
+
+      <strong>Supported Input:</strong> .mhtml, .mht<br>
+      <strong>Runs:</strong> Completely offline in the browser
+    </p>
+    <div class="modal-actions">
+      <button class="btn-modal primary" onclick="closeModal('modal-about')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MENU MODAL -->
+<div class="modal-overlay" id="modal-export">
+  <div class="modal">
+    <h3>Export Options</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+      <button class="btn-modal" onclick="exportCurrentPDF();closeModal('modal-export')" style="text-align:left;padding:10px 16px;">
+        📄 Export Current as PDF
+      </button>
+      <div style="border-top:1px solid var(--border-glass);margin:4px 0;"></div>
+      <button class="btn-modal" onclick="exportAllPDF();closeModal('modal-export')" style="text-align:left;padding:10px 16px;">
+        📄 Export All as PDF
+      </button>
+
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal primary" onclick="closeModal('modal-export')">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="print-target" style="display:none;"></div>
+<div id="export-target" style="display:none;"></div>
+
+<script>
+// ============================================================
+// CONSTANTS
+// ============================================================
+const DISTRICT_BLOCK_DATA = {
+"[ 01 ] BANKURA":["[ 01 ] BANKURA - I","[ 02 ] BANKURA - II","[ 03 ] CHATNA","[ 04 ] SALTORA","[ 05 ] MEJHIA","[ 06 ] GANGAJALGHATI","[ 07 ] BARJORA","[ 08 ] ONDA","[ 09 ] TALDANGRA","[ 10 ] SIMLAPAL","[ 11 ] KHATRA","[ 12 ] HIRBANDH","[ 13 ] INDPUR","[ 14 ] RAIPUR - I","[ 15 ] RAIPUR - II","[ 16 ] RANIBANDH","[ 17 ] BISHNUPUR","[ 18 ] JOYPUR","[ 19 ] KOTOLPUR","[ 20 ] SONAMUKHI","[ 21 ] PATRASHYAR","[ 22 ] INDUS"],
+"[ 02 ] PURBA BARDHAMAN":["[ 01 ] BARDHAMAN-1","[ 02 ] MEMARI-I","[ 03 ] MEMARI-II","[ 04 ] JAMALPUR","[ 05 ] RAINA-I","[ 06 ] RAINA-2","[ 07 ] KHANDOGHOSH","[ 08 ] BHATAR","[ 09 ] AUSHGRAM-I","[ 10 ] AUSHGRAM-II","[ 11 ] GOLSI-II","[ 12 ] GOLSI-I","[ 18 ] BARDHAMAN-II","[ 24 ] KATOA-I","[ 25 ] KATOA-II","[ 26 ] KETUGRAM-1","[ 27 ] KETUGRAM-II","[ 28 ] MONGALKOT","[ 29 ] KALNA-I","[ 30 ] KALNA-II","[ 31 ] PURBASHALI-I","[ 32 ] PURBASHALI-II","[ 33 ] MANTESWAR"],
+"[ 03 ] BIRBHUM":["[ 01 ] NALHATI - I","[ 02 ] NALHATI - II","[ 03 ] MURARI - I","[ 04 ] MURARI - II","[ 05 ] MAYURESWAR - I","[ 06 ] MAYURESWAR - II","[ 07 ] RAMPURHAT - I","[ 08 ] RAMPURHAT - II","[ 09 ] MD. BAZAR","[ 10 ] SAINTHIA","[ 11 ] BOLPUR","[ 12 ] LAVPUR","[ 13 ] NANOOR","[ 14 ] DUBRAJPUR","[ 15 ] ELAMBAZAR","[ 16 ] RAJNAGAR","[ 17 ] SURI - I","[ 18 ] SURI - II","[ 19 ] KHAYRASOL"],
+"[ 04 ] DARJEELING":["[ 01 ] MATIGARA","[ 02 ] NAXALBARI","[ 03 ] PHANSIDEWA","[ 04 ] KHARIBARI","[ 05 ] SILIGURI TOWN","[ 08 ] KARSEONG","[ 09 ] MIRIK","[ 10 ] BIJONBARI (DARJEELING SADAR)","[ 11 ] RANGLI RANGLIOT","[ 12 ] SUKHIAPOKHRI","[ 13 ] BIJONBARI (PULBAZAR)"],
+"[ 05 ] HOWRAH":["[ 01 ] DOMJUR","[ 02 ] JAGATBALLAVPUR","[ 03 ] BALI-JAGACHA","[ 04 ] SANKRAIL","[ 05 ] PANCHLA","[ 06 ] AMTA-I","[ 07 ] AMTA-II","[ 08 ] BAGNAN-I","[ 09 ] BAGNAN-II","[ 10 ] UDAYNARAYANPUR","[ 11 ] ULUBERIA-I","[ 12 ] ULUBERIA-II","[ 13 ] SHYAMPUR-I","[ 14 ] SHYAMPUR-II","[ 15 ] HAORA TOWN SURVEY UNIT"],
+"[ 06 ] HOOGHLY":["[ 01 ] MOGRA CHINSURA","[ 02 ] POLBA - DADPUR","[ 03 ] DHANIAKHALI","[ 04 ] PANDUA","[ 05 ] BALAGARH","[ 06 ] SINGUR","[ 07 ] HARIPAL","[ 08 ] TARAKESWAR","[ 09 ] SHRIRAMPUR","[ 10 ] CHANDITALA - I","[ 11 ] CHANDITALA - II","[ 12 ] JANGIPARA","[ 13 ] GOGHAT - I","[ 14 ] GOGHAT - II","[ 15 ] ARAMBAGH","[ 16 ] KHANAKUL - I","[ 17 ] KHANAKUL - II","[ 18 ] PURSHURA","[ 19 ] Singur (Khalisani)"],
+"[ 07 ] JALPAIGURI":["[ 01 ] RAJGANJ","[ 02 ] JALPAIGURI SADAR","[ 03 ] MOYNAGURI","[ 04 ] DHUPGURI","[ 05 ] MALBAZAR","[ 06 ] METIALI","[ 07 ] NAGRAKATA"],
+"[ 08 ] Cooch Behar":["[ 01 ] Cooch Behar-1","[ 02 ] Cooch Behar-2","[ 03 ] TUFANGANJ - I","[ 04 ] TUFANGANJ - II","[ 05 ] DINHATA - I","[ 06 ] DINHATA - II","[ 07 ] SITAI","[ 08 ] HALDIBARI","[ 09 ] MEKHLIGANJ","[ 10 ] MATHABANGA - I","[ 11 ] MATHABANGA - II","[ 12 ] SITALKUCHI"],
+"[ 09 ] MALDA":["[ 01 ] HARISHCHANDRAPUR-1","[ 02 ] HARISHCHANDRAPUR-2","[ 03 ] CHANCHAL-I","[ 04 ] CHANCHAL-II","[ 05 ] RATUA-I","[ 06 ] RATUA-2","[ 07 ] MANIKCHAK","[ 08 ] OLD MALDA","[ 09 ] GAZOLE","[ 10 ] BAMANGOLA","[ 11 ] HABIBPUR","[ 12 ] ENGLISHBAZAR","[ 13 ] KALIACHAK-1","[ 14 ] KALIACHAK-II","[ 15 ] KALIACHAK-3"],
+"[ 10 ] PASCHIM MEDINIPUR":["[ 09 ] KHARGAPUR-I","[ 10 ] KHARGAPUR-II","[ 11 ] KESHIARI","[ 12 ] NARAYANGARH","[ 13 ] DATAN-I","[ 14 ] DATAN-II","[ 15 ] MOHANPUR","[ 16 ] PINGLA","[ 17 ] SABANG","[ 18 ] DEBRA","[ 19 ] GARHBETA-I","[ 20 ] GARHBETA-II","[ 21 ] GARHBETA-III","[ 22 ] SALBONI","[ 23 ] KESHPUR","[ 24 ] MEDINIPUR SADAR","[ 25 ] CHANDROKONA-II","[ 26 ] CHANDROKONA-I","[ 27 ] GHATAL","[ 28 ] DASPUR-I","[ 29 ] DASPUR-II"],
+"[ 11 ] PURBA MEDINIPUR":["[ 06 ] PANSHKURA-1","[ 07 ] PANSHKURA-2","[ 08 ] SAHID MATANGINI(TAMLUK-2)","[ 09 ] TAMLUK-1","[ 10 ] MOYNA","[ 11 ] MAHISHADAL","[ 12 ] NANDAKUMAR","[ 13 ] SUTAHATA-1","[ 14 ] SUTAHATA-2","[ 15 ] NANDIGRAM-1","[ 16 ] NANDIGRAM-2","[ 17 ] NANDIGRAM-3","[ 18 ] BHAGABANPUR-1","[ 19 ] BHAGABANPUR-2","[ 20 ] KHEJURI-1","[ 21 ] KHEJURI-2","[ 22 ] CONTAI-2","[ 23 ] CONTAI-1","[ 24 ] CONTAI-3","[ 25 ] PATASHPUR-1","[ 26 ] PATASHPUR-2","[ 27 ] EGRA-1","[ 28 ] EGRA-2","[ 29 ] RAMNAGAR-1","[ 30 ] RAMNAGAR-2"],
+"[ 12 ] MURSHIDABAD":["[ 01 ] BELDANGA - I","[ 02 ] BELDANGA - II","[ 03 ] BERHAMPUR SADAR","[ 04 ] BHAGABANGOLA - I","[ 05 ] BHAGABANGOLA - II","[ 06 ] BHARATPUR - I","[ 07 ] BHARATPUR - II","[ 08 ] BURWAN","[ 09 ] DOMKAL","[ 10 ] FARAKKA","[ 11 ] HARIHARPARA","[ 12 ] JALANGI","[ 13 ] KANDI","[ 14 ] KHARGRAM","[ 15 ] LALGOLA","[ 16 ] MURSHIDABAD JIAGANJ","[ 17 ] NABAGRAM","[ 18 ] NOWDA","[ 19 ] RAGHNATHGUNJ - I","[ 20 ] RAGHNATHGUNJ - II","[ 21 ] RANINAGAR - I","[ 22 ] RANINAGAR - II","[ 23 ] SAGARDIGHI","[ 24 ] SAMSERGANJ","[ 25 ] SUTI - I","[ 26 ] SUTI - II"],
+"[ 13 ] NADIA":["[ 01 ] CHAKDAHA","[ 02 ] CHAPRA","[ 03 ] HANSKHALI","[ 04 ] HARINGHATA","[ 05 ] KALIGUNJ","[ 06 ] KARIMPUR - I","[ 07 ] KARIMPUR - II","[ 08 ] KRISHNAGUNJ","[ 09 ] KRISHNANAGAR - I","[ 10 ] KRISHNANAGAR - II","[ 11 ] NABADWIP","[ 12 ] NAKASHIPARA","[ 13 ] RANAGHAT - I","[ 14 ] RANAGHAT - II","[ 15 ] SANTIPUR","[ 16 ] TEHATTA - I","[ 17 ] TEHATTA - II"],
+"[ 14 ] PURULIA":["[ 01 ] PURULIA-I","[ 02 ] PURULIA-II","[ 03 ] HURA","[ 04 ] PUNCHA","[ 05 ] MANBAZAR-I","[ 06 ] MANBAZAR-II","[ 07 ] BANDWAN","[ 08 ] ARSHA","[ 09 ] BALARAMPUR","[ 10 ] BAGMUNDI","[ 11 ] BARABAZAR","[ 12 ] JAYPUR","[ 13 ] JHALDA-I","[ 14 ] JHALDA-II","[ 15 ] RAGHUNATHPUR-I","[ 16 ] RAGHUNATHPUR-II","[ 17 ] PARA","[ 18 ] KASHIPUR","[ 19 ] NETURIA","[ 20 ] SANTURI"],
+"[ 15 ] NORTH 24 PARGANAS":["[ 01 ] AMDANGA","[ 02 ] BARASAT-1","[ 03 ] BARASAT-2","[ 04 ] DEGANGA","[ 05 ] HABRA-1","[ 06 ] HABRA-2","[ 07 ] RAJARHAT","[ 08 ] BARRACKPUR-1","[ 09 ] BARRACKPUR-2","[ 10 ] BADURIA","[ 11 ] BASIRHAT-1","[ 12 ] BASIRHAT-2","[ 13 ] HAROA","[ 14 ] HASNABAD","[ 15 ] HINGALGANJ","[ 16 ] MINAKHAN","[ 17 ] SANDESHKHALI-1","[ 18 ] SANDESHKHALI-2","[ 19 ] SWARUPNAGAR","[ 20 ] BANGA","[ 21 ] BAGDA","[ 22 ] GAIGHATA"],
+"[ 16 ] SOUTH 24 PARGANAS":["[ 01 ] BARUIPUR","[ 02 ] BHANGAR-I","[ 03 ] BHANGAR-II","[ 04 ] BISHNUPUR-I","[ 05 ] BISHNUPUR-II","[ 06 ] BUDGE-BUDGE-I","[ 07 ] BUDGE-BUDGE-II","[ 08 ] BASANTI","[ 09 ] CANNING-I","[ 10 ] CANNING-II","[ 11 ] JAYNAGAR-I","[ 12 ] JAYNAGAR-II","[ 13 ] KULTALI","[ 14 ] MAHESHTALA","[ 15 ] SONARPUR","[ 16 ] GOSABA","[ 17 ] DIAMOND HARBOUR-I","[ 18 ] DIAMOND HARBOUR-II","[ 19 ] MATHURAPUR-I","[ 20 ] MATHURAPUR-II","[ 21 ] MOGRAHAT-I","[ 22 ] MAGRAHAT-II","[ 23 ] MANDIRBAZAR","[ 24 ] NAMKHANA","[ 25 ] KULPI","[ 26 ] KAKDWIP","[ 27 ] PATHARPRATIMA","[ 28 ] PHALTA","[ 29 ] SAGAR","[ 30 ] Kolkata"],
+"[ 17 ] DAKSHIN DINAJPUR":["[ 01 ] BALURGHAT","[ 02 ] HILI","[ 03 ] KUMARGANJ","[ 04 ] TAPAN","[ 05 ] GANGARAMPUR","[ 06 ] BANSHIHARI","[ 07 ] HARIRAMPUR","[ 08 ] KUSHMUNDI"],
+"[ 18 ] UTTAR DINAJPUR":["[ 01 ] CHOPRA","[ 02 ] ISLAMPUR","[ 03 ] GOALPOKHAR-I","[ 04 ] GOALPOKHAR-II","[ 05 ] KARANDIGHI","[ 06 ] RAIGANJ","[ 07 ] HEMTABAD","[ 08 ] KALIAGANJ","[ 09 ] ITAHAR"],
+"[ 19 ] Kolkata":[],
+"[ 20 ] ALIPURDUAR":["[ 01 ] PHALAKATA","[ 02 ] MADARIHAT","[ 03 ] KALCHINI","[ 04 ] ALIPURDUAR-1","[ 05 ] ALIPURDUAR-2","[ 06 ] KUMARGRAM"],
+"[ 21 ] KALIMPONG":["[ 01 ] KALIMPONG-I","[ 02 ] KALIMPONG-II","[ 03 ] KALIMPONG-III"],
+"[ 22 ] JHARGRAM":["[ 01 ] NAYAGRAM","[ 02 ] GOPIBALLAVPUR-I","[ 03 ] GOPIBALLAVPUR-II","[ 04 ] SANKRAIL","[ 05 ] JHARGRAM","[ 06 ] JAMBONI","[ 07 ] BINPUR-I","[ 08 ] BINPUR-II"],
+"[ 23 ] PASCHIM BARDHAMAN":["[ 01 ] ANDAL","[ 02 ] FARIDPUR-DURGAPUR","[ 03 ] KANKSA","[ 04 ] PANDABESWAR","[ 05 ] ASANSOLE","[ 06 ] BARABONI","[ 07 ] JAMURIA","[ 08 ] KULTI","[ 09 ] RANIGANJ","[ 10 ] SALANPUR","[ 11 ] ADDITIONAL FARIDPUR-DURGAPUR"]
+};
+
+const CONSTANTS = {
+  FALLBACK_BANNER_SRC: 'assets/bl-fallback.svg',
+  BENGALI_KEYWORDS: {
+    KHATIAN_NO: ['খতিয়ান নং', 'খতিয়ান নম্বর', 'Khatian No'],
+    RAIYAT_NAME: ['রায়তের নাম', 'মালিকের নাম', 'Raiyat Name', "Owner's Name"],
+    FATHER_HUSBAND: ['পিতা/স্বামী', 'পিতা/স্বামীর নাম', "Father/Husband"],
+    ADDRESS: ['ঠিকানা', 'Address'],
+    LAND_AREA: ['জমির পরিমাণ', 'মোট জমির পরিমাণ', 'Total Land Area'],
+    DAG_COUNT: ['দাগের সংখ্যা', 'মোট দাগের সংখ্যা', 'No. of Plots'],
+    DAG_NO: ['দাগ নং', 'দাগ নম্বর', 'Plot No', 'Dag No'],
+    SHRENI: ['শ্রেণী', 'Classification', 'Class'],
+    ONGSH: ['অংশ', 'Share'],
+    ONGSH_AREA: ['অংশ পরিমাণ(একর)', 'অংশ পরিমাণ (একর)', 'অংশের পরিমাণ(একর)', 'Share Area(Acre)', 'অংশ পরিমান(একর)'],
+    DOKHOLDAAR: ['দখলদার', 'Occupant', 'Possessor'],
+    MONTOBBO: ['মন্তব্য', 'Remarks'],
+    DISTRICT: ['জেলা', 'District'],
+    BLOCK: ['ব্লক', 'Block'],
+    MOUZA: ['মৌজা', 'Mouza'],
+    JL_NO: ['জে.এল নং', 'জে.এল. নং', 'J.L. No', 'JL No'],
+    THANA: ['থানা', 'Police Station', 'Thana'],
+    LIVE_DATA: ['Live Data As On', 'তারিখ'],
+    KHATIAN_TYPE: ['খতিয়ানের ধরণ', 'Khatian Type', 'Type'],
+    TENURE: ['ভোগ দখলের প্রকৃতি', 'Tenure'],
+    KHATIAN_STATUS: ['খতিয়ানের অবস্থা', 'Status'],
+  },
+
+  DAG_TABLE_HEADERS: ['দাগ নং', 'শ্রেণী', 'অংশ', 'অংশ পরিমাণ(একর)', 'দখলদার', 'মন্তব্য'],
+
+  INFO_FIELDS: [
+    { key: 'khatianNo', labels: ['খতিয়ান নং', 'খতিয়ান নম্বর', 'Khatian No'] },
+    { key: 'khatianType', labels: ['খতিয়ানের ধরণ', 'Khatian Type', 'Type'] },
+    { key: 'raiyatName', labels: ['রায়তের নাম', 'মালিকের নাম', "Raiyat Name", "Owner's Name", "Owner Name"] },
+    { key: 'fatherHusband', labels: ['পিতা/স্বামী', 'পিতা/স্বামীর নাম', "Father/Husband", "Father's Name"] },
+    { key: 'address', labels: ['ঠিকানা', 'Address'] },
+    { key: 'landArea', labels: ['জমির পরিমাণ', 'মোট জমির পরিমাণ', 'Total Land Area', 'Land Area'] },
+    { key: 'dagCount', labels: ['দাগের সংখ্যা', 'মোট দাগের সংখ্যা', 'No. of Plots', 'No of Plots'] },
+    { key: 'tenure', labels: ['ভোগ দখলের প্রকৃতি', 'Tenure'] },
+    { key: 'khatianStatus', labels: ['খতিয়ানের অবস্থা', 'Status', 'Khatian Status'] },
+  ],
+
+  IGNORE_PATTERNS: [
+    /^\s*$/,
+    /menu/i,
+    /navigation/i,
+    /footer/i,
+    /header/i,
+    /sidebar/i,
+    /navbar/i,
+    /copyright/i,
+    /advertisement/i,
+  ],
+
+  A4_WIDTH_MM: 210,
+  A4_HEIGHT_MM: 297,
+  MARGIN_MM: 12,
+};
+
+// ============================================================
+// APPLICATION STATE
+// ============================================================
+const AppState = {
+  files: [],
+  currentIndex: -1,
+  extractedData: new Map(),
+  zoom: 100,
+  processing: false,
+  cancelRequested: false,
+  errorLog: [],
+  customBannerDataURI: '',
+  pageBreaksEnabled: true,
+};
+
+// ============================================================
+// UTILS
+// ============================================================
+function generateId() {
+  return 'f_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6);
+}
+
+function sanitizeFilename(name) {
+  return name.replace(/[^a-zA-Z0-9_\-\.\u0980-\u09FF]/g, '_').replace(/_+/g, '_');
+}
+
+function getPdfFilenameFromUpload(name) {
+  if (/\.(mhtml|mht)$/i.test(name)) {
+    return name.replace(/\.(mhtml|mht)$/i, '.pdf');
+  }
+  return name + '.pdf';
+}
+
+function showToast(message, type = 'info', duration = 3000) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  const icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  toast.innerHTML = `<span>${icons[type] || 'ℹ'}</span><span>${message}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    toast.style.transition = '0.3s ease';
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
+function addLog(message, type = 'info') {
+  AppState.errorLog.push({ message, type, time: new Date().toLocaleTimeString() });
+  updateStatusText(message);
+}
+
+function updateStatusText(text) {
+  document.getElementById('status-text').textContent = text;
+}
+
+function showModal(id) {
+  document.getElementById(id).classList.add('active');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+function showErrorLog() {
+  const content = document.getElementById('error-log-content');
+  if (AppState.errorLog.length === 0) {
+    content.innerHTML = '<div class="log-entry log-info">No log entries yet.</div>';
+  } else {
+    content.innerHTML = AppState.errorLog.map(e =>
+      `<div class="log-entry log-${e.type}">[${e.time}] ${e.message}</div>`
+    ).join('');
+  }
+  showModal('modal-errorlog');
+}
+
+function clearLog() {
+  AppState.errorLog = [];
+  document.getElementById('error-log-content').innerHTML = '<div class="log-entry log-info">Log cleared.</div>';
+}
+
+function showAbout() {
+  showModal('modal-about');
+}
+
+function showExportMenu() {
+  showModal('modal-export');
+}
+
+// ============================================================
+// MHTML PARSER — returns { html, images }
+// ============================================================
+function parseMHTML(content) {
+  const boundaryMatch = content.match(/boundary="([^"]+)"/i) ||
+                        content.match(/boundary=([^\s;]+)/i);
+
+  const result = { html: '', images: {} };
+
+  if (!boundaryMatch) {
+    const htmlMatch = content.match(/<html[\s\S]*<\/html>/i);
+    result.html = htmlMatch ? htmlMatch[0] : content;
+    return result;
+  }
+
+  const boundary = boundaryMatch[1];
+  const parts = content.split('--' + boundary);
+
+  for (const part of parts) {
+    const headerEnd = part.indexOf('\r\n\r\n');
+    const headerEnd2 = part.indexOf('\n\n');
+    const hEnd = headerEnd !== -1 ? headerEnd : headerEnd2;
+    const hSep = headerEnd !== -1 ? 4 : 2;
+    if (hEnd === -1) continue;
+
+    const headers = part.substring(0, hEnd);
+    let body = part.substring(hEnd + hSep);
+
+    const contentTypeMatch = headers.match(/content-type:\s*([^\s;]+)/i);
+    const contentType = contentTypeMatch ? contentTypeMatch[1].toLowerCase() : '';
+
+    const isQuotedPrintable = /content-transfer-encoding:\s*quoted-printable/i.test(headers);
+    const isBase64 = /content-transfer-encoding:\s*base64/i.test(headers);
+
+    // --- HTML part ---
+    if (contentType === 'text/html') {
+      if (isQuotedPrintable) {
+        body = decodeQuotedPrintable(body);
+      } else if (isBase64) {
+        try { body = atob(body.replace(/\s/g, '')); } catch(e) {
+          addLog('Base64 decode failed for HTML part', 'warn');
+        }
+      }
+      if (body.length > result.html.length) {
+        result.html = body;
+      }
+    }
+
+    // --- Image parts ---
+    if (/^image\//i.test(contentType)) {
+      const locMatch = headers.match(/content-location:\s*(.+)/i);
+      const cidMatch = headers.match(/content-id:\s*<?([^>\s]+)>?/i);
+      const location = locMatch ? locMatch[1].trim() : (cidMatch ? cidMatch[1].trim() : '');
+
+      let dataUri = '';
+      if (isBase64) {
+        const cleanB64 = body.replace(/[\r\n\s]/g, '');
+        dataUri = 'data:' + contentType + ';base64,' + cleanB64;
+      } else {
+        try {
+          const cleanB64 = btoa(body);
+          dataUri = 'data:' + contentType + ';base64,' + cleanB64;
+        } catch(e) { /* skip */ }
+      }
+
+      if (dataUri && location) {
+        result.images[location] = dataUri;
+        // Also store by filename only for flexible matching
+        const fname = location.split('/').pop().split('\\').pop().split('?')[0];
+        if (fname) result.images[fname] = dataUri;
+      }
+      // Also store by index as fallback
+      const imgIndex = '__img_' + Object.keys(result.images).length;
+      if (dataUri) result.images[imgIndex] = dataUri;
+    }
+  }
+
+  if (!result.html) {
+    const htmlMatch = content.match(/<html[\s\S]*<\/html>/i);
+    result.html = htmlMatch ? htmlMatch[0] : content;
+  }
+
+  return result;
+}
+
+function decodeQuotedPrintable(str) {
+  // First, join soft line breaks (= at end of line)
+  const joined = str.replace(/=\r?\n/g, '');
+
+  // Decode =XX sequences into a byte array, then decode as UTF-8
+  // This is critical for Bengali (multi-byte UTF-8) characters
+  const bytes = [];
+  let i = 0;
+  while (i < joined.length) {
+    if (joined[i] === '=' && i + 2 < joined.length) {
+      const hex = joined.substring(i + 1, i + 3);
+      if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
+        bytes.push(parseInt(hex, 16));
+        i += 3;
+        continue;
+      }
+    }
+    bytes.push(joined.charCodeAt(i));
+    i++;
+  }
+
+  // Decode the byte array as UTF-8
+  try {
+    const uint8 = new Uint8Array(bytes);
+    return new TextDecoder('utf-8').decode(uint8);
+  } catch (e) {
+    // Fallback: simple decode
+    return joined.replace(/=([0-9A-Fa-f]{2})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+  }
+}
+
+// ============================================================
+// HTML PARSER
+// ============================================================
+function parseHTMLContent(rawContent, filename) {
+  let htmlString = rawContent;
+  let mhtmlImages = {};
+
+  const isMhtml = /^(From:|MIME-Version:|Content-Type:.*multipart)/im.test(rawContent.substring(0, 500));
+  if (isMhtml || /\.(mhtml|mht)$/i.test(filename)) {
+    const mhtmlResult = parseMHTML(rawContent);
+    htmlString = mhtmlResult.html;
+    mhtmlImages = mhtmlResult.images;
+    const imgCount = Object.keys(mhtmlImages).length;
+    addLog(`Extracted HTML from MHTML: ${filename} (${imgCount} embedded images)`, 'info');
+  }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, 'text/html');
+
+  // FIRST: extract select/option values BEFORE removing them
+  doc._selectValues = {};
+  doc.querySelectorAll('select').forEach(sel => {
+    const id = (sel.name || sel.id || '').toLowerCase();
+    const opt = sel.querySelector('option[selected]');
+    if (opt) {
+      doc._selectValues[id] = opt.textContent.trim();
+    }
+    // also try the select's own value attribute
+    if (!doc._selectValues[id] && sel.value) {
+      const optByVal = sel.querySelector('option[value="' + sel.value + '"]');
+      if (optByVal) doc._selectValues[id] = optByVal.textContent.trim();
+    }
+  });
+
+  // Remove unwanted elements (but NOT img tags, NOT tables)
+  const removeSelectors = [
+    'script', 'style', 'link', 'meta', 'nav',
+    'iframe', 'noscript',
+    '.menu', '.navbar', '.navigation', '.sidebar',
+    '.advertisement', '.ad', '#menu', '#nav',
+    '[role="navigation"]',
+    '.no-print', '.d-print-none'
+  ];
+
+  removeSelectors.forEach(sel => {
+    try {
+      doc.querySelectorAll(sel).forEach(el => el.remove());
+    } catch (e) { /* ignore */ }
+  });
+
+  // Attach the extracted images map to the doc for downstream use
+  doc._mhtmlImages = mhtmlImages;
+
+  return doc;
+}
+
+// ============================================================
+// DATA EXTRACTOR
+// ============================================================
+function extractLandRecord(doc, filename) {
+  const data = {
+    header: {
+      district: '[ 11 ] PURBA MEDINIPUR',
+      block: '[ 26 ] PATASHPUR-2',
+      mouza: '',
+    },
+    liveData: '',
+    jl: '',
+    thana: '',
+    info: [],
+    dag: [],
+    warnings: [],
+    filename: filename,
+    logoDataURI: '',
+  };
+
+  const body = doc.body || doc.documentElement;
+  const allText = body.textContent || '';
+
+  // --- Extract logo from embedded images ---
+  extractLogo(doc, data);
+
+  // --- Extract ALL key-value pairs from entire document ---
+  extractAllData(doc, allText, data);
+
+  // --- Find info table and dag table by scanning EVERY table in the document ---
+  // The table that contains a cell with "খতিয়ান নং" IS the info table.
+  // The table that contains a cell with "দাগ নং" IS the dag table.
+  // Simple. No guessing.
+  let infoTable = null;
+  let dagTable = null;
+  const everyTable = doc.querySelectorAll('table');
+  for (const t of everyTable) {
+    if (infoTable && dagTable) break;
+    const cells = t.querySelectorAll('td, th');
+    for (const cell of cells) {
+      const ct = cell.textContent.replace(/\s+/g, ' ').trim();
+      if (!infoTable && /খতিয়ান\s*নং/.test(ct)) {
+        // Make sure this table itself has the cell, not a nested child table
+        if (!cell.querySelector('table')) {
+          infoTable = cell.closest('table');
+        }
+      }
+      if (!dagTable && /দাগ\s*নং/.test(ct)) {
+        if (!cell.querySelector('table')) {
+          dagTable = cell.closest('table');
+        }
+      }
+    }
+  }
+
+  // The cell.closest('table') might return the container table if the cell
+  // is technically inside it. Verify: if the found table contains other tables,
+  // drill down to the actual leaf table that has the matching cell.
+  if (infoTable && infoTable.querySelectorAll('table').length > 0) {
+    const inner = infoTable.querySelectorAll('table');
+    for (const t of inner) {
+      if (/খতিয়ান\s*নং/.test(t.textContent) && t.querySelectorAll('table').length === 0) {
+        infoTable = t;
+        break;
+      }
+    }
+  }
+  if (dagTable && dagTable.querySelectorAll('table').length > 0) {
+    const inner = dagTable.querySelectorAll('table');
+    for (const t of inner) {
+      if (/দাগ\s*নং/.test(t.textContent) && t.querySelectorAll('table').length === 0) {
+        dagTable = t;
+        break;
+      }
+    }
+  }
+
+  // Extract
+  if (infoTable) extractInfoFromTable(infoTable, data);
+  if (dagTable) extractDagFromTable(dagTable, data);
+
+  // Fallback
+  if (data.dag.length === 0) {
+    const leafTables = Array.from(everyTable).filter(t => t.querySelectorAll('table').length === 0);
+    extractDagTable(leafTables, data);
+  }
+  if (data.dag.length === 0) {
+    extractDagTableAggressive(doc, data);
+  }
+
+  // --- Validate and warn ---
+  validateData(data);
+
+  return data;
+}
+
+function extractLogo(doc, data) {
+  const mhtmlImages = doc._mhtmlImages || {};
+  const imageKeys = Object.keys(mhtmlImages);
+
+  // The BanglarBhumi logo is always referenced as bl.png in the HTML.
+  // Find the <img> with src containing "bl.png" and resolve it from MHTML parts.
+  const imgs = doc.querySelectorAll('img');
+  for (const img of imgs) {
+    const src = img.getAttribute('src') || '';
+    if (!src) continue;
+
+    const srcLower = src.toLowerCase();
+    const srcFile = src.split('/').pop().split('\\').pop().split('?')[0].toLowerCase();
+
+    // Only care about bl.png
+    if (srcFile !== 'bl.png') continue;
+
+    // Direct match by full src path
+    if (mhtmlImages[src]) {
+      data.logoDataURI = mhtmlImages[src];
+      addLog('Logo bl.png found: matched full src to MHTML part', 'success');
+      return;
+    }
+
+    // Match by filename in MHTML content-location keys
+    for (const key of imageKeys) {
+      const keyFile = key.split('/').pop().split('\\').pop().split('?')[0].toLowerCase();
+      if (keyFile === 'bl.png') {
+        data.logoDataURI = mhtmlImages[key];
+        addLog('Logo bl.png found: matched in MHTML image parts', 'success');
+        return;
+      }
+    }
+
+    // Already a data URI in the src attribute
+    if (srcLower.startsWith('data:image/')) {
+      data.logoDataURI = src;
+      addLog('Logo bl.png found: inline data URI', 'success');
+      return;
+    }
+  }
+
+  // Fallback: scan MHTML image keys directly for bl.png even if no <img> tag matched
+  for (const key of imageKeys) {
+    const keyFile = key.split('/').pop().split('\\').pop().split('?')[0].toLowerCase();
+    if (keyFile === 'bl.png') {
+      data.logoDataURI = mhtmlImages[key];
+      addLog('Logo bl.png found: located in MHTML parts by filename', 'success');
+      return;
+    }
+  }
+
+  addLog('bl.png not found in this file', 'warn');
+}
+
+// ============================================================
+// UNIFIED DATA EXTRACTOR
+// Precisely matches BanglarBhumi's HTML structure:
+//  - Data inside div#khdetails > table
+//  - Live Data, JL, Thana in <b>/<font> tags
+//  - Info table: nested <table class="table"> with th/td rows
+//  - Dag table: <thead id="headertitle"> with Bengali headers
+//  - Bengali text in <font face="BN BIDISHA Opentype"> tags
+//  - District/Block/Mouza from <select> option lists
+// ============================================================
+function extractAllData(doc, allText, data) {
+
+  // --- 1) Find the main data container: div#khdetails ---
+  const khdetails = doc.getElementById('khdetails');
+  const dataContainer = khdetails || doc.body || doc.documentElement;
+  const containerText = dataContainer ? dataContainer.textContent : allText;
+
+  // --- 3) Live Data date ---
+  // Format: "(Live Data As On 12/07/2026,13:49:50)"
+  const liveRe = /\(?\s*Live\s*Data\s*As\s*On\s*([^)\n\r]{3,40})\)?/i;
+  const liveM = containerText.match(liveRe);
+  if (liveM) {
+    data.liveData = 'Live Data As On ' + liveM[1].trim();
+  } else {
+    const liveM2 = allText.match(liveRe);
+    if (liveM2) data.liveData = 'Live Data As On ' + liveM2[1].trim();
+  }
+
+  // --- 4) JL No and Thana ---
+  // Format: "জে.এল নং :281  থানা :পটাশপুর"
+  // These appear as <b> tags with <label>/<font> inside the data div
+  const jlRe = /জে[\.\s]*এল[\s]*(?:নং|নম্বর)\s*(?:<[^>]*>)*\s*[:\s]*(?:<[^>]*>)*\s*(\d+)/i;
+  const jlTextRe = /জে[\.\s]*এল[\s]*(?:নং|নম্বর)\s*[:\s]*(\d+)/i;
+  const jlM = containerText.match(jlTextRe);
+  if (jlM) {
+    data.jl = jlM[1].trim();
+  } else {
+    const jlM2 = allText.match(jlTextRe);
+    if (jlM2) data.jl = jlM2[1].trim();
+  }
+
+  // Thana value sits between "থানা :" and the next Bengali keyword like খতিয়ান, দাগ, রায়ত etc.
+  const thanaRe = /থানা\s*[:\s]+(.+?)(?=\s*(?:খতিয়ান|দাগ|রায়ত|জে\.|অত্র|মন্তব্য|$))/i;
+  const thanaM = containerText.match(thanaRe);
+  if (thanaM) {
+    data.thana = thanaM[1].replace(/[\s\u00a0]+/g, ' ').trim();
+  } else {
+    const thanaM2 = allText.match(thanaRe);
+    if (thanaM2) data.thana = thanaM2[1].replace(/[\s\u00a0]+/g, ' ').trim();
+  }
+
+  // --- 5) Mouza from JL number ---
+  // জে.এল নং IS the mouza code.
+  // Find matching "[ {code} ] {name}" from the <select id="lstMouzaList"> options.
+  // District and Block are NOT selectable in saved MHTML — leave empty for user to fill.
+  if (data.jl) {
+    const mouzaCode = data.jl.trim();
+    const allSelects = doc.querySelectorAll('select');
+    for (const sel of allSelects) {
+      const id = (sel.id || sel.name || '').toLowerCase();
+      if (!/mouza/i.test(id)) continue;
+      const options = sel.querySelectorAll('option');
+      for (const opt of options) {
+        const optVal = (opt.getAttribute('value') || '').trim();
+        const optText = opt.textContent.trim();
+        // Match by option value attribute (e.g. value="281")
+        if (optVal === mouzaCode) {
+          data.header.mouza = optText;
+          break;
+        }
+        // Also match by code inside text like "[ 281 ] Singari"
+        const codeMatch = optText.match(/\[\s*(\d+)\s*\]/);
+        if (codeMatch && codeMatch[1] === mouzaCode) {
+          data.header.mouza = optText;
+          break;
+        }
+      }
+      if (data.header.mouza) break;
+    }
+
+    // Fallback: scan full text for "[ {code} ] {name}" pattern in Mouza section
+    if (!data.header.mouza) {
+      const re = new RegExp('\\[\\s*' + mouzaCode + '\\s*\\]\\s*([A-Za-z][A-Za-z\\s]+)', 'i');
+      const m = allText.match(re);
+      if (m) {
+        data.header.mouza = '[' + mouzaCode + '] ' + m[1].trim();
+      }
+    }
+  }
+}
+
+// Extract info fields from a specific table (the info/khatian details table)
+function extractInfoFromTable(table, data) {
+  const infoPatterns = [
+    { key: 'khatianNo',      re: /খতিয়ান\s*(?:নং|নম্বর)|Khatian\s*No/i,                             label: 'খতিয়ান নং' },
+    { key: 'raiyatName',     re: /রায়তের\s*নাম|মালিকের\s*নাম|Raiyat|Owner/i,                         label: 'রায়তের নাম' },
+    { key: 'fatherHusband',  re: /পিতা[\s\/]*স্বামী|Father|Guardian/i,                                 label: 'পিতা/স্বামী' },
+    { key: 'raiyatType',     re: /রায়তের\s*ধরণ|রায়তের\s*ধরন|Raiyat.*Type/i,                         label: 'রায়তের ধরণ' },
+    { key: 'address',        re: /ঠিকানা|Address/i,                                                   label: 'ঠিকানা' },
+    { key: 'landArea',       re: /জমির\s*পরিমাণ|Land\s*Area/i,                                         label: 'জমির পরিমাণ' },
+    { key: 'dagCount',       re: /দাগের\s*সংখ্যা|No.*of.*Plot/i,                                       label: 'দাগের সংখ্যা' },
+    { key: 'khatianDate',    re: /খতিয়ান\s*তৈরীর\s*তারিখ|Khatian.*Date|তৈরীর\s*তারিখ/i,             label: 'খতিয়ান তৈরীর তারিখ' },
+  ];
+
+  const rows = table.querySelectorAll('tr');
+  for (const row of rows) {
+    const cells = row.querySelectorAll('td, th');
+    if (cells.length < 2) continue;
+
+    // Try each pair of adjacent cells as label:value
+    for (let i = 0; i < cells.length - 1; i++) {
+      const rawLabel = cells[i].textContent.replace(/\s+/g, ' ').trim();
+      const rawValue = cells[i + 1].textContent.replace(/\s+/g, ' ').trim();
+
+      // Clean the label — strip trailing colons, &nbsp;, spaces
+      const cleanLabel = rawLabel.replace(/[\s:：।\u00a0]+$/g, '').replace(/^\s+/, '');
+      if (!cleanLabel || cleanLabel.length > 100) continue;
+
+      for (const ip of infoPatterns) {
+        if (data.info.find(x => x.key === ip.key)) continue;
+        if (ip.re.test(cleanLabel)) {
+          // Use canonical label, clean value
+          const cleanValue = rawValue.replace(/[\u00a0]+/g, ' ').replace(/\s+/g, ' ').trim();
+          data.info.push({ key: ip.key, label: ip.label, value: cleanValue });
+          break;
+        }
+      }
+    }
+  }
+}
+
+// Extract dag rows from a specific table (the plot details table)
+function extractDagFromTable(table, data) {
+  const dagHeaders = CONSTANTS.DAG_TABLE_HEADERS;
+  // IMPORTANT: Order matters! "অংশ পরিমাণ" must be checked BEFORE standalone "অংশ"
+  // because "অংশ পরিমাণ(একর)" contains both words.
+  // Index must match dagHeaders: 0=দাগ নং, 1=শ্রেণী, 2=অংশ, 3=অংশ পরিমাণ(একর), 4=দখলদার, 5=মন্তব্য
+  const colKeywords = [
+    ['দাগ নং', 'দাগ'],
+    ['শ্রেণী', 'শ্রেণি'],
+    ['অংশ পরিমাণ', 'অংশ পরিমান'],  // index 2 placeholder — will be swapped below
+    ['অংশ পরিমাণ', 'অংশ পরিমান'],  // index 3 placeholder — will be swapped below
+    ['দখলদার'],
+    ['মন্তব্য'],
+  ];
+
+  // Column matching function: checks a header cell text against dagHeaders
+  // Returns the dagHeaders index (0-5) or -1
+  function matchColumn(cellText) {
+    const ct = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+    // Check combined "অংশ পরিমাণ" first (maps to index 3)
+    if (/অংশ\s*পরিমাণ|অংশ\s*পরিমান/.test(ct)) return 3;
+    // Then standalone "অংশ" (maps to index 2)
+    if (/অংশ/.test(ct) && !/পরিমাণ|পরিমান/.test(ct)) return 2;
+    // Other columns
+    if (/দাগ/.test(ct)) return 0;
+    if (/শ্রেণী|শ্রেণি/.test(ct)) return 1;
+    if (/দখলদার/.test(ct)) return 4;
+    if (/মন্তব্য/.test(ct)) return 5;
+    return -1;
+  }
+
+  // Find header cells from thead or first row with matching keywords
+  let headerCells = null;
+  const thead = table.querySelector('thead');
+  if (thead) {
+    const thRow = thead.querySelector('tr');
+    if (thRow) headerCells = thRow.querySelectorAll('th, td');
+  }
+  if (!headerCells || headerCells.length < 3) {
+    const rows = table.querySelectorAll('tr');
+    for (const row of rows) {
+      const cells = row.querySelectorAll('th, td');
+      if (cells.length < 3) continue;
+      let mc = 0;
+      for (const c of cells) {
+        if (matchColumn(c.textContent) >= 0) mc++;
+      }
+      if (mc >= 2) { headerCells = cells; break; }
+    }
+  }
+  if (!headerCells || headerCells.length < 3) return;
+
+  // Build column index mapping using matchColumn
+  const headerMap = [];
+  for (const cell of headerCells) {
+    headerMap.push(matchColumn(cell.textContent));
+  }
+
+  // Get data rows from tbody
+  let dataRows = [];
+  const tbody = table.querySelector('tbody');
+  if (tbody) {
+    dataRows = Array.from(tbody.querySelectorAll('tr'));
+  } else {
+    const allRows = Array.from(table.querySelectorAll('tr'));
+    let pastHeader = false;
+    for (const row of allRows) {
+      if (pastHeader) { dataRows.push(row); continue; }
+      const cells = row.querySelectorAll('th, td');
+      let isH = false;
+      for (const c of cells) {
+        if (matchColumn(c.textContent) >= 0) { isH = true; break; }
+      }
+      if (isH) pastHeader = true;
+    }
+  }
+
+  // Extract cell data
+  for (const row of dataRows) {
+    const cells = row.querySelectorAll('td');
+    if (cells.length < 2) continue;
+
+    const rowData = {};
+    let hasContent = false;
+
+    for (let c = 0; c < cells.length; c++) {
+      const cellText = cells[c].textContent.replace(/\s+/g, ' ').trim();
+      if (cellText) hasContent = true;
+
+      const hIdx = c < headerMap.length ? headerMap[c] : -1;
+      if (hIdx >= 0 && hIdx < dagHeaders.length) {
+        rowData[dagHeaders[hIdx]] = cellText;
+      } else if (c < dagHeaders.length) {
+        rowData[dagHeaders[c]] = cellText;
+      }
+    }
+
+    if (hasContent) {
+      const isEmpty = Object.values(rowData).every(v => !v || !v.trim());
+      if (!isEmpty) {
+        data.dag.push(rowData);
+      }
+    }
+  }
+
+  if (data.dag.length > 0) {
+    addLog('Dag table extracted: ' + data.dag.length + ' rows', 'success');
+  }
+}
+
+function extractDagTable(allTables, data) {
+  const dagHeaders = CONSTANTS.DAG_TABLE_HEADERS;
+
+  // Same matchColumn logic: "অংশ পরিমাণ" before standalone "অংশ"
+  function matchCol(cellText) {
+    const ct = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+    if (/অংশ\s*পরিমাণ|অংশ\s*পরিমান/.test(ct)) return 3;
+    if (/অংশ/.test(ct) && !/পরিমাণ|পরিমান/.test(ct)) return 2;
+    if (/দাগ/.test(ct)) return 0;
+    if (/শ্রেণী|শ্রেণি/.test(ct)) return 1;
+    if (/দখলদার/.test(ct)) return 4;
+    if (/মন্তব্য/.test(ct)) return 5;
+    return -1;
+  }
+
+  for (const table of allTables) {
+    const thead = table.querySelector('thead');
+    const tbody = table.querySelector('tbody');
+    let headerCells = null;
+    let dataRows = [];
+
+    if (thead) {
+      const thRow = thead.querySelector('tr');
+      if (thRow) headerCells = thRow.querySelectorAll('th, td');
+    }
+
+    if (!headerCells || headerCells.length < 3) {
+      const rows = table.querySelectorAll('tr');
+      for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].querySelectorAll('th, td');
+        if (cells.length < 3) continue;
+        let mc = 0;
+        for (const c of cells) { if (matchCol(c.textContent) >= 0) mc++; }
+        if (mc >= 2) {
+          headerCells = cells;
+          for (let j = i + 1; j < rows.length; j++) dataRows.push(rows[j]);
+          break;
+        }
+      }
+    }
+
+    if (!headerCells || headerCells.length < 3) continue;
+
+    const headerMap = [];
+    for (const cell of headerCells) headerMap.push(matchCol(cell.textContent));
+
+    if (dataRows.length === 0 && tbody) {
+      dataRows = Array.from(tbody.querySelectorAll('tr'));
+    }
+    if (dataRows.length === 0) {
+      const allRows = Array.from(table.querySelectorAll('tr'));
+      let pastH = false;
+      for (const row of allRows) {
+        if (pastH) { dataRows.push(row); continue; }
+        const cells = row.querySelectorAll('th, td');
+        let isH = false;
+        for (const c of cells) { if (matchCol(c.textContent) >= 0) { isH = true; break; } }
+        if (isH) pastH = true;
+      }
+    }
+
+    // Extract data from rows
+    for (const row of dataRows) {
+      const cells = row.querySelectorAll('td, th');
+      if (cells.length < 2) continue;
+
+      const rowData = {};
+      let hasContent = false;
+
+      for (let c = 0; c < cells.length; c++) {
+        const cellText = cells[c].textContent.replace(/\s+/g, ' ').trim();
+        if (cellText && cellText !== '') hasContent = true;
+
+        const hIdx = c < headerMap.length ? headerMap[c] : -1;
+        if (hIdx >= 0 && hIdx < dagHeaders.length) {
+          rowData[dagHeaders[hIdx]] = cellText;
+        } else if (c < dagHeaders.length) {
+          rowData[dagHeaders[c]] = cellText;
+        }
+      }
+
+      if (hasContent) {
+        const vals = Object.values(rowData);
+        const isEmpty = vals.every(v => !v || v.trim() === '');
+        if (!isEmpty) {
+          data.dag.push(rowData);
+        }
+      }
+    }
+
+    if (data.dag.length > 0) {
+      addLog('Dag table extracted: ' + data.dag.length + ' rows, ' + headerMap.filter(h => h >= 0).length + ' columns matched', 'success');
+      break;
+    }
+  }
+}
+
+// Aggressive fallback: find any table with 4+ columns and numeric-looking first column
+function extractDagTableAggressive(doc, data) {
+  const dagHeaders = CONSTANTS.DAG_TABLE_HEADERS;
+  const khdetails = doc.getElementById('khdetails');
+  const container = khdetails || doc;
+  const allTables = container.querySelectorAll('table');
+
+  for (const table of allTables) {
+    const rows = table.querySelectorAll('tr');
+    if (rows.length < 2) continue;
+
+    let foundDataRows = [];
+    for (const row of rows) {
+      const cells = row.querySelectorAll('td');
+      if (cells.length >= 4) {
+        const firstCellText = cells[0].textContent.trim();
+        // Check if first cell looks like a dag number (digits)
+        if (/^\d+$/.test(firstCellText) && firstCellText.length > 0 && firstCellText.length <= 6) {
+          const rowArr = [];
+          cells.forEach(c => rowArr.push(c.textContent.replace(/\s+/g, ' ').trim()));
+          foundDataRows.push(rowArr);
+        }
+      }
+    }
+
+    if (foundDataRows.length > 0) {
+      foundDataRows.forEach(rowArr => {
+        const rowData = {};
+        for (let c = 0; c < Math.min(rowArr.length, dagHeaders.length); c++) {
+          rowData[dagHeaders[c]] = rowArr[c];
+        }
+        data.dag.push(rowData);
+      });
+      addLog('Dag table found via aggressive scan (' + foundDataRows.length + ' rows)', 'info');
+      break;
+    }
+  }
+}
+
+function validateData(data) {
+  if (!data.header.district) data.warnings.push('District not found');
+  if (!data.header.block) data.warnings.push('Block not found');
+  if (!data.header.mouza) data.warnings.push('Mouza not found');
+  if (data.info.length === 0) data.warnings.push('Information table not found');
+  if (data.dag.length === 0) data.warnings.push('Dag/Plot table not found');
+  if (!data.liveData) data.warnings.push('Live Data date not found');
+  if (!data.jl) data.warnings.push('J.L. No not found');
+  if (!data.thana) data.warnings.push('Thana not found');
+
+  data.warnings.forEach(w => addLog(`[${data.filename}] Warning: ${w}`, 'warn'));
+}
+
+// ============================================================
+// A4 RENDERER
+// ============================================================
+// Builds the full page header: banner, heading, HR, district/block/mouza, HR, live data, JL/thana
+function buildPageHeader(page, data, isFirstPage) {
+  // Banner
+  const logoSection = document.createElement('div');
+  logoSection.className = 'logo-section' + (isFirstPage ? ' uploadable' : '');
+  if (isFirstPage) {
+    logoSection.title = 'Click to upload or change banner';
+    logoSection.addEventListener('click', triggerBannerUpload);
+  }
+  const candidates = [AppState.customBannerDataURI, data.logoDataURI, CONSTANTS.FALLBACK_BANNER_SRC].filter(Boolean);
+  if (candidates.length > 0) {
+    const logoImg = document.createElement('img');
+    let idx = 0;
+    logoImg.src = candidates[idx];
+    logoImg.alt = 'BanglarBhumi Logo';
+    logoImg.onerror = () => {
+      idx += 1;
+      if (idx < candidates.length) {
+        logoImg.src = candidates[idx];
+      } else {
+        logoSection.classList.add('no-banner');
+        logoSection.innerHTML = '<div class="banner-upload-placeholder">Banner unavailable<br>Click to upload local banner</div>';
+      }
+    };
+    logoSection.appendChild(logoImg);
+  } else if (isFirstPage) {
+    logoSection.classList.add('no-banner');
+    logoSection.innerHTML = '<div class="banner-upload-placeholder">Click to upload local banner</div>';
+  }
+  if (isFirstPage) {
+    const hint = document.createElement('div');
+    hint.className = 'banner-upload-hint';
+    hint.textContent = AppState.customBannerDataURI ? 'Change banner' : 'Upload banner';
+    logoSection.appendChild(hint);
+  }
+  page.appendChild(logoSection);
+
+  // Heading
+  const pageHeading = document.createElement('div');
+  pageHeading.className = 'page-heading';
+  pageHeading.textContent = 'Khatian & Plot Information';
+  page.appendChild(pageHeading);
+
+  // HR
+  page.appendChild(createHR());
+
+  // District, Block, Mouza
+  const locLine = document.createElement('div');
+  locLine.className = 'location-line';
+  const locFields = [
+    { label: 'District:', key: 'district', cls: 'loc-left', hasDropdown: isFirstPage },
+    { label: 'Block:', key: 'block', cls: 'loc-center', hasDropdown: isFirstPage },
+    { label: 'Mouza:', key: 'mouza', cls: 'loc-right', hasDropdown: false },
+  ];
+  const locInputs = {};
+  locFields.forEach(f => {
+    const group = document.createElement('div');
+    group.className = 'loc-group ' + f.cls;
+    const lbl = document.createElement('span');
+    lbl.className = 'loc-label';
+    lbl.textContent = f.label;
+    if (isFirstPage) {
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'loc-input';
+      inp.value = data.header[f.key] || '';
+      inp.placeholder = f.key;
+      inp.addEventListener('input', () => { data.header[f.key] = inp.value; });
+      locInputs[f.key] = inp;
+      group.appendChild(lbl);
+      group.appendChild(inp);
+      if (f.hasDropdown) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'loc-select-btn';
+        btn.textContent = '▾';
+        btn.title = 'Select ' + f.key;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openLocDropdown(f.key, inp, data, locInputs);
+        });
+        group.appendChild(btn);
+      }
+    } else {
+      const val = document.createElement('span');
+      val.style.cssText = 'font-size:9pt;';
+      val.textContent = data.header[f.key] || '';
+      group.appendChild(lbl);
+      group.appendChild(val);
+    }
+    locLine.appendChild(group);
+  });
+  page.appendChild(locLine);
+
+  // HR
+  page.appendChild(createHR());
+
+  // Live Data
+  const liveDiv = document.createElement('div');
+  liveDiv.className = 'center-text';
+  if (data.liveData) {
+    liveDiv.textContent = '(' + data.liveData + ')';
+  } else {
+    liveDiv.innerHTML = '<span class="missing-field">Live Data date not found</span>';
+  }
+  page.appendChild(liveDiv);
+
+  // JL & Thana
+  const jlThana = document.createElement('div');
+  jlThana.className = 'center-text';
+  const jlParts = [];
+  if (data.jl) jlParts.push('জে.এল নং: ' + data.jl);
+  if (data.thana) jlParts.push('থানা: ' + data.thana);
+  if (jlParts.length > 0) {
+    jlThana.innerHTML = jlParts.join('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+  } else {
+    jlThana.innerHTML = '<span class="missing-field">JL/Thana not found</span>';
+  }
+  page.appendChild(jlThana);
+
+  return locInputs;
+}
+
+// Renders Khatiyan details table on a page
+function buildKhatiyanInfoTable(page, data) {
+  if (data.info.length > 0) {
+    const infoTable = document.createElement('table');
+    infoTable.className = 'info-table';
+    data.info.forEach((item, idx) => {
+      const tr = document.createElement('tr');
+      const tdLabel = document.createElement('td');
+      const labelSpan = document.createElement('span');
+      labelSpan.className = 'label-text';
+      labelSpan.textContent = item.label;
+      const colonSpan = document.createElement('span');
+      colonSpan.className = 'label-colon';
+      colonSpan.textContent = ':';
+      tdLabel.appendChild(labelSpan);
+      tdLabel.appendChild(colonSpan);
+      const tdValue = document.createElement('td');
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'cell-input';
+      inp.value = item.value || '';
+      inp.placeholder = item.label;
+      inp.addEventListener('input', () => { data.info[idx].value = inp.value; });
+      tdValue.appendChild(inp);
+      tr.appendChild(tdLabel);
+      tr.appendChild(tdValue);
+      infoTable.appendChild(tr);
+    });
+    page.appendChild(infoTable);
+  } else {
+    const warn = document.createElement('div');
+    warn.className = 'missing-field';
+    warn.style.textAlign = 'center';
+    warn.style.margin = '4mm 0';
+    warn.textContent = '⚠ Information table could not be extracted';
+    page.appendChild(warn);
+  }
+}
+
+// Adds section heading + note to a page
+function buildSectionHeading(page) {
+  const h = document.createElement('div');
+  h.className = 'section-heading';
+  h.textContent = 'অত্রস্বত্বের দাগের বিবরণ ও পরিমাণ:';
+  page.appendChild(h);
+  const n = document.createElement('div');
+  n.className = 'section-note';
+  n.textContent = '(* দাগের অত্রসত্ত্বের জমির যথার্থ পরিমাণ, দাগের মধ্যে অত্রসত্ত্বের অংশ অনুসারে নির্ধারিত হইবে। )';
+  page.appendChild(n);
+}
+
+function renderA4Document(data) {
+  const pages = [];
+  let currentPage = createA4Page();
+  if (!AppState.pageBreaksEnabled) {
+    currentPage.style.height = 'auto';
+    currentPage.style.minHeight = '297mm';
+    currentPage.style.overflow = 'visible';
+  }
+
+  // Full page header, Khatiyan info table, and section heading on page 1
+  buildPageHeader(currentPage, data, true);
+  buildKhatiyanInfoTable(currentPage, data);
+  buildSectionHeading(currentPage);
+
+  // Plot details table
+  if (data.dag.length > 0) {
+    const dagHeaders = CONSTANTS.DAG_TABLE_HEADERS;
+
+    if (!AppState.pageBreaksEnabled) {
+      currentPage.appendChild(createDagTable(dagHeaders, data.dag));
+      pages.push(currentPage);
+    } else {
+      const measureRoot = document.createElement('div');
+      measureRoot.style.cssText = 'position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;width:210mm;z-index:-99999;';
+      document.body.appendChild(measureRoot);
+      measureRoot.appendChild(currentPage);
+
+      let bundle = createDagTableShell(dagHeaders);
+      currentPage.appendChild(bundle.table);
+
+      for (const row of data.dag) {
+        const rowEl = createDagRow(dagHeaders, row);
+        bundle.tbody.appendChild(rowEl);
+
+        const pageRect = currentPage.getBoundingClientRect();
+        const rowRect = rowEl.getBoundingClientRect();
+        const bottomPaddingPx = 12 * (pageRect.height / 297);
+        const maxAllowedBottom = pageRect.bottom - bottomPaddingPx - 2;
+
+        if (rowRect.bottom > maxAllowedBottom && bundle.tbody.children.length > 1) {
+          bundle.tbody.removeChild(rowEl);
+          pages.push(currentPage);
+
+          // New continuation page with full repeated header & Khatiyan info table
+          currentPage = createA4Page();
+          measureRoot.appendChild(currentPage);
+          buildPageHeader(currentPage, data, false);
+          buildKhatiyanInfoTable(currentPage, data);
+          buildSectionHeading(currentPage);
+
+          bundle = createDagTableShell(dagHeaders);
+          currentPage.appendChild(bundle.table);
+          bundle.tbody.appendChild(rowEl);
+        }
+      }
+
+      pages.push(currentPage);
+      measureRoot.remove();
+    }
+  } else {
+    const warn = document.createElement('div');
+    warn.className = 'missing-field';
+    warn.style.textAlign = 'center';
+    warn.style.margin = '4mm 0';
+    warn.textContent = '⚠ Dag/Plot table could not be extracted';
+    currentPage.appendChild(warn);
+    pages.push(currentPage);
+  }
+
+  if (pages.length === 0) pages.push(currentPage);
+  addPageFooters(pages);
+  return [...new Set(pages)];
+}
+
+function createA4Page() {
+  const page = document.createElement('div');
+  page.className = 'a4-page';
+  return page;
+}
+
+function createHR(type) {
+  const hr = document.createElement('hr');
+  hr.className = type === 'thin' ? 'hr-line-thin' : 'hr-line';
+  return hr;
+}
+
+function createDagTable(headers, rows) {
+  const bundle = createDagTableShell(headers);
+  rows.forEach(row => bundle.tbody.appendChild(createDagRow(headers, row)));
+  return bundle.table;
+}
+
+function createDagTableShell(headers) {
+  const table = document.createElement('table');
+  table.className = 'dag-table';
+
+  const thead = document.createElement('thead');
+  const tr = document.createElement('tr');
+  headers.forEach(h => {
+    const th = document.createElement('th');
+    th.textContent = h;
+    tr.appendChild(th);
+  });
+  thead.appendChild(tr);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+  return { table, tbody };
+}
+
+function createDagRow(headers, row) {
+  const rowTr = document.createElement('tr');
+  headers.forEach(h => {
+    const td = document.createElement('td');
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'cell-input';
+    inp.value = row[h] || '';
+    inp.addEventListener('input', () => { row[h] = inp.value; });
+    td.appendChild(inp);
+    rowTr.appendChild(td);
+  });
+  return rowTr;
+}
+
+function addPageFooters(pages) {
+  const multiPage = pages.length > 1;
+  pages.forEach((page, index) => {
+    const old = page.querySelector('.page-footer');
+    if (old) old.remove();
+    if (!multiPage) return;
+    const footer = document.createElement('div');
+    footer.className = 'page-footer';
+    footer.textContent = 'Page ' + (index + 1) + ' of ' + pages.length;
+    page.appendChild(footer);
+  });
+}
+
+// ============================================================
+// PREVIEW MANAGER
+// ============================================================
+function updatePreview(data) {
+  const container = document.getElementById('a4-container');
+  const dropZone = document.getElementById('drop-zone');
+
+  container.innerHTML = '';
+
+  if (!data) {
+    container.style.display = 'none';
+    dropZone.style.display = 'flex';
+    document.getElementById('status-pages').textContent = 'Pages: 0';
+    updatePageBreakButton();
+    return;
+  }
+
+  dropZone.style.display = 'none';
+  container.style.display = 'flex';
+
+  const pages = renderA4Document(data);
+  pages.forEach(page => container.appendChild(page));
+
+  document.getElementById('status-pages').textContent = `Pages: ${pages.length}`;
+  updatePageBreakButton();
+  applyZoom();
+}
+
+function updatePageBreakButton() {
+  const btn = document.getElementById('btn-page-breaks');
+  if (!btn) return;
+  btn.classList.toggle('active', AppState.pageBreaksEnabled);
+}
+
+function togglePageBreaks() {
+  AppState.pageBreaksEnabled = !AppState.pageBreaksEnabled;
+  const entry = AppState.files[AppState.currentIndex];
+  if (entry && entry.data) updatePreview(entry.data);
+  else updatePageBreakButton();
+}
+
+// ============================================================
+// ZOOM CONTROLS
+// ============================================================
+function setZoom(level) {
+  AppState.zoom = Math.max(10, Math.min(500, Math.round(level)));
+  applyZoom();
+}
+
+function zoomIn() {
+  setZoom(AppState.zoom + 10);
+}
+
+function zoomOut() {
+  setZoom(AppState.zoom - 10);
+}
+
+function handleZoomInput(e) {
+  if (e.key === 'Enter') {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val) && val >= 10 && val <= 500) {
+      setZoom(val);
+    }
+    e.target.blur();
+  }
+}
+
+function getAutoFitZoom() {
+  const previewScroll = document.getElementById('preview-scroll');
+  if (!previewScroll) return 100;
+  const pad = isMobileViewport() ? 20 : 60;
+  const availWidth = previewScroll.clientWidth - pad;
+  const a4WidthPx = 210 * 3.7795275591;
+  return Math.max(10, Math.min(500, Math.floor((availWidth / a4WidthPx) * 100)));
+}
+
+function fitWidth() {
+  setZoom(getAutoFitZoom());
+}
+
+function fitPage() {
+  const previewScroll = document.getElementById('preview-scroll');
+  const pad = isMobileViewport() ? 20 : 60;
+  const availWidth = previewScroll.clientWidth - pad;
+  const availHeight = previewScroll.clientHeight - pad;
+  const a4WidthPx = 210 * 3.7795275591;
+  const a4HeightPx = 297 * 3.7795275591;
+  const zoomW = (availWidth / a4WidthPx) * 100;
+  const zoomH = (availHeight / a4HeightPx) * 100;
+  setZoom(Math.floor(Math.min(zoomW, zoomH)));
+}
+
+function applyZoom() {
+  const container = document.getElementById('a4-container');
+  if (!container) return;
+
+  const scale = AppState.zoom / 100;
+  const origin = isMobileViewport() ? 'top left' : 'top center';
+  container.style.transform = 'scale(' + scale + ')';
+  container.style.transformOrigin = origin;
+
+  const zoomEl = document.getElementById('zoom-display');
+  if (zoomEl) zoomEl.value = AppState.zoom + '%';
+  const statusEl = document.getElementById('status-zoom');
+  if (statusEl) statusEl.textContent = 'Zoom: ' + AppState.zoom + '%';
+}
+
+// Mouse wheel zoom on canvas (Ctrl+Scroll or plain scroll on canvas)
+function initCanvasZoom() {
+  const previewScroll = document.getElementById('preview-scroll');
+  if (!previewScroll) return;
+
+  // Mouse wheel zoom (Ctrl+wheel or Cmd+wheel)
+  previewScroll.addEventListener('wheel', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -5 : 5;
+      setZoom(AppState.zoom + delta);
+    }
+  }, { passive: false });
+
+  // Pinch-to-zoom on touch devices
+  let lastPinchDist = 0;
+  let pinchStartZoom = 100;
+
+  previewScroll.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      lastPinchDist = Math.sqrt(dx * dx + dy * dy);
+      pinchStartZoom = AppState.zoom;
+    }
+  }, { passive: true });
+
+  previewScroll.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (lastPinchDist > 0) {
+        const ratio = dist / lastPinchDist;
+        setZoom(Math.round(pinchStartZoom * ratio));
+      }
+    }
+  }, { passive: false });
+
+  previewScroll.addEventListener('touchend', () => {
+    lastPinchDist = 0;
+  }, { passive: true });
+}
+
+// ============================================================
+// FILE MANAGER
+// ============================================================
+function handleFileInput(fileList) {
+  if (!fileList || fileList.length === 0) return;
+  const files = Array.from(fileList);
+  addFiles(files);
+}
+
+function openLocDropdown(key, inputEl, data, locInputs) {
+  // Remove any existing dropdown
+  document.querySelectorAll('.loc-dropdown, .loc-dropdown-overlay').forEach(e => e.remove());
+
+  let items = [];
+  if (key === 'district') {
+    items = Object.keys(DISTRICT_BLOCK_DATA);
+  } else if (key === 'block') {
+    // Find blocks for current district
+    const dist = data.header.district || '';
+    const matchKey = Object.keys(DISTRICT_BLOCK_DATA).find(k =>
+      k === dist || dist.includes(k.replace(/^\[\s*\d+\s*\]\s*/, ''))
+    );
+    items = matchKey ? DISTRICT_BLOCK_DATA[matchKey] : [];
+    if (items.length === 0) {
+      // Try partial match
+      for (const [dk, bks] of Object.entries(DISTRICT_BLOCK_DATA)) {
+        if (dist && dk.toLowerCase().includes(dist.replace(/\[.*?\]\s*/, '').trim().toLowerCase())) {
+          items = bks; break;
+        }
+      }
+    }
+    if (items.length === 0) {
+      showToast('Select a district first to see blocks', 'warning');
+      return;
+    }
+  }
+
+  // Create overlay to close on outside click
+  const overlay = document.createElement('div');
+  overlay.className = 'loc-dropdown-overlay';
+  overlay.addEventListener('click', () => { overlay.remove(); dd.remove(); });
+  document.body.appendChild(overlay);
+
+  // Create dropdown
+  const dd = document.createElement('div');
+  dd.className = 'loc-dropdown';
+
+  items.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'dd-item';
+    if (inputEl.value === item) el.classList.add('active');
+    el.textContent = item;
+    el.addEventListener('click', () => {
+      inputEl.value = item;
+      data.header[key] = item;
+
+      // If district changed, clear block
+      if (key === 'district' && locInputs.block) {
+        locInputs.block.value = '';
+        data.header.block = '';
+      }
+
+      overlay.remove();
+      dd.remove();
+    });
+    dd.appendChild(el);
+  });
+
+  document.body.appendChild(dd);
+
+  // Position dropdown near the input
+  const rect = inputEl.getBoundingClientRect();
+  const ddH = Math.min(260, items.length * 30 + 8);
+  const spaceBelow = window.innerHeight - rect.bottom;
+  if (spaceBelow >= ddH || spaceBelow >= rect.top) {
+    dd.style.top = rect.bottom + 2 + 'px';
+  } else {
+    dd.style.top = (rect.top - ddH - 2) + 'px';
+  }
+  dd.style.left = Math.max(4, Math.min(rect.left, window.innerWidth - 220)) + 'px';
+  dd.style.maxWidth = Math.min(320, window.innerWidth - 16) + 'px';
+
+  // Scroll active item into view
+  const activeEl = dd.querySelector('.dd-item.active');
+  if (activeEl) activeEl.scrollIntoView({ block: 'center' });
+}
+
+function triggerBannerUpload() {
+  const input = document.getElementById('banner-upload-input');
+  if (input) input.click();
+}
+
+function handleBannerUpload(fileList) {
+  if (!fileList || fileList.length === 0) return;
+  const file = fileList[0];
+  if (!file.type || !file.type.startsWith('image/')) {
+    showToast('Please select an image file for the banner', 'warning');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    AppState.customBannerDataURI = reader.result;
+    try { localStorage.setItem('landRecordFormatter.customBanner', AppState.customBannerDataURI); } catch (_) {}
+    const current = AppState.files[AppState.currentIndex];
+    if (current && current.data) updatePreview(current.data);
+    showToast('Custom banner applied', 'success');
+    addLog('Custom banner uploaded from local storage', 'success');
+  };
+  reader.onerror = () => {
+    showToast('Failed to read selected banner image', 'error');
+  };
+  reader.readAsDataURL(file);
+}
+
+function addFiles(files) {
+  const validExts = ['.mhtml', '.mht'];
+  let added = 0;
+
+  files.forEach(file => {
+    const ext = '.' + file.name.split('.').pop().toLowerCase();
+    if (!validExts.includes(ext)) {
+      addLog(`Skipped ${file.name}: unsupported format`, 'warn');
+      showToast(`Skipped ${file.name}: unsupported format`, 'warning');
+      return;
+    }
+
+    const entry = {
+      id: generateId(),
+      file: file,
+      name: file.name,
+      ext: ext,
+      status: 'pending',
+      data: null,
+      pages: 0,
+    };
+
+    AppState.files.push(entry);
+    added++;
+  });
+
+  if (added > 0) {
+    showToast(`Added ${added} file(s)`, 'success');
+    addLog(`Added ${added} file(s) to queue`, 'info');
+    updateFileList();
+    updateStats();
+    processQueue();
+  }
+}
+
+function removeFile(id) {
+  AppState.files = AppState.files.filter(f => f.id !== id);
+  AppState.extractedData.delete(id);
+
+  if (AppState.currentIndex >= AppState.files.length) {
+    AppState.currentIndex = AppState.files.length - 1;
+  }
+
+  updateFileList();
+  updateStats();
+
+  if (AppState.files.length === 0) {
+    AppState.currentIndex = -1;
+    updatePreview(null);
+  } else if (AppState.currentIndex >= 0) {
+    selectFile(AppState.files[AppState.currentIndex].id);
+  }
+}
+
+function selectFile(id) {
+  const idx = AppState.files.findIndex(f => f.id === id);
+  if (idx < 0) return;
+
+  AppState.currentIndex = idx;
+  updateFileList();
+
+  const entry = AppState.files[idx];
+  if (entry.data) {
+    updatePreview(entry.data);
+  } else {
+    updatePreview(null);
+  }
+
+  if (window.innerWidth <= 768) {
+    closeMobileSidebar();
+  }
+}
+
+function updateFileList() {
+  const list = document.getElementById('file-list');
+  list.innerHTML = '';
+
+  AppState.files.forEach((entry, idx) => {
+    const div = document.createElement('div');
+    div.className = 'file-item' + (idx === AppState.currentIndex ? ' active' : '');
+    div.onclick = () => selectFile(entry.id);
+
+    const iconClass = 'mhtml';
+    const statusClass = entry.status;
+
+    div.innerHTML = `
+      <div class="fi-icon ${iconClass}">MHT</div>
+      <div class="fi-info">
+        <div class="fi-name" title="${entry.name}">${entry.name}</div>
+        <div class="fi-meta">
+          <span>${entry.status}</span>
+          <span>${entry.pages > 0 ? entry.pages + ' pg' : ''}</span>
+        </div>
+      </div>
+      <div class="fi-status ${statusClass}"></div>
+      <button class="fi-remove" onclick="event.stopPropagation();removeFile('${entry.id}')" title="Remove">✕</button>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+function updateStats() {
+  const total = AppState.files.length;
+  const processed = AppState.files.filter(f => f.status === 'done').length;
+  document.getElementById('stats-files').textContent = `${total} file(s)`;
+  document.getElementById('stats-processed').textContent = `${processed} processed`;
+}
+
+// ============================================================
+// PROCESSING QUEUE
+// ============================================================
+async function processQueue() {
+  if (AppState.processing) return;
+  AppState.processing = true;
+  AppState.cancelRequested = false;
+
+  const pending = AppState.files.filter(f => f.status === 'pending');
+  if (pending.length === 0) {
+    AppState.processing = false;
+    return;
+  }
+
+  document.getElementById('btn-cancel').style.display = 'flex';
+  document.getElementById('status-dot').style.background = 'var(--warning)';
+
+  const batchBar = document.getElementById('batch-bar');
+  if (pending.length > 1) {
+    batchBar.classList.add('active');
+  }
+
+  let processed = 0;
+  const total = pending.length;
+
+  for (const entry of pending) {
+    if (AppState.cancelRequested) {
+      addLog('Batch processing cancelled', 'warn');
+      showToast('Processing cancelled', 'warning');
+      break;
+    }
+
+    entry.status = 'processing';
+    updateFileList();
+    updateStatusText(`Processing: ${entry.name}`);
+
+    try {
+      const content = await readFileContent(entry.file);
+      const doc = parseHTMLContent(content, entry.name);
+      const data = extractLandRecord(doc, entry.name);
+
+      entry.data = data;
+      entry.status = 'done';
+      entry.pages = Math.max(1, Math.ceil(data.dag.length / 15));
+      AppState.extractedData.set(entry.id, data);
+
+      addLog(`Processed: ${entry.name} (${data.info.length} fields, ${data.dag.length} plots)`, 'success');
+
+      // If this is the first file or no file selected, show it
+      if (AppState.currentIndex < 0 || AppState.currentIndex === AppState.files.indexOf(entry)) {
+        AppState.currentIndex = AppState.files.indexOf(entry);
+        updatePreview(data);
+      }
+    } catch (err) {
+      entry.status = 'error';
+      addLog(`Error processing ${entry.name}: ${err.message}`, 'error');
+      showToast(`Error: ${entry.name}`, 'error');
+    }
+
+    processed++;
+    const pct = Math.round((processed / total) * 100);
+    document.getElementById('batch-fill').style.width = pct + '%';
+    document.getElementById('batch-text').textContent = `Processing ${processed}/${total}...`;
+    document.getElementById('batch-count').textContent = `${processed}/${total}`;
+
+    updateFileList();
+    updateStats();
+
+    // Yield to UI
+    await new Promise(r => setTimeout(r, 10));
+  }
+
+  AppState.processing = false;
+  document.getElementById('btn-cancel').style.display = 'none';
+  document.getElementById('status-dot').style.background = 'var(--success)';
+  updateStatusText('Ready');
+
+  setTimeout(() => {
+    batchBar.classList.remove('active');
+  }, 2000);
+}
+
+function cancelBatch() {
+  AppState.cancelRequested = true;
+}
+
+function readFileContent(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsText(file, 'UTF-8');
+  });
+}
+
+// ============================================================
+// DIRECT PDF EXPORT FROM RENDERED A4 PREVIEW
+// Generates PDFs exactly from the print-formatted preview DOM.
+// ============================================================
+function prepareOutputContent(data, targetId = 'print-target') {
+  const target = document.getElementById(targetId);
+  target.innerHTML = '';
+  const prevPageBreakState = AppState.pageBreaksEnabled;
+  if (targetId === 'print-target' || targetId === 'export-target') {
+    AppState.pageBreaksEnabled = true;
+  }
+  const pages = renderA4Document(data);
+  AppState.pageBreaksEnabled = prevPageBreakState;
+  pages.forEach(p => {
+    const clone = p.cloneNode(true);
+    clone.querySelectorAll('input.loc-input, input.cell-input').forEach(inp => {
+      const span = document.createElement('span');
+      span.textContent = inp.value || '';
+      if (inp.classList.contains('loc-input')) {
+        span.style.cssText = 'font-size:9pt;display:inline-block;min-width:0;';
+      } else {
+        span.className = 'print-cell-text';
+      }
+      inp.parentNode.replaceChild(span, inp);
+    });
+    target.appendChild(clone);
+  });
+  return target;
+}
+
+function preparePrintContent(data) {
+  return prepareOutputContent(data, 'print-target');
+}
+
+function prepareExportContent(data) {
+  return prepareOutputContent(data, 'export-target');
+}
+
+async function waitForLibs(maxWait) {
+  const start = Date.now();
+  while (Date.now() - start < maxWait) {
+    const J = window.jsPDF || (window.jspdf && window.jspdf.jsPDF);
+    if (window.html2canvas && J && window.JSZip) return true;
+    await new Promise(r => setTimeout(r, 200));
+  }
+  return false;
+}
+
+async function generatePdfBlobFromData(data) {
+  const exportTarget = prepareExportContent(data);
+  exportTarget.style.display = 'block';
+
+  const loaded = await waitForLibs(5000);
+  const JSPDF = window.jsPDF || (window.jspdf && window.jspdf.jsPDF);
+  if (!loaded || !window.html2canvas || !JSPDF) {
+    exportTarget.style.display = 'none';
+    throw new Error('PDF libraries failed to load. Check your internet connection.');
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    try { await document.fonts.ready; } catch (_) {}
+  }
+
+  const pages = Array.from(exportTarget.querySelectorAll('.a4-page'));
+  const pdf = new JSPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  for (let i = 0; i < pages.length; i++) {
+    const canvas = await window.html2canvas(pages[i], {
+      scale: 2.2,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: '#ffffff',
+      logging: false,
+      foreignObjectRendering: false,
+      windowWidth: pages[i].scrollWidth,
+      windowHeight: pages[i].scrollHeight,
+      scrollX: 0,
+      scrollY: 0,
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    if (i > 0) pdf.addPage('a4', 'portrait');
+    pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+  }
+
+  exportTarget.style.display = 'none';
+  return pdf.output('blob');
+}
+
+async function exportCurrentPDF() {
+  const entry = AppState.files[AppState.currentIndex];
+  if (!entry || !entry.data) {
+    showToast('No file selected or data not ready', 'warning');
+    return;
+  }
+  try {
+    updateStatusText('Generating PDF...');
+    const blob = await generatePdfBlobFromData(entry.data);
+    const safeName = getPdfFilenameFromUpload(entry.name);
+    downloadBlob(blob, safeName);
+    showToast('PDF downloaded successfully', 'success');
+    addLog('Exported PDF: ' + safeName, 'success');
+  } catch (err) {
+    console.error(err);
+    showToast('PDF export failed: ' + err.message, 'error');
+    addLog('PDF export error: ' + err.message, 'error');
+  }
+  updateStatusText('Ready');
+}
+
+// ============================================================
+// BATCH EXPORT
+// ============================================================
+async function exportAllPDF() {
+  const doneFiles = AppState.files.filter(f => f.status === 'done' && f.data);
+  if (doneFiles.length === 0) {
+    showToast('No processed files to export', 'warning');
+    return;
+  }
+  if (doneFiles.length === 1) {
+    AppState.currentIndex = AppState.files.indexOf(doneFiles[0]);
+    return exportCurrentPDF();
+  }
+
+  AppState.cancelRequested = false;
+  document.getElementById('btn-cancel').style.display = 'flex';
+  const batchBar = document.getElementById('batch-bar');
+  batchBar.classList.add('active');
+
+  const zip = new JSZip();
+  let processed = 0;
+
+  for (const entry of doneFiles) {
+    if (AppState.cancelRequested) break;
+    try {
+      const blob = await generatePdfBlobFromData(entry.data);
+      const safeName = getPdfFilenameFromUpload(entry.name);
+      zip.file(safeName, blob);
+      processed++;
+      const pct = Math.round((processed / doneFiles.length) * 100);
+      document.getElementById('batch-fill').style.width = pct + '%';
+      document.getElementById('batch-text').textContent = `Generating PDF ${processed}/${doneFiles.length}...`;
+      document.getElementById('batch-count').textContent = `${processed}/${doneFiles.length}`;
+    } catch (err) {
+      addLog(`PDF error for ${entry.name}: ${err.message}`, 'error');
+    }
+    await new Promise(r => setTimeout(r, 10));
+  }
+
+  if (processed > 0) {
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    downloadBlob(zipBlob, 'LandRecords_PDF.zip');
+    showToast(`Downloaded ZIP with ${processed} PDF files`, 'success');
+  }
+
+  document.getElementById('btn-cancel').style.display = 'none';
+  setTimeout(() => batchBar.classList.remove('active'), 1000);
+}
+
+// ============================================================
+// PRINT
+// ============================================================
+function printDocument() {
+  const entry = AppState.files[AppState.currentIndex];
+  if (!entry || !entry.data) {
+    showToast('No file selected', 'warning');
+    return;
+  }
+
+  // Desktop/PC: keep current print dialog flow unchanged.
+  if (!shouldUseMobilePrintPreview()) {
+    preparePrintContent(entry.data);
+    const printTarget = document.getElementById('print-target');
+    printTarget.style.display = 'block';
+
+    const cleanup = () => {
+      printTarget.style.display = 'none';
+      window.removeEventListener('afterprint', cleanup);
+    };
+
+    window.addEventListener('afterprint', cleanup);
+    setTimeout(() => {
+      window.print();
+      setTimeout(cleanup, 1000);
+    }, 200);
+    return;
+  }
+
+  // Android/mobile: use a dedicated print-preview window so preview is not blank.
+  const ok = openMobilePrintPreview(entry.data);
+  if (!ok) {
+    showToast('Popup blocked. Downloading PDF instead.', 'warning', 3500);
+    exportCurrentPDF();
+  }
+}
+
+// ============================================================
+// DOWNLOAD HELPER
+// ============================================================
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 100);
+}
+
+// ============================================================
+// SIDEBAR TOGGLE & RESIZE
+// ============================================================
+function isMobileViewport() {
+  return window.innerWidth <= 768;
+}
+
+function shouldUseMobilePrintPreview() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+  const isAndroid = /android/i.test(ua);
+  const isTouchMobile = window.innerWidth <= 900 && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  return isAndroid || isTouchMobile;
+}
+
+function createPrintableHeadingDataUri(text) {
+  const safe = String(text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="72" viewBox="0 0 1200 72">
+    <rect width="1200" height="72" fill="rgb(139,79,28)"/>
+    <text x="20" y="46" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="700" fill="rgb(255,255,255)">${safe}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+}
+
+function openMobilePrintPreview(data) {
+  const target = preparePrintContent(data);
+  const previewRoot = target.cloneNode(true);
+
+  // Android print preview often ignores background graphics.
+  // Replace colored heading blocks with SVG images so the color is preserved.
+  previewRoot.querySelectorAll('.page-heading').forEach(el => {
+    const img = document.createElement('img');
+    img.src = createPrintableHeadingDataUri(el.textContent.trim());
+    img.alt = el.textContent.trim();
+    img.style.cssText = 'display:block;width:100%;height:auto;margin:1mm 0 0;';
+    el.parentNode.replaceChild(img, el);
+  });
+
+  const styleTag = document.querySelector('style');
+  const styles = styleTag ? styleTag.textContent : '';
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Print Preview</title>
+<style>${styles}</style>
+<style>
+  html, body { background: #fff !important; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body * { visibility: visible !important; }
+  #print-shell { width: 210mm; margin: 0 auto; background: #fff; }
+  .a4-page { box-shadow: none !important; margin: 0 auto 8mm auto !important; }
+  .banner-upload-hint, .banner-upload-placeholder { display: none !important; }
+  @media screen {
+    body { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+  <div id="print-shell">${previewRoot.innerHTML}</div>
+  <script>
+    const doPrint = () => {
+      setTimeout(() => {
+        try { window.focus(); } catch(e) {}
+        window.print();
+      }, 350);
+    };
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(doPrint).catch(doPrint);
+    } else {
+      window.onload = doPrint;
+    }
+  <\/script>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  if (!win) return false;
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+  return true;
+}
+
+function closeMobileSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('mobile-overlay');
+  sidebar.classList.remove('mobile-open');
+  overlay.classList.remove('active');
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('mobile-overlay');
+
+  if (isMobileViewport()) {
+    const open = sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active', open);
+    return;
+  }
+
+  sidebar.classList.toggle('collapsed');
+}
+
+// Resizable sidebar
+(function initResize() {
+  const handle = document.getElementById('resize-handle');
+  const sidebar = document.getElementById('sidebar');
+  let isResizing = false;
+
+  handle.addEventListener('mousedown', (e) => {
+    if (isMobileViewport()) return;
+    isResizing = true;
+    handle.classList.add('active');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return;
+    const newWidth = Math.max(200, Math.min(450, e.clientX));
+    sidebar.style.width = newWidth + 'px';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (isResizing) {
+      isResizing = false;
+      handle.classList.remove('active');
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    }
+  });
+})();
+
+window.addEventListener('resize', () => {
+  if (!isMobileViewport()) {
+    closeMobileSidebar();
+  }
+  // Re-fit on resize
+  AppState.zoom = getAutoFitZoom();
+  applyZoom();
+});
+
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    AppState.zoom = getAutoFitZoom();
+    applyZoom();
+  }, 200);
+});
+
+// ============================================================
+// DRAG & DROP
+// ============================================================
+(function initDragDrop() {
+  const previewArea = document.getElementById('preview-area');
+  const dropZone = document.getElementById('drop-zone');
+
+  ['dragenter', 'dragover'].forEach(evt => {
+    previewArea.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.add('drag-over');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(evt => {
+    previewArea.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropZone.classList.remove('drag-over');
+    });
+  });
+
+  previewArea.addEventListener('drop', (e) => {
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      addFiles(files);
+    }
+  });
+
+  // Also allow drop on the whole window
+  document.addEventListener('dragover', (e) => { e.preventDefault(); });
+  document.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      addFiles(files);
+    }
+  });
+})();
+
+// ============================================================
+// KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'o') {
+    e.preventDefault();
+    document.getElementById('file-input').click();
+  }
+  if (e.ctrlKey && e.key === 'p') {
+    e.preventDefault();
+    printDocument();
+  }
+  if (e.ctrlKey && e.key === '=') {
+    e.preventDefault();
+    zoomIn();
+  }
+  if (e.ctrlKey && e.key === '-') {
+    e.preventDefault();
+    zoomOut();
+  }
+  if (e.ctrlKey && e.key === 'b') {
+    e.preventDefault();
+    toggleSidebar();
+  }
+  // Arrow keys for file navigation
+  if (e.key === 'ArrowUp' && AppState.files.length > 0) {
+    const newIdx = Math.max(0, AppState.currentIndex - 1);
+    if (newIdx !== AppState.currentIndex) selectFile(AppState.files[newIdx].id);
+  }
+  if (e.key === 'ArrowDown' && AppState.files.length > 0) {
+    const newIdx = Math.min(AppState.files.length - 1, AppState.currentIndex + 1);
+    if (newIdx !== AppState.currentIndex) selectFile(AppState.files[newIdx].id);
+  }
+});
+
+// ============================================================
+// MODAL CLOSE ON BACKDROP CLICK
+// ============================================================
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('active');
+    }
+  });
+});
+
+// ============================================================
+// DEMO SAMPLE GENERATOR
+// ============================================================
+
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+(function init() {
+  try {
+    AppState.customBannerDataURI = localStorage.getItem('landRecordFormatter.customBanner') || '';
+  } catch (_) {
+    AppState.customBannerDataURI = '';
+  }
+  addLog('Land Record Formatter initialized', 'info');
+  updateStatusText('Ready — Drop files or click Open');
+  updatePageBreakButton();
+  initCanvasZoom();
+  // Default zoom: fit to page width
+  setTimeout(() => {
+    AppState.zoom = getAutoFitZoom();
+    applyZoom();
+  }, 100);
+})();
+
+</script>
+</body>
+</html>
