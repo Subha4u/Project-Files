@@ -1,0 +1,6362 @@
+CLASH PLANNER APP
+Prompts to Build Clash Planner via Arena.ai
+
+PHASE 0 — PROJECT INITIALIZATION
+  0A  Create Project
+Create the initial project for a Clash Planner application.
+
+Scope:
+Create the initial Clash Planner project foundation.
+
+Requirements:
+1. Create a React + TypeScript application using Vite.
+2. Use TypeScript strict mode.
+3. Configure npm for dependency management.
+4. Create a clean and scalable src directory structure.
+5. Create the basic application entry point.
+6. Create a basic global CSS entry point.
+7. Make the application mobile-first.
+8. Keep the project ready for later Capacitor/Android integration.
+
+Do NOT:
+- Build application navigation.
+- Build Clash of Clans functionality.
+- Create accounts, tasks, reminders, or events.
+- Add Android-specific functionality.
+
+Verify:
+- npm install succeeds.
+- TypeScript check passes.
+- Web development server starts.
+- Web production build passes.
+- Application loads without console errors.
+
+Stop after this scope.
+
+  0B  Configure Web App
+Continue from existing project.
+
+Scope:
+Configure the web application foundation for mobile-first preview.
+
+Requirements:
+1. Configure the Vite web application for development and production builds.
+2. Configure the viewport for mobile devices.
+3. Set the application document title to "Clash Planner".
+4. Configure a clean HTML entry point.
+5. Ensure the application occupies the available viewport correctly.
+6. Add a basic responsive CSS foundation.
+7. Ensure the application works correctly at mobile and desktop widths.
+
+Do NOT:
+- Build application navigation.
+- Create Clash of Clans features.
+- Create account, task, reminder, or event functionality.
+- Add Android-specific features.
+
+Verify:
+- npm run dev works.
+- npm run build works.
+- Mobile viewport works correctly.
+- Desktop preview works correctly.
+- No console errors are introduced.
+
+Stop after this scope.
+
+  0C  Configure Capacitor
+Continue from existing project.
+
+Scope:
+Add Capacitor and configure the project for Android.
+
+Requirements:
+1. Install and configure Capacitor.
+2. Configure the application name as "Clash Planner".
+3. Configure the application ID as:
+   com.example.clashplanner
+4. Configure the web asset directory correctly.
+5. Create the Android project.
+6. Keep the existing Vite web application working.
+7. Ensure the Android project uses the existing web build output.
+
+Do NOT:
+- Implement notifications.
+- Implement alarms.
+- Add Android permissions beyond what is required for the basic project.
+- Build Android-specific application features.
+
+Verify:
+- Web production build succeeds.
+- Capacitor configuration is valid.
+- Capacitor sync succeeds.
+- Android project exists.
+- Existing web application remains functional.
+
+Stop after this scope.
+
+  0D  Verify Android / Gradle
+Continue from existing project.
+
+Scope:
+Verify the Android and Gradle build foundation.
+
+Requirements:
+1. Verify the generated Android project.
+2. Verify the Gradle wrapper exists and works.
+3. Verify the AndroidManifest is valid.
+4. Verify the Capacitor Android configuration.
+5. Ensure the project can generate a debug APK.
+6. Keep the Android project self-contained inside the project.
+
+Do NOT:
+- Implement notifications.
+- Implement alarms.
+- Add launcher functionality.
+- Add Clash of Clans functionality.
+- Modify the application UI.
+
+Verify:
+- Gradle configuration is valid.
+- Android debug build succeeds.
+- Debug APK is generated.
+- Web production build still succeeds.
+- No existing functionality is broken.
+
+Stop after this scope.
+
+  0E  Establish Design System
+Continue from existing project.
+
+Scope:
+Establish the visual design system for Clash Planner.
+
+Requirements:
+1. Create a clean, modern, professional mobile-first visual system.
+2. Use a glass-inspired UI aesthetic without making the interface visually heavy.
+3. Define consistent:
+   - Colors
+   - Typography
+   - Spacing
+   - Border radius
+   - Borders
+   - Shadows
+   - Surface styles
+4. Create reusable design tokens using CSS variables or the existing styling architecture.
+5. Establish styles for:
+   - App background
+   - Glass surfaces
+   - Primary buttons
+   - Secondary buttons
+   - Cards
+   - List rows
+   - Inputs
+   - Select controls
+   - Badges
+   - Status indicators
+6. Establish light/dark compatibility in the architecture, even if only one theme is initially active.
+7. Ensure the design works well on small Android screens.
+8. Keep the visual language suitable for both Clash of Clans account management and reminder/task management.
+
+Do NOT:
+- Build application screens.
+- Create navigation.
+- Add Clash of Clans data.
+- Implement tasks, reminders, or events.
+
+Verify:
+- Design tokens are centralized.
+- Basic components can use the design system consistently.
+- Mobile layout looks clean.
+- Desktop preview remains usable.
+- Web production build passes.
+
+Stop after this scope.
+
+PHASE 1 — APP SHELL
+  1A  Create Navigation
+Continue from existing project.
+
+Scope:
+Create the main application navigation.
+
+Requirements:
+1. Create four primary destinations:
+   - Home
+   - Games
+   - Calendar
+   - More
+2. Use mobile-first bottom navigation.
+3. Show a clear active state.
+4. Create a route/screen for each destination.
+5. Support browser navigation.
+6. Support Android navigation through Capacitor.
+7. Preserve the existing design system.
+8. Use reusable navigation components.
+
+Do NOT:
+- Implement actual screen functionality.
+- Create accounts.
+- Create tasks.
+- Create reminders or events.
+- Implement Clash of Clans features.
+
+Verify:
+- All four destinations open correctly.
+- Active navigation state works.
+- Browser refresh does not break routing.
+- Android navigation works.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  1B  Home Shell
+Continue from existing project.
+
+Scope:
+Create the Home screen visual shell.
+
+Requirements:
+1. Create the Home screen.
+2. Create a compact application header.
+3. Create a "Needs Attention" section.
+4. Create a "Next" section.
+5. Create an "Events" section.
+6. Use realistic placeholder presentation data only.
+7. Use compact task/event rows.
+8. Establish clear visual hierarchy.
+9. Make the screen mobile-first.
+10. Prepare the layout so real data can replace the placeholders later.
+
+Do NOT:
+- Create the real Task data flow.
+- Implement reminders.
+- Implement notifications.
+- Implement Clash of Clans logic.
+- Build event functionality.
+
+Verify:
+- Home screen renders correctly.
+- Sections are visually distinct.
+- Mobile layout is clean.
+- Placeholder data is clearly presentation-only.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  1C  Games Shell
+Continue from existing project.
+
+Scope:
+Create the Games screen shell.
+
+Requirements:
+1. Create the Games screen.
+2. Display Clash of Clans as the first supported game.
+3. Show the game name and basic placeholder account/attention information.
+4. Make the Clash of Clans item tappable.
+5. Create a Clash of Clans destination screen placeholder.
+6. Use the existing design system.
+7. Keep the architecture ready for adding Hay Day later as a separate game.
+
+Do NOT:
+- Implement Clash of Clans account management.
+- Implement Hay Day.
+- Create tasks.
+- Create reminders.
+- Create game-specific logic.
+
+Verify:
+- Games screen renders.
+- Clash of Clans appears.
+- Clash of Clans can be selected.
+- Navigation works.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  1D  Calendar Shell
+Continue from existing project.
+
+Scope:
+Create the Calendar screen shell.
+
+Requirements:
+1. Create the Calendar screen.
+2. Support Day and Week view controls.
+3. Create a chronological day layout.
+4. Create a weekly overview layout.
+5. Use placeholder events/tasks.
+6. Display time information clearly.
+7. Keep the layout mobile-first.
+8. Prepare the screen for real Task and Event data later.
+
+Do NOT:
+- Implement the real Task model integration.
+- Implement event persistence.
+- Implement reminder scheduling.
+- Implement calendar filtering.
+
+Verify:
+- Day view works.
+- Week view works.
+- Switching views works.
+- Mobile layout is usable.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  1E  More Shell
+Continue from existing project.
+
+Scope:
+Create the More screen.
+
+Requirements:
+1. Create a clean settings-style More screen.
+2. Add entries for:
+   - Launcher
+   - Notifications & Alarms
+   - Accounts
+   - Task Templates
+   - History
+   - Backup & Sync
+   - Appearance
+   - Settings
+   - About
+3. Create placeholder destinations where required.
+4. Use consistent icons and spacing.
+5. Keep the screen mobile-first.
+
+Do NOT:
+- Implement these features.
+- Create account functionality.
+- Implement notifications.
+- Implement alarms.
+- Implement backup or sync.
+
+Verify:
+- All menu entries are visible.
+- Tappable entries navigate correctly.
+- Placeholder destinations work.
+- Visual style matches the rest of the app.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  1F  Global Add Button
+Continue from existing project.
+
+Scope:
+Create the global Add action.
+
+Requirements:
+1. Add a floating "+" action to the appropriate primary screens.
+2. Open an action sheet when selected.
+3. Provide these actions:
+   - Timer
+   - Task
+   - Event
+   - Reminder
+4. Make the action sheet mobile-friendly.
+5. Ensure the floating action does not cover bottom navigation.
+6. Use the existing design system.
+7. Create placeholder destinations/actions for now.
+
+Do NOT:
+- Implement task creation.
+- Implement reminder creation.
+- Implement event creation.
+- Implement timer functionality.
+- Implement notification or alarm functionality.
+
+Verify:
+- "+" action opens correctly.
+- Action sheet closes correctly.
+- All four actions are visible.
+- Bottom navigation remains usable.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+PHASE 2 — DATA ARCHITECTURE
+  2A  Game Model
+Continue from existing project.
+
+Scope:
+Create the Game data model.
+
+Requirements:
+1. Create a strongly typed Game model using TypeScript.
+2. Include a unique game ID.
+3. Include game name.
+4. Include a unique game key/identifier.
+5. Include an icon or icon reference.
+6. Include enabled/disabled state.
+7. Make the model suitable for supporting multiple games.
+8. Clash of Clans must be supported as the first game.
+9. Keep game-level information separate from account-level information.
+10. Keep the model compatible with the existing project architecture.
+
+Do NOT:
+- Build Game UI.
+- Implement Clash of Clans functionality.
+- Implement Hay Day.
+- Create Account, Task, Reminder, or Event functionality.
+
+Verify:
+- Game model is strongly typed.
+- Clash of Clans can be represented correctly.
+- The model supports future games.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2B  Account Model
+Continue from existing project.
+
+Scope:
+Create the Account data model.
+
+Requirements:
+1. Create a strongly typed Account model using TypeScript.
+2. An Account must belong to a Game.
+3. Include a unique account ID.
+4. Include account name.
+5. Include game ID.
+6. Include Town Hall level where applicable.
+7. Include clan name where applicable.
+8. Include optional account notes.
+9. Include createdAt and updatedAt fields.
+10. Support multiple accounts for the same game.
+
+Do NOT:
+- Build Account UI.
+- Create Task functionality.
+- Create Reminder functionality.
+- Create Event functionality.
+- Implement Clash of Clans-specific slot logic.
+
+Verify:
+- Account model is strongly typed.
+- Account → Game relationship is valid.
+- Multiple accounts can belong to one game.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2C  Category Model
+Continue from existing project.
+
+Scope:
+Create the Category data model.
+
+Requirements:
+1. Create a strongly typed Category model using TypeScript.
+2. A Category must belong to a Game.
+3. Include a unique category ID.
+4. Include category name.
+5. Support parentCategoryId for subcategories.
+6. Support category type/scope.
+7. Support enabled/disabled state.
+8. Support ordering/position.
+9. Allow categories to be shared conceptually across multiple game contexts where appropriate.
+10. Keep the model flexible enough for Clash of Clans-specific categories.
+
+Examples for Clash of Clans:
+- Home Village
+- Builder Base
+- War
+- Events
+- Research
+- Heroes
+
+Do NOT:
+- Build Category UI.
+- Create Task functionality.
+- Create Task Slot functionality.
+- Implement Clash of Clans automation.
+
+Verify:
+- Category model is strongly typed.
+- Parent/subcategory relationships are supported.
+- Game relationship is valid.
+- Categories can be ordered.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2D  Task Slot Model
+Continue from existing project.
+
+Scope:
+Create the Task Slot data model.
+
+Requirements:
+1. Create a strongly typed Task Slot model using TypeScript.
+2. A Task Slot must belong to an Account.
+3. Include a unique slot ID.
+4. Include account ID.
+5. Include slot name.
+6. Include slot type.
+7. Include enabled/disabled state.
+8. Include ordering/position.
+9. Support configurable numbers of slots.
+10. Support these Clash of Clans slot types:
+   - Builder
+   - Laboratory
+   - Pet Research
+   - Hero
+   - Builder Base Builder
+   - Builder Base Research
+   - Custom
+11. Allow custom slot names for Custom slots.
+12. Do not hardcode fixed slot limits.
+
+Do NOT:
+- Build slot configuration UI.
+- Create Task functionality.
+- Implement task status.
+- Implement reminders.
+- Implement notifications or alarms.
+
+Verify:
+- Task Slot model is strongly typed.
+- Slot → Account relationship is valid.
+- Slot type is configurable.
+- Slot ordering is supported.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2E  Task Model
+Continue from existing project.
+
+Scope:
+Create the Task data model.
+
+Requirements:
+1. Create a strongly typed Task model using TypeScript.
+2. A Task must belong to a Game.
+3. A Task must belong to an Account.
+4. A Task may optionally belong to a Category.
+5. A Task may optionally belong to a Task Slot.
+6. Include task name.
+7. Include optional description/notes.
+8. Include start time and finish time.
+9. Support optional duration-based task creation.
+10. Support parentTaskId for parent/subtask relationships.
+11. Include createdAt and updatedAt fields.
+12. Support these task states:
+   - Scheduled
+   - Running
+   - Ready
+   - Overdue
+   - Completed
+   - Cancelled
+   - Skipped
+
+Do NOT:
+- Build Task UI.
+- Implement automatic status calculation.
+- Implement task completion actions.
+- Implement reminders.
+- Implement notifications or alarms.
+
+Verify:
+- Task model is strongly typed.
+- Account and Task Slot relationships are valid.
+- Parent/subtask relationship is supported.
+- All required task states are represented.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2F  Reminder Model
+Continue from existing project.
+
+Scope:
+Create the Reminder data model.
+
+Requirements:
+1. Create a strongly typed Reminder model using TypeScript.
+2. A Reminder must be associated with a Task.
+3. Support these delivery types:
+   - Push notification
+   - Alarm
+   - Both
+4. Support reminder timing relative to the task:
+   - Before task completion
+   - At task completion
+   - After task completion
+5. Store the time offset required to calculate the trigger time.
+6. Include an enabled/disabled state.
+7. Include a unique reminder ID.
+8. Include the related task ID.
+9. Include createdAt and updatedAt fields.
+10. Keep the model compatible with the existing Task model.
+
+Do NOT:
+- Build Reminder UI.
+- Implement notification delivery.
+- Implement Android alarms.
+- Implement reminder scheduling.
+- Modify the Task model unless required for compatibility.
+
+Verify:
+- Reminder model is strongly typed.
+- Task relationship is valid.
+- Push, Alarm, and Both delivery types are supported.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2G  Event Model
+Continue from existing project.
+
+Scope:
+Create the Event data model.
+
+Requirements:
+1. Create a strongly typed Event model using TypeScript.
+2. An Event must belong to a Game.
+3. Include a unique event ID.
+4. Include event name.
+5. Include event type.
+6. Include start time and end time.
+7. Support these event types:
+   - Clan War
+   - Clan Games
+   - Raid Weekend
+   - Special Event
+   - Custom Event
+8. Support these event states:
+   - Upcoming
+   - Active
+   - Ended
+   - Cancelled
+9. Include createdAt and updatedAt fields.
+10. Keep the model suitable for future game-specific events.
+
+Do NOT:
+- Build Event UI.
+- Implement Clan Games.
+- Implement Clan War.
+- Implement Raid Weekend.
+- Implement Event reminders.
+- Implement Calendar functionality.
+
+Verify:
+- Event model is strongly typed.
+- Clan War and Clan Games can be represented.
+- Start/end times are supported.
+- Event status is supported.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2H  Event Participation Model
+Continue from existing project.
+
+Scope:
+Create the Event Participation data model.
+
+Requirements:
+1. Create a strongly typed EventParticipation model using TypeScript.
+2. EventParticipation must connect an Event to an Account.
+3. Include a unique participation ID.
+4. Include event ID.
+5. Include account ID.
+6. Support participation status.
+7. Support account-specific progress.
+8. Support optional target values.
+9. Support optional notes.
+10. Include createdAt and updatedAt fields where appropriate.
+11. Keep the model compatible with Clan War, Clan Games, Raid Weekend, and future events.
+
+Do NOT:
+- Build Event Participation UI.
+- Implement Clan Games progress logic.
+- Implement Clan War attack logic.
+- Implement event reminders.
+- Implement notifications or alarms.
+
+Verify:
+- EventParticipation is strongly typed.
+- Event → Account relationship is valid.
+- Progress and target values can be stored.
+- Multiple accounts can participate in the same event.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2I  Persistence Foundation
+Continue from existing project.
+
+Scope:
+Create the local persistence foundation for the Clash Planner data architecture.
+
+Requirements:
+1. Set up structured local persistence using IndexedDB or another appropriate structured browser storage solution.
+2. Create persistent stores for:
+   - Games
+   - Accounts
+   - Categories
+   - Task Slots
+   - Tasks
+   - Reminders
+   - Events
+   - Event Participation
+3. Define a clear database name and schema/version.
+4. Keep database initialization separate from React UI components.
+5. Make the persistence layer reusable by later data-access services.
+6. Add schema/version handling for future changes.
+7. Use the existing TypeScript models.
+8. Ensure the persistence architecture is compatible with the future Capacitor Android build.
+
+Do NOT:
+- Build CRUD screens.
+- Implement notification delivery.
+- Implement Android alarms.
+- Implement task scheduling.
+- Add cloud synchronization.
+
+Verify:
+- Database initializes successfully.
+- All required stores are created.
+- Existing application still starts correctly.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2J  Data Access Layer
+Continue from existing project.
+
+Scope:
+Create the typed data-access layer over the existing persistence system.
+
+Requirements:
+1. Create separate data-access services/repositories for:
+   - Games
+   - Accounts
+   - Categories
+   - Task Slots
+   - Tasks
+   - Reminders
+   - Events
+   - Event Participation
+2. Support basic:
+   - Create
+   - Read
+   - Update
+   - Delete
+3. Support retrieving records by their parent relationship where required.
+4. Keep persistence implementation hidden behind the data-access layer.
+5. Use the existing TypeScript models.
+6. Ensure React components do not directly access IndexedDB.
+7. Handle missing records safely.
+8. Preserve unique IDs when updating records.
+
+Do NOT:
+- Build CRUD UI.
+- Implement task status calculation.
+- Implement reminder scheduling.
+- Implement Android notifications or alarms.
+- Implement cloud sync.
+
+Verify:
+- Each entity can be created, retrieved, updated, and deleted.
+- Related records can be retrieved by account/task/event where applicable.
+- Data survives application reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2K  Seed Data
+Continue from existing project.
+
+Scope:
+Create and load the initial Clash of Clans demo dataset.
+
+Requirements:
+1. Create three Clash of Clans accounts:
+   - Main
+   - Mini 1
+   - Mini 2
+2. Give each account realistic placeholder:
+   - Town Hall level
+   - Clan
+   - Account information
+3. Create Task Slots for the accounts.
+4. Include examples for:
+   - Builders
+   - Laboratory
+   - Pet Research
+   - Heroes
+   - Builder Base
+5. Create example active tasks.
+6. Create example events:
+   - Clan War
+   - Clan Games
+7. Create appropriate relationships between accounts, slots, tasks, reminders, and events where applicable.
+8. Load seed data through the data-access layer.
+9. Keep seed data separate from UI components.
+10. Make seeding safe to run without creating duplicates.
+
+Do NOT:
+- Build seed-data UI.
+- Implement real Clash of Clans API integration.
+- Implement notifications.
+- Implement Android alarms.
+- Add Hay Day data.
+
+Verify:
+- Fresh application receives the demo data.
+- Main, Mini 1, and Mini 2 appear in stored data.
+- Tasks and events are linked to the correct accounts.
+- Reloading does not duplicate seed records.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2L  Seed Data Verification
+Continue from existing project.
+
+Scope:
+Verify the complete Phase 2 data and persistence setup.
+
+Requirements:
+1. Verify all current data models.
+2. Verify all persistence stores.
+3. Verify all data-access services.
+4. Verify the seed dataset.
+5. Verify relationships between:
+   - Game → Account
+   - Account → Task Slot
+   - Account → Task
+   - Task → Reminder
+   - Event → Account participation
+6. Ensure seeded data is loaded through the persistence/data-access layer.
+7. Ensure seed data cannot overwrite existing user data.
+
+Do NOT:
+- Add new application features.
+- Build account screens.
+- Build task screens.
+- Implement notifications or alarms.
+- Modify the visual design.
+
+Verify:
+- Fresh storage initializes correctly.
+- Seed data loads correctly.
+- Reload does not duplicate records.
+- Existing stored data remains unchanged.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  2M  Phase 2 Cleanup & Checkpoint
+Continue from existing project.
+
+Scope:
+Perform a final Phase 2 data-architecture cleanup and verification.
+
+Requirements:
+1. Review the existing Game, Account, Category, Task Slot, Task, Reminder, Event, and Event Participation models.
+2. Review the persistence foundation.
+3. Review the data-access layer.
+4. Remove only genuinely duplicated or obsolete code created during Phase 2.
+5. Ensure naming and TypeScript types are consistent.
+6. Ensure React components are not directly accessing persistence.
+7. Keep the architecture ready for the Account UI in Phase 3.
+
+Do NOT:
+- Add new features.
+- Build account UI.
+- Build task UI.
+- Implement notifications.
+- Implement Android alarms.
+- Redesign the application.
+
+Verify:
+- All Phase 2 models compile.
+- Persistence initializes correctly.
+- Seed data loads correctly.
+- Existing data survives reload.
+- No duplicate seed records are created.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+PHASE 3 — ACCOUNTS
+  3A  Account List
+Continue from existing project.
+
+Scope:
+Build the Clash of Clans Account List screen.
+
+Requirements:
+1. Create an Account List screen accessible from the Clash of Clans game area.
+2. Load accounts through the existing data-access/persistence layer.
+3. Display each account with:
+   - Account name
+   - Town Hall level
+   - Clan name
+4. Show a compact summary of configured slots.
+5. Show a compact task/attention summary when task data is available.
+6. Display the seeded accounts:
+   - Main
+   - Mini 1
+   - Mini 2
+7. Allow selecting an account to open Account Details.
+8. Add a clear "+ Add Account" action.
+9. Show a useful empty state when no accounts exist.
+10. Keep the screen mobile-first and consistent with the existing design system.
+
+Do NOT:
+- Build the Add Account form.
+- Build Account Details functionality.
+- Build slot configuration.
+- Build task management.
+- Implement reminders or notifications.
+
+Verify:
+- Accounts are loaded from persistence.
+- Main, Mini 1, and Mini 2 appear correctly.
+- Selecting an account works.
+- Empty state works.
+- "+ Add Account" is visible.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  3B  Add Account
+Continue from existing project.
+
+Scope:
+Build the Add Clash of Clans Account flow.
+
+Requirements:
+1. Open the Add Account screen from the Account List.
+2. Use the existing Account model.
+3. Allow entering:
+   - Account name
+   - Town Hall level
+   - Clan name
+   - Optional notes
+4. Associate the new account with Clash of Clans.
+5. Validate required fields.
+6. Provide Save and Cancel actions.
+7. Generate a unique account ID.
+8. Save through the existing data-access layer.
+9. Return to the Account List after successful creation.
+10. Display the new account immediately.
+
+Do NOT:
+- Build Account editing.
+- Build Account Details.
+- Configure slots.
+- Create tasks.
+- Create reminders.
+- Implement notifications or alarms.
+
+Verify:
+- New account can be created.
+- Required-field validation works.
+- Cancel does not create an account.
+- New account appears in the Account List.
+- New account survives application reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  3C  Edit Account
+Continue from existing project.
+
+Scope:
+Build the Edit Clash of Clans Account flow.
+
+Requirements:
+1. Allow an existing account to be opened in edit mode.
+2. Load the account through the existing data-access layer.
+3. Pre-fill all existing values.
+4. Allow editing:
+   - Account name
+   - Town Hall level
+   - Clan name
+   - Optional notes
+5. Provide Save and Cancel actions.
+6. Validate required fields.
+7. Update the existing account instead of creating a new one.
+8. Preserve the account ID.
+9. Return to the previous account screen after saving.
+10. Immediately reflect updated account information.
+
+Do NOT:
+- Build Account Details functionality.
+- Modify Task Slots.
+- Create tasks.
+- Modify reminders.
+- Implement notifications or alarms.
+
+Verify:
+- Existing values load correctly.
+- Changes are saved correctly.
+- Account ID remains unchanged.
+- Changes survive reload.
+- Cancel leaves data unchanged.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  3D  Account Details
+Continue from existing project.
+
+Scope:
+Build the Clash of Clans Account Details screen.
+
+Requirements:
+1. Open Account Details when an account is selected.
+2. Load the selected account from persistence.
+3. Display:
+   - Account name
+   - Town Hall level
+   - Clan name
+   - Notes
+4. Create a Home Village section.
+5. Create a Builder Base section.
+6. Create a compact Events section.
+7. Show Home Village slot summaries for:
+   - Builders
+   - Laboratory
+   - Pet Research
+   - Heroes
+8. Show Builder Base slot summary.
+9. Show current task/attention information when available.
+10. Add an Edit action.
+11. Add an action to open Slot Configuration.
+12. Keep the screen compact and mobile-first.
+
+Use real persisted data rather than hardcoded account information.
+
+Do NOT:
+- Build detailed slot management.
+- Create or edit tasks.
+- Implement task status calculations.
+- Implement reminders.
+- Implement Clan War or Clan Games logic.
+
+Verify:
+- Correct account data is displayed.
+- Slot summaries use persisted data.
+- Edit opens the existing Edit Account flow.
+- Slot Configuration opens correctly.
+- Account navigation works.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  3E  Account Slot Configuration
+Continue from existing project.
+
+Scope:
+Build the Account Slot Configuration screen.
+
+Requirements:
+1. Open Slot Configuration from Account Details.
+2. Load slots through the existing data-access layer.
+3. Display slots grouped logically:
+   - Home Village
+   - Research
+   - Heroes
+   - Builder Base
+   - Custom
+4. Display each slot with:
+   - Slot name
+   - Slot type
+   - Enabled/disabled state
+5. Allow enabling/disabling existing slots.
+6. Keep configuration specific to the selected account.
+7. Use the existing Task Slot model.
+8. Save changes through persistence.
+9. Display the current slot order.
+10. Use a clean list-based interface rather than oversized cards.
+
+Do NOT:
+- Add new slots yet.
+- Remove slots yet.
+- Reorder slots yet.
+- Create tasks.
+- Implement reminders.
+- Implement notifications or alarms.
+
+Verify:
+- Correct account slots appear.
+- Slots are grouped correctly.
+- Enable/disable works.
+- Changes persist after reload.
+- Different accounts retain independent configurations.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  3F  Add / Remove / Reorder Slots
+Continue from existing project.
+
+Scope:
+Implement adding, removing, and reordering Task Slots for a Clash of Clans account.
+
+Requirements:
+1. Add an "Add Slot" action.
+2. Allow selecting a slot type.
+3. Allow entering a custom slot name.
+4. Support:
+   - Builder
+   - Laboratory
+   - Pet Research
+   - Hero
+   - Builder Base Builder
+   - Builder Base Research
+   - Custom
+5. Save newly created slots through persistence.
+6. Allow removing an existing slot.
+7. Require confirmation before removal.
+8. Allow reordering slots.
+9. Preserve slot IDs when reordering.
+10. Persist the new order.
+11. Keep slots account-specific.
+12. Do not impose fixed slot limits.
+
+Do NOT:
+- Create tasks automatically for slots.
+- Implement task status calculations.
+- Implement reminders.
+- Implement notifications or alarms.
+- Add game API integration.
+
+Verify:
+- New slots can be created.
+- Slots can be removed after confirmation.
+- Slots can be reordered.
+- Slot order survives reload.
+- Different accounts maintain separate slot configurations.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  3G  Account Phase Checkpoint
+Continue from existing project.
+
+Scope:
+Perform a final verification of the Clash of Clans Account system.
+
+Requirements:
+1. Review Account List.
+2. Review Add Account.
+3. Review Edit Account.
+4. Review Account Details.
+5. Review Slot Configuration.
+6. Review Add/Remove/Reorder Slots.
+7. Ensure all screens use the existing Account and Task Slot models.
+8. Ensure all account data uses the persistence/data-access layer.
+9. Remove only genuinely duplicated account/slot code.
+10. Ensure navigation between account screens is consistent.
+
+Do NOT:
+- Add task functionality.
+- Add reminder functionality.
+- Add notifications or alarms.
+- Implement Clan Games.
+- Implement Clan War.
+- Redesign the application.
+
+Verify:
+- Multiple Clash of Clans accounts work independently.
+- Account creation works.
+- Account editing works.
+- Account details are correct.
+- Slot configuration works.
+- Slot changes persist after reload.
+- No account data is hardcoded into UI.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+PHASE 4 — TASK
+  4A  Task List
+Continue from existing project.
+
+Scope:
+Build the Task List screen.
+
+Requirements:
+1. Create a Task List screen accessible from a Clash of Clans account.
+2. Load tasks through the existing data-access layer.
+3. Show only tasks belonging to the selected account.
+4. Display each task with:
+   - Task name
+   - Category
+   - Task Slot
+   - Start time
+   - Finish time
+   - Status
+5. Group tasks into:
+   - Active
+   - Upcoming
+   - Completed
+6. Show parent tasks and subtasks with a clear visual hierarchy.
+7. Add a "+ Add Task" action.
+8. Allow selecting a task to open its details/edit flow.
+9. Add an appropriate empty state.
+10. Keep the layout compact and mobile-first.
+
+Do NOT:
+- Implement automatic status calculation.
+- Build Add Task.
+- Build Edit Task.
+- Implement completion/cancellation actions.
+- Implement reminders or notifications.
+
+Verify:
+- Persisted tasks appear correctly.
+- Only the selected account's tasks are shown.
+- Parent/subtask relationships display correctly.
+- Status values from stored data display correctly.
+- Empty state works.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  4B  Add Task
+Continue from existing project.
+
+Scope:
+Build the Add Task flow.
+
+Requirements:
+1. Open Add Task from the Task List.
+2. Use the existing Task model.
+3. Allow selecting:
+   - Account
+   - Category
+   - Optional Task Slot
+4. Allow entering:
+   - Task name
+   - Description/notes
+5. Allow setting:
+   - Start time
+   - Finish time
+6. Also support entering a duration and calculating finish time.
+7. Allow creating a task without a Task Slot.
+8. Allow creating a parent task.
+9. Allow optionally selecting an existing parent task to create a subtask.
+10. Validate required fields.
+11. Save through the existing data-access layer.
+12. Return to the Task List after successful creation.
+
+Do NOT:
+- Implement automatic task status calculation.
+- Implement task editing.
+- Implement complete/cancel/skip.
+- Implement snooze.
+- Implement reminders.
+- Implement notifications or alarms.
+
+Verify:
+- A task can be created.
+- Account/category/slot relationships are correct.
+- Duration correctly calculates finish time.
+- Parent/subtask creation works.
+- Task survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  4C  Edit Task
+Continue from existing project.
+
+Scope:
+Build the Edit Task flow.
+
+Requirements:
+1. Open an existing task in edit mode.
+2. Load the task through the existing data-access layer.
+3. Pre-fill all existing task values.
+4. Allow editing:
+   - Task name
+   - Description/notes
+   - Category
+   - Task Slot
+   - Start time
+   - Finish time
+5. Allow changing the account only when safe to do so.
+6. Preserve the task ID.
+7. Preserve parent/subtask relationships unless explicitly changed.
+8. Validate required fields.
+9. Save through the existing data-access layer.
+10. Return to the Task List after saving.
+
+Do NOT:
+- Implement task status calculation.
+- Implement complete/cancel/skip.
+- Implement snooze.
+- Implement reminders.
+- Implement notifications or alarms.
+
+Verify:
+- Existing task values load correctly.
+- Changes are saved correctly.
+- Task ID remains unchanged.
+- Parent/subtask relationship remains intact.
+- Changes survive reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  4D  Task Status Engine
+Continue from existing project.
+
+Scope:
+Create the generic Task Status Engine.
+
+Requirements:
+1. Calculate task status from task data and current time.
+2. Support:
+   - Scheduled
+   - Running
+   - Ready
+   - Overdue
+   - Completed
+   - Cancelled
+   - Skipped
+3. Automatically distinguish future, active, and finished tasks.
+4. Do not permanently store calculated transient status unless required by the architecture.
+5. Preserve manually completed/cancelled/skipped states.
+6. Handle tasks with missing or invalid time data safely.
+7. Keep status calculation independent from React UI.
+8. Provide a reusable status calculation function/service.
+9. Ensure parent and subtask status can be calculated independently.
+10. Make the engine testable.
+
+Do NOT:
+- Build notification scheduling.
+- Implement Android alarms.
+- Implement snooze.
+- Change the Task UI significantly.
+- Add Clash of Clans-specific rules.
+
+Verify:
+- Future task → Scheduled.
+- Active task → Running.
+- Finished incomplete task → Ready/Overdue according to the defined logic.
+- Completed task remains Completed.
+- Cancelled task remains Cancelled.
+- Skipped task remains Skipped.
+- Unit/type checks pass.
+- Web production build passes.
+
+Stop after this scope.
+
+  4E  Complete / Cancel / Skip
+Continue from existing project.
+
+Scope:
+Add task lifecycle actions.
+
+Requirements:
+1. Add Complete action.
+2. Add Cancel action.
+3. Add Skip action.
+4. Require confirmation where appropriate for destructive actions.
+5. Save lifecycle changes through the existing data-access layer.
+6. Completed tasks must retain their completion state.
+7. Cancelled tasks must retain their cancelled state.
+8. Skipped tasks must retain their skipped state.
+9. Update the Task List immediately after an action.
+10. Preserve task history information required by later Phase 4H.
+
+Do NOT:
+- Implement snooze.
+- Implement reminders.
+- Implement notifications.
+- Implement Android alarms.
+- Implement Clash of Clans-specific completion automation.
+
+Verify:
+- Complete works.
+- Cancel works.
+- Skip works.
+- State survives reload.
+- Task List updates immediately.
+- Parent/subtask data is not corrupted.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  4F  Snooze
+Continue from existing project.
+
+Scope:
+Implement generic Task Snooze functionality.
+
+Requirements:
+1. Add a Snooze action for eligible tasks.
+2. Provide common snooze options:
+   - 5 minutes
+   - 15 minutes
+   - 30 minutes
+   - 1 hour
+   - Custom time
+3. Allow setting a custom snooze time.
+4. Store the information needed to restore/recalculate the task timing.
+5. Keep the original task identity.
+6. Ensure snoozed tasks remain associated with the same account, category, and slot.
+7. Update the Task List immediately.
+8. Persist snooze changes.
+
+Do NOT:
+- Implement reminder scheduling.
+- Implement Android alarms.
+- Modify notification behavior.
+- Add Clash of Clans-specific snooze rules.
+
+Verify:
+- Preset snooze options work.
+- Custom snooze works.
+- Snoozed task survives reload.
+- Task status recalculates correctly.
+- Existing task relationships remain intact.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  4G  Task Filtering
+Continue from existing project.
+
+Scope:
+Add filtering and sorting to the Task List.
+
+Requirements:
+1. Support filtering by:
+   - Account
+   - Category
+   - Task Slot
+   - Status
+2. Support filtering by:
+   - Active
+   - Upcoming
+   - Completed
+   - Overdue
+3. Support sorting by:
+   - Finish time
+   - Start time
+   - Name
+4. Allow clearing all filters.
+5. Show active filter state clearly.
+6. Preserve filters while navigating within the Task List.
+7. Keep filtering logic separate from UI components.
+8. Do not duplicate task records to implement filtering.
+
+Do NOT:
+- Implement calendar filtering.
+- Implement reminder filtering.
+- Implement event filtering.
+- Add advanced search yet.
+
+Verify:
+- Each filter works independently.
+- Multiple filters can be combined.
+- Sorting works.
+- Clear filters restores the complete list.
+- No data is modified by filtering.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  4H  Task History
+Continue from existing project.
+
+Scope:
+Build Task History.
+
+Requirements:
+1. Create a Task History screen.
+2. Display completed, cancelled, and skipped tasks.
+3. Show:
+   - Task name
+   - Account
+   - Category
+   - Slot
+   - Original timing
+   - Final status
+   - Completion/cancellation/skip time when available
+4. Allow filtering by account.
+5. Allow filtering by status.
+6. Sort newest history entries first.
+7. Use persisted task data/history information.
+8. Keep history separate from the active Task List.
+9. Provide an empty state.
+10. Keep the screen mobile-first.
+
+Do NOT:
+- Implement analytics.
+- Implement statistics dashboards.
+- Implement notifications.
+- Implement Android alarms.
+- Delete historical records automatically.
+
+Verify:
+- Completed tasks appear in history.
+- Cancelled tasks appear in history.
+- Skipped tasks appear in history.
+- Active tasks do not incorrectly appear as history.
+- History survives reload.
+- Filters work.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  4I  Task System Checkpoint
+Continue from existing project.
+
+Scope:
+Perform a final verification of the generic Task system.
+
+Requirements:
+1. Review Task List.
+2. Review Add Task.
+3. Review Edit Task.
+4. Review Task Status Engine.
+5. Review Complete/Cancel/Skip.
+6. Review Snooze.
+7. Review Filtering.
+8. Review Task History.
+9. Ensure all task operations use the existing data-access layer.
+10. Ensure parent/subtask relationships remain intact.
+11. Remove only genuinely duplicated or obsolete task code.
+
+Do NOT:
+- Add Clash of Clans-specific task behavior.
+- Implement reminders.
+- Implement notifications.
+- Implement Android alarms.
+- Build Clan War or Clan Games functionality.
+- Redesign the application.
+
+Verify:
+- Create/edit/delete-related task flows work correctly.
+- Task statuses calculate correctly.
+- Complete/cancel/skip work.
+- Snooze works.
+- Filters work.
+- History works.
+- Parent/subtask relationships remain valid.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+PHASE 5 — REMINDERS
+  5A  Reminder Model & UI
+Continue from existing project.
+
+Scope:
+Build the Reminder management UI using the existing Reminder model.
+
+Requirements:
+1. Allow a Task to have one or more reminders.
+2. Display reminders associated with a task.
+3. Allow creating a reminder for a task.
+4. Support delivery type:
+   - Push notification
+   - Alarm
+   - Both
+5. Support reminder timing:
+   - Before task completion
+   - At task completion
+   - After task completion
+6. Allow configuring the time offset.
+7. Allow enabling/disabling a reminder.
+8. Allow editing an existing reminder.
+9. Allow deleting a reminder.
+10. Save all reminder changes through the existing data-access layer.
+11. Show the reminder type clearly in the UI.
+12. Keep reminder UI compact and mobile-first.
+
+Do NOT:
+- Schedule real notifications yet.
+- Implement Android alarms yet.
+- Request Android notification permissions.
+- Implement background scheduling.
+- Build deep links.
+
+Verify:
+- Reminder can be created.
+- Reminder can be edited.
+- Reminder can be enabled/disabled.
+- Reminder can be deleted.
+- Multiple reminders can belong to one task.
+- Changes survive reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  5B  Reminder Scheduling Engine
+Continue from existing project.
+
+Scope:
+Create the generic Reminder Scheduling Engine.
+
+Requirements:
+1. Create a reusable reminder scheduling service independent of UI.
+2. Calculate the trigger time from:
+   - Task timing
+   - Reminder timing
+   - Reminder offset
+3. Support:
+   - Before task completion
+   - At task completion
+   - After task completion
+4. Support Push, Alarm, and Both delivery types.
+5. Provide scheduling, rescheduling, and cancellation interfaces.
+6. Do not directly implement Android notification APIs in this layer.
+7. Handle tasks that are edited, completed, cancelled, skipped, or snoozed.
+8. Prevent duplicate schedules for the same reminder.
+9. Handle reminders whose calculated trigger time has already passed.
+10. Keep the scheduler testable.
+
+Do NOT:
+- Implement actual Android notifications.
+- Implement actual Android alarms.
+- Request Android permissions.
+- Build reminder UI.
+- Implement deep links.
+
+Verify:
+- Correct trigger times are calculated.
+- Rescheduling produces one active schedule.
+- Cancellation removes the logical schedule.
+- Completed/cancelled tasks do not continue producing reminders.
+- Snoozed tasks can be rescheduled.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  5C  Web Notifications
+Continue from existing project.
+
+Scope:
+Implement web Push-style notification delivery for the web application.
+
+Requirements:
+1. Implement browser notification permission handling.
+2. Request permission only when the user enables notification reminders.
+3. Create a web notification delivery service.
+4. Connect the service to the Reminder Scheduling Engine.
+5. Display:
+   - Task name
+   - Account name
+   - Reminder timing/context
+6. Handle notification permission states:
+   - Granted
+   - Denied
+   - Not requested
+7. Allow notification delivery to be disabled.
+8. Prevent duplicate notifications from repeated scheduler initialization.
+9. Keep the implementation separate from React UI components.
+10. Gracefully handle browsers that do not support notifications.
+
+Do NOT:
+- Implement Android native notifications yet.
+- Implement Android alarms.
+- Request unrelated permissions.
+- Implement deep links yet.
+
+Verify:
+- Permission request works.
+- A test reminder can produce a browser notification when permission is granted.
+- Denied permission is handled gracefully.
+- Disabled reminders do not notify.
+- Duplicate notifications are prevented.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  5D  Android Notifications
+Continue from existing project.
+
+Scope:
+Implement native Android notification delivery through Capacitor.
+
+Requirements:
+1. Add the required Capacitor notification capability/plugin.
+2. Configure the Android project for local notifications.
+3. Request notification permission where required by the Android version.
+4. Create an Android notification delivery service.
+5. Connect it to the existing Reminder Scheduling Engine.
+6. Support task reminder notifications.
+7. Display:
+   - Task name
+   - Account name
+   - Reminder context
+8. Respect the Reminder enabled/disabled state.
+9. Prevent duplicate notification schedules.
+10. Keep Android-specific code isolated from the generic reminder system.
+
+Do NOT:
+- Implement Android alarms yet.
+- Implement notification → task deep links yet.
+- Add unnecessary Android permissions.
+- Replace the existing web notification implementation.
+
+Verify:
+- Android project builds successfully.
+- Notification permission flow works.
+- A scheduled test notification can be delivered.
+- Disabled reminders do not produce notifications.
+- Existing web functionality remains intact.
+- TypeScript check passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+  5E  Android Alarms
+Continue from existing project.
+
+Scope:
+Implement Android Alarm delivery for Reminder type "Alarm".
+
+Requirements:
+1. Add the Android capability required for exact time-based alarm scheduling.
+2. Implement a dedicated Android alarm service.
+3. Connect Alarm reminders to the existing Reminder Scheduling Engine.
+4. Schedule alarms using the calculated reminder trigger time.
+5. Support cancellation of scheduled alarms.
+6. Support rescheduling when task timing changes.
+7. Use a unique alarm identifier for each reminder.
+8. Prevent duplicate alarms.
+9. Handle reboot/restart requirements where technically necessary.
+10. Keep alarm implementation separate from Push notification implementation.
+11. Respect the user's enabled/disabled reminder state.
+
+Do NOT:
+- Replace normal notifications with alarms.
+- Implement deep links yet.
+- Add unrelated Android permissions.
+- Modify the generic Task model.
+
+Verify:
+- Alarm reminders can be scheduled.
+- Alarm reminders can be cancelled.
+- Editing a task reschedules the alarm correctly.
+- Snoozing a task reschedules the alarm correctly.
+- Completed/cancelled tasks cancel their alarms.
+- Duplicate alarms are not created.
+- Android debug build passes.
+
+Stop after this scope.
+
+  5F  Rescheduling & Cancellation
+Continue from existing project.
+
+Scope:
+Create the unified reminder rescheduling and cancellation system.
+
+Requirements:
+1. Connect Task lifecycle changes to reminder scheduling.
+2. Reschedule reminders when:
+   - Task time changes
+   - Task duration changes
+   - Task is snoozed
+3. Cancel reminders when:
+   - Task is completed
+   - Task is cancelled
+   - Task is skipped
+   - Reminder is disabled
+   - Reminder is deleted
+4. Support Push, Alarm, and Both consistently.
+5. Ensure only the current schedule remains active.
+6. Persist reminder state through the existing data layer.
+7. Handle application restart safely.
+8. Rebuild required schedules when the app starts.
+9. Prevent duplicate schedules.
+10. Keep scheduling logic independent from UI.
+
+Do NOT:
+- Build new reminder UI.
+- Implement deep links yet.
+- Add new task features.
+- Add cloud synchronization.
+
+Verify:
+- Editing a task updates its reminders.
+- Snoozing updates its reminders.
+- Completing a task cancels its reminders.
+- Cancelling/skipping a task cancels its reminders.
+- Reopening the app does not create duplicates.
+- Push and Alarm behavior remain independent.
+- Android debug build passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  5G  Deep Links
+Continue from existing project.
+
+Scope:
+Implement reminder notification and alarm deep links into the relevant task.
+
+Requirements:
+1. Give each Task a stable navigational identifier.
+2. Create a deep-link route for opening a specific task.
+3. Configure web notification clicks to open the relevant task.
+4. Configure Android notification clicks to open the relevant task.
+5. Configure Android alarm interaction to open the relevant task where supported.
+6. If the task belongs to an account, open the correct account context.
+7. If the task no longer exists, show a safe fallback instead of crashing.
+8. Preserve normal app navigation when the app is already open.
+9. Handle cold-start deep links.
+10. Keep deep-link handling centralized.
+
+Do NOT:
+- Change the Task data model unnecessarily.
+- Add new reminder types.
+- Implement external sharing links.
+- Implement cloud URLs.
+
+Verify:
+- Notification click opens the correct task.
+- Alarm interaction opens the correct task where supported.
+- Deep links work when the app is already running.
+- Deep links work when the app was closed.
+- Invalid task IDs are handled safely.
+- Android debug build passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  5H  Reminder Settings & Permission State
+Continue from existing project.
+
+Scope:
+Create the user-facing reminder permission and delivery settings.
+
+Requirements:
+1. Provide a settings area for reminder delivery.
+2. Show Push Notification status.
+3. Show Alarm status.
+4. Clearly distinguish:
+   - Enabled
+   - Disabled
+   - Permission required
+   - Unsupported
+5. Allow the user to enable/disable reminder delivery types.
+6. Do not silently request permissions.
+7. Explain when Android system settings are required.
+8. Keep application-level reminder preferences separate from individual Reminder records.
+9. Persist user preferences.
+10. Use the existing design system.
+
+Do NOT:
+- Implement new scheduling logic.
+- Modify individual task reminders.
+- Add unrelated permissions.
+- Build a complete Settings system.
+
+Verify:
+- Permission status is displayed correctly.
+- User can enable/disable delivery types.
+- Preferences persist after reload.
+- Unsupported states are handled gracefully.
+- Android build passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  5I  Reminder System Checkpoint
+Continue from existing project.
+
+Scope:
+Perform a complete verification of the Reminder system.
+
+Requirements:
+1. Review Reminder UI.
+2. Review Reminder Scheduling Engine.
+3. Review Web notifications.
+4. Review Android notifications.
+5. Review Android alarms.
+6. Review rescheduling and cancellation.
+7. Review deep links.
+8. Review permission/settings handling.
+9. Remove only genuinely duplicated or obsolete reminder code.
+10. Ensure generic reminder logic remains independent from platform-specific delivery.
+
+Do NOT:
+- Add new reminder features.
+- Implement Clash of Clans-specific automation.
+- Build Clan War or Clan Games functionality.
+- Redesign the application.
+
+Verify:
+- Push reminders work on supported web environments.
+- Android notifications work.
+- Android alarms work.
+- Task edits reschedule reminders.
+- Snooze reschedules reminders.
+- Complete/cancel/skip cancels reminders.
+- Application restart does not duplicate schedules.
+- Notification/alarm interaction opens the correct task.
+- TypeScript check passes.
+- Android debug build passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  5J  Background Reminder Architecture
+Continue from existing project.
+
+Scope:
+Make scheduled reminders independent from the Clash Planner application UI being open.
+
+Requirements:
+1. Review the existing Reminder scheduling architecture.
+2. Ensure scheduled reminder information is persisted.
+3. Ensure Android reminders can trigger when the application UI is not open.
+4. Support reminders when the app is:
+   - Open
+   - In background
+   - Not currently running
+5. Restore scheduled reminder state after device/application restart where technically required.
+6. Keep reminder scheduling separate from React UI lifecycle.
+7. Ensure reminder state survives application process termination.
+8. Use the existing Reminder model and persistence layer.
+9. Ensure cancelled reminders are removed from future scheduling.
+10. Ensure edited reminders are rescheduled.
+11. Ensure completed tasks do not continue generating their reminders.
+12. Keep web notification behavior separate from Android native scheduling.
+
+Do NOT:
+- Implement the final Android notification UI yet.
+- Implement lock-screen notification styling yet.
+- Implement widgets.
+- Add unnecessary background services.
+- Create a second Reminder model.
+
+Verify:
+- Scheduled reminders remain persisted after app closure.
+- Reminder scheduling does not depend on the Home screen being mounted.
+- Edited reminders are rescheduled.
+- Cancelled reminders no longer trigger.
+- Android debug build passes.
+- TypeScript check passes.
+
+Stop after this scope.
+
+  5K  Android Notification Architecture
+Continue from existing project.
+
+Scope:
+Implement the Android notification foundation for scheduled Clash Planner reminders.
+
+Requirements:
+1. Create a centralized Android notification service.
+2. Support scheduled reminder notifications.
+3. Support notifications when Clash Planner is not open.
+4. Configure appropriate Android notification channels.
+5. Create separate channels where useful for:
+   - Task reminders
+   - Event reminders
+   - Alarms
+6. Give channels meaningful names and descriptions.
+7. Use appropriate notification priority/importance.
+8. Display:
+   - Reminder title
+   - Relevant task/event
+   - Clash of Clans account where applicable
+   - Scheduled/remaining context where appropriate
+9. Use the existing Reminder data.
+10. Ensure notification IDs are stable enough to update/cancel scheduled notifications.
+11. Ensure cancelled reminders cancel their corresponding notifications.
+12. Handle notification permission according to Android requirements.
+
+Do NOT:
+- Implement widgets.
+- Implement full-screen alarm UI yet.
+- Create a second reminder system.
+- Automatically launch Clash of Clans.
+
+Verify:
+- Notification appears while app is closed.
+- Correct reminder content is displayed.
+- Correct account is displayed.
+- Notification can be cancelled/rescheduled.
+- Notification channels are created correctly.
+- Android debug build passes.
+
+Stop after this scope.
+
+  5L  Lock-Screen Notifications
+Continue from existing project.
+
+Scope:
+Configure Clash Planner notifications for appropriate Android lock-screen presentation.
+
+Requirements:
+1. Ensure scheduled reminder notifications can appear on the Android lock screen.
+2. Use Android notification visibility settings appropriately.
+3. Ensure important reminder information can be displayed without requiring the app to open.
+4. Respect Android system/user notification privacy settings.
+5. Do not expose sensitive information unnecessarily.
+6. Keep account/task/event information concise.
+7. Ensure notification priority is appropriate to the reminder type.
+8. Ensure alarm-related notifications behave appropriately for their urgency.
+9. Keep notification configuration centralized.
+10. Ensure the user can control notification behavior through Android settings.
+
+Do NOT:
+- Attempt to bypass Android lock-screen privacy settings.
+- Force notifications to appear when the user has disabled them.
+- Add unnecessary permissions.
+- Automatically unlock the device.
+
+Verify:
+- Reminder notification can appear on the lock screen.
+- Notification respects Android privacy settings.
+- Task/event/account information is readable.
+- Notification tap opens the correct destination.
+- Android debug build passes.
+
+Stop after this scope.
+
+  5M  Notification Actions
+Continue from existing project.
+
+Scope:
+Add useful actions to Clash Planner notifications.
+
+Requirements:
+1. Support notification actions where appropriate.
+2. For task reminders provide:
+   - Open Task
+   - Complete
+   - Snooze where supported
+3. For event reminders provide:
+   - Open Event
+4. For account-related reminders provide:
+   - Open Account
+5. Keep "Open Clash of Clans" available where appropriate.
+6. Use existing Task, Reminder, Event, Account, and Deep Link systems.
+7. Ensure actions work when the app is closed.
+8. Resolve the target entity before performing the action.
+9. Handle deleted or already-completed entities safely.
+10. Update/cancel the associated reminder after completion or cancellation.
+
+Do NOT:
+- Automatically launch Clash of Clans from a notification.
+- Automate gameplay.
+- Create a separate task/reminder action system.
+
+Verify:
+- Notification actions appear correctly.
+- Complete works.
+- Snooze works where supported.
+- Open Task works.
+- Open Event works.
+- Open Account works.
+- Actions work when the app was closed.
+- Android debug build passes.
+
+Stop after this scope.
+
+  5N  Alarm Behavior
+Continue from existing project.
+
+Scope:
+Implement reliable Android alarm scheduling for Clash Planner.
+
+Requirements:
+1. Use the existing Reminder model.
+2. Support reminder delivery type:
+   - Notification
+   - Alarm
+   - Both
+3. Schedule alarms independently of the application UI being open.
+4. Ensure alarms can trigger when the app process is not running.
+5. Persist enough information to reconstruct scheduled alarms.
+6. Support cancellation.
+7. Support rescheduling.
+8. Handle task completion/cancellation.
+9. Use Android-appropriate alarm scheduling APIs.
+10. Respect Android battery and permission requirements.
+11. Handle device/application restart where required.
+12. Keep alarm scheduling centralized.
+13. Ensure alarm behavior does not depend on a React component remaining mounted.
+
+Do NOT:
+- Add an unnecessary permanent background service.
+- Bypass Android system restrictions.
+- Create a second Reminder model.
+- Implement widgets yet.
+
+Verify:
+- Alarm triggers while app is closed.
+- Alarm can be cancelled.
+- Alarm can be rescheduled.
+- Completed tasks do not trigger old alarms.
+- Device/application restart handling works as designed.
+- Android debug build passes.
+
+Stop after this scope.
+
+PHASE 6 — HOME
+  6A  Needs Attention
+Continue from existing project.
+
+Scope:
+Build the Home screen "Needs Attention" section.
+
+Requirements:
+1. Load data through the existing data-access and task-status systems.
+2. Identify tasks that require user attention.
+3. Include:
+   - Ready tasks
+   - Overdue tasks
+   - Tasks requiring completion
+4. Show the account associated with each task.
+5. Show the task name.
+6. Show the relevant Task Slot when available.
+7. Show a clear status indicator.
+8. Sort the most urgent items first.
+9. Allow tapping an item to open the corresponding Task.
+10. Show an appropriate empty state when nothing needs attention.
+
+Do NOT:
+- Create a separate task engine.
+- Modify the existing Task model unnecessarily.
+- Implement new reminder logic.
+- Implement Clash of Clans-specific calculations.
+
+Verify:
+- Ready tasks appear.
+- Overdue tasks appear.
+- Completed tasks do not appear.
+- Correct account information is shown.
+- Tapping opens the correct task.
+- Empty state works.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  6B  Next
+Continue from existing project.
+
+Scope:
+Build the Home screen "Next" section.
+
+Requirements:
+1. Display upcoming tasks from all Clash of Clans accounts.
+2. Load tasks through the existing data-access layer.
+3. Use the existing Task Status Engine.
+4. Sort tasks chronologically by their next relevant time.
+5. Display:
+   - Task name
+   - Account
+   - Slot
+   - Remaining time
+   - Scheduled finish time
+6. Show a compact countdown for the nearest task.
+7. Allow tapping a task to open its details.
+8. Do not show completed, cancelled, or skipped tasks.
+9. Handle tasks without a Task Slot safely.
+10. Update displayed remaining time without requiring manual refresh.
+
+Do NOT:
+- Create a second countdown engine.
+- Implement new reminder scheduling.
+- Implement notifications.
+- Add Clash of Clans-specific task rules.
+
+Verify:
+- Upcoming tasks appear correctly.
+- Nearest task appears first.
+- Countdown updates correctly.
+- Completed tasks are excluded.
+- Multiple accounts are represented correctly.
+- Tapping opens the correct task.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  6C  Events
+Continue from existing project.
+
+Scope:
+Build the Home screen Events section.
+
+Requirements:
+1. Load events through the existing Event data-access layer.
+2. Display upcoming and currently active events.
+3. Show:
+   - Event name
+   - Event type
+   - Start time
+   - End time
+   - Current event status
+4. Show a countdown for the nearest event when applicable.
+5. Display relevant account participation information when available.
+6. Allow tapping an event to open its details.
+7. Sort active events before upcoming events.
+8. Within each group, sort chronologically.
+9. Show an appropriate empty state.
+10. Keep the section compact enough for the Home dashboard.
+
+Do NOT:
+- Implement Clan Games functionality.
+- Implement Clan War functionality.
+- Build Calendar.
+- Implement event-specific progress logic.
+- Create new event models.
+
+Verify:
+- Persisted events appear.
+- Active events are distinguished from upcoming events.
+- Countdown works.
+- Correct event details open.
+- Empty state works.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  6D  Account Filter
+Continue from existing project.
+
+Scope:
+Add account filtering to the Home dashboard.
+
+Requirements:
+1. Add an account filter to Home.
+2. Support:
+   - All accounts
+   - Individual accounts
+3. Load the available accounts dynamically.
+4. When "All accounts" is selected, aggregate data from every account.
+5. When one account is selected, show only that account's:
+   - Attention tasks
+   - Upcoming tasks
+   - Relevant events
+6. Clearly indicate the currently selected account.
+7. Preserve the selected account while navigating within Home.
+8. Do not duplicate or modify underlying task/event data.
+9. Make the filter compact and mobile-friendly.
+10. Handle the case where no accounts exist.
+
+Do NOT:
+- Create separate Home screens for each account.
+- Modify Account data.
+- Modify Task or Event models.
+- Implement new filtering engines outside Home.
+
+Verify:
+- All accounts view works.
+- Individual account filtering works.
+- Task sections update correctly.
+- Event section updates correctly.
+- Filter state is visually clear.
+- No data is modified by filtering.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  6E  Home Dashboard Composition
+Continue from existing project.
+
+Scope:
+Assemble the complete Clash Planner Home dashboard.
+
+Requirements:
+1. Compose the existing sections:
+   - Account filter
+   - Needs Attention
+   - Next
+   - Events
+2. Establish a clear visual hierarchy.
+3. Put the most urgent information near the top.
+4. Make the nearest task/event immediately identifiable.
+5. Keep account context visible without repeating unnecessary information.
+6. Ensure all sections use existing data-access and status systems.
+7. Make countdowns visually consistent.
+8. Use compact cards/list rows rather than oversized dashboard panels.
+9. Provide useful empty states.
+10. Make the layout responsive for mobile and desktop web preview.
+11. Ensure the Home screen remains usable with many accounts and tasks.
+12. Avoid excessive scrolling where practical.
+
+Do NOT:
+- Add new task functionality.
+- Add new reminder functionality.
+- Implement Clash of Clans-specific automation.
+- Implement Calendar.
+- Implement Launcher.
+- Redesign the entire application.
+
+Verify:
+- Home correctly aggregates tasks and events.
+- Account filtering works across all sections.
+- Needs Attention is prioritized.
+- Next is chronologically correct.
+- Events are displayed correctly.
+- Navigation to tasks/events/accounts works.
+- Mobile layout is clean.
+- Desktop preview remains usable.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  6F  Loading / Empty / Error States
+Continue from existing project.
+
+Scope:
+Improve Home's loading, empty, and error states.
+
+Requirements:
+1. Add a consistent loading state for Home data.
+2. Add an empty state when no accounts exist.
+3. Add an empty state when there are no active/attention tasks.
+4. Add an empty state when there are no upcoming tasks.
+5. Add an empty state when there are no events.
+6. Handle persistence/data-access errors gracefully.
+7. Provide useful recovery actions where appropriate.
+8. Do not expose technical error messages to normal users.
+9. Keep the existing visual design consistent.
+10. Ensure one failed section does not unnecessarily break the entire Home screen.
+
+Do NOT:
+- Add new functionality.
+- Change the data architecture.
+- Implement notifications.
+- Implement Clash of Clans-specific logic.
+
+Verify:
+- Loading state works.
+- Empty states work.
+- Data errors are handled gracefully.
+- Other Home sections remain usable when appropriate.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  6G  Home Polish & Checkpoint
+Continue from existing project.
+
+Scope:
+Perform the final Home dashboard polish and verification.
+
+Requirements:
+1. Review the complete Home hierarchy.
+2. Review spacing and typography.
+3. Review countdown readability.
+4. Review account context.
+5. Review task urgency indicators.
+6. Review event presentation.
+7. Review mobile responsiveness.
+8. Remove unnecessary visual duplication.
+9. Ensure Home does not introduce duplicate data-fetching logic.
+10. Keep the existing design system consistent.
+
+Do NOT:
+- Add new features.
+- Implement Clash of Clans-specific systems.
+- Implement Clan Games.
+- Implement Clan War.
+- Build Calendar.
+- Build Launcher.
+
+Verify:
+- Home answers "what needs attention?" immediately.
+- Next task/event is easy to identify.
+- Account filtering works.
+- All data comes from existing systems.
+- Loading/empty/error states work.
+- Mobile and desktop layouts are usable.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+PHASE 7 — CLASH OF CLANS
+  7A  Home Village
+Continue from existing project.
+
+Scope:
+Create the Clash of Clans Home Village management section for an account.
+
+Requirements:
+1. Add a Home Village section to the selected Clash of Clans account.
+2. Load the account through the existing Account data-access layer.
+3. Allow configuring the Home Village Town Hall level.
+4. Display the Home Village task/resource areas:
+   - Builders
+   - Laboratory
+   - Heroes
+   - Pet Research
+5. Use the existing Task Slot model.
+6. Use the existing Task model for active/upcoming upgrades.
+7. Show configured slots separately from active tasks.
+8. Allow tapping each area to open its detailed management screen.
+9. Keep Home Village data account-specific.
+10. Persist configuration through the existing data-access layer.
+
+Do NOT:
+- Implement Builder management yet.
+- Implement Laboratory management yet.
+- Implement Heroes management yet.
+- Implement Pet Research management yet.
+- Implement automatic CoC data/API integration.
+
+Verify:
+- Home Village section opens for the correct account.
+- Town Hall level displays correctly.
+- Builders, Laboratory, Heroes, and Pet Research sections are visible.
+- Existing persisted data is used.
+- Different accounts remain independent.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7B  Builders
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Home Village Builder management.
+
+Requirements:
+1. Create a Builder management screen.
+2. Load Builder slots from the existing Task Slot system.
+3. Support configurable Builder slots rather than hardcoded limits.
+4. Display each Builder with:
+   - Builder name/number
+   - Current status
+   - Current task
+   - Start time
+   - Finish time
+   - Remaining time
+5. Clearly distinguish:
+   - Busy
+   - Free
+   - Disabled
+6. Allow creating an upgrade task for a selected Builder.
+7. Allow editing the Builder's current task.
+8. Allow completing the Builder task.
+9. Use the existing Task model.
+10. Use the existing Task Status Engine.
+11. Show the Builder's next available time.
+12. Support multiple Builders independently.
+
+Do NOT:
+- Create a separate Builder task system.
+- Implement automatic upgrade data.
+- Implement Builder Base yet.
+- Implement notifications or alarms separately from the existing Reminder system.
+
+Verify:
+- Multiple Builders can exist.
+- Busy/free status is correct.
+- Builder tasks use the existing Task system.
+- Remaining time updates correctly.
+- Completing a Builder task makes the slot available.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7C  Laboratory
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Laboratory management.
+
+Requirements:
+1. Create a Laboratory management section.
+2. Load the Laboratory slot from the existing Task Slot system.
+3. Display:
+   - Laboratory status
+   - Current research
+   - Start time
+   - Finish time
+   - Remaining time
+4. Clearly distinguish:
+   - Researching
+   - Free
+   - Disabled
+5. Allow creating a research task.
+6. Allow editing the current research task.
+7. Allow completing the research task.
+8. Use the existing Task model.
+9. Use the existing Task Status Engine.
+10. Support reminders through the existing Reminder system.
+11. Keep Laboratory data account-specific.
+12. Allow the Laboratory slot configuration to determine whether it is enabled.
+
+Do NOT:
+- Implement real CoC API integration.
+- Create a separate research task engine.
+- Implement Clan research.
+- Implement Pet Research yet.
+- Implement notifications outside the existing Reminder system.
+
+Verify:
+- Laboratory can be free or occupied.
+- Research task can be created.
+- Remaining time is displayed correctly.
+- Completion frees the Laboratory.
+- Reminder creation works through the existing Reminder system.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7D  Heroes
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Hero management.
+
+Requirements:
+1. Create a Heroes management section.
+2. Allow configuring individual Hero slots for the account.
+3. Support multiple heroes.
+4. Display each Hero with:
+   - Hero name
+   - Current task
+   - Status
+   - Start time
+   - Finish time
+   - Remaining time
+5. Distinguish:
+   - Upgrading
+   - Available
+   - Disabled
+6. Allow creating a Hero upgrade task.
+7. Allow editing the Hero task.
+8. Allow completing the Hero task.
+9. Use the existing Task Slot model.
+10. Use the existing Task model.
+11. Use the existing Task Status Engine.
+12. Support existing Reminder functionality.
+13. Keep Hero configuration account-specific.
+
+Do NOT:
+- Hardcode a fixed number of Hero slots.
+- Implement real CoC API integration.
+- Create a separate Hero task engine.
+- Implement Pet Research yet.
+- Implement notifications separately.
+
+Verify:
+- Multiple Heroes can be configured.
+- Each Hero can have an independent task.
+- Available/upgrading status works.
+- Remaining time works.
+- Completion frees the Hero slot.
+- Reminders can be attached.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7E  Pet Research
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Pet Research management.
+
+Requirements:
+1. Create a Pet Research management section.
+2. Load the Pet Research slot from the existing Task Slot system.
+3. Display:
+   - Pet Research status
+   - Current pet upgrade
+   - Start time
+   - Finish time
+   - Remaining time
+4. Distinguish:
+   - Researching
+   - Free
+   - Disabled
+5. Allow creating a Pet upgrade task.
+6. Allow editing the Pet upgrade task.
+7. Allow completing the Pet upgrade task.
+8. Use the existing Task model.
+9. Use the existing Task Status Engine.
+10. Support reminders through the existing Reminder system.
+11. Keep Pet Research account-specific.
+12. Respect the enabled/disabled state of the configured slot.
+
+Do NOT:
+- Implement real CoC API integration.
+- Create a separate Pet task engine.
+- Implement Builder Base functionality.
+- Implement Clan War or Clan Games.
+- Implement notifications separately.
+
+Verify:
+- Pet Research can be free or occupied.
+- Pet upgrade task can be created.
+- Remaining time is correct.
+- Completion makes the slot available.
+- Reminder functionality works.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7F  Builder Base
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Builder Base management.
+
+Requirements:
+1. Create a Builder Base section for each Clash of Clans account.
+2. Support configurable Builder Base Builder slots.
+3. Support Builder Base Research slots.
+4. Display each Builder Base Builder with:
+   - Status
+   - Current task
+   - Start time
+   - Finish time
+   - Remaining time
+5. Display Builder Base Research with:
+   - Status
+   - Current research
+   - Start time
+   - Finish time
+   - Remaining time
+6. Distinguish:
+   - Busy
+   - Free
+   - Disabled
+7. Allow creating Builder Base upgrade tasks.
+8. Allow creating Builder Base research tasks.
+9. Use the existing Task Slot system.
+10. Use the existing Task system.
+11. Use the existing Task Status Engine.
+12. Support the existing Reminder system.
+13. Keep Builder Base data independent from Home Village slots.
+
+Do NOT:
+- Hardcode fixed slot limits.
+- Implement real CoC API integration.
+- Create a second task engine.
+- Implement Builder Base attacks.
+- Implement Builder Base events.
+
+Verify:
+- Builder Base slots are independent from Home Village slots.
+- Builders and Research are displayed separately.
+- Tasks can be created and completed.
+- Remaining times update correctly.
+- Reminders work.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7G  Custom Slots
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Custom Slot support.
+
+Requirements:
+1. Allow an account to create custom Task Slots.
+2. Allow entering a custom slot name.
+3. Allow selecting a logical group:
+   - Home Village
+   - Builder Base
+   - Other
+4. Allow enabling/disabling the slot.
+5. Allow creating tasks against a custom slot.
+6. Display custom slots alongside the appropriate group.
+7. Use the existing Task Slot model.
+8. Use the existing Task model.
+9. Use the existing Task Status Engine.
+10. Support reminders through the existing Reminder system.
+11. Allow editing and deleting custom slots.
+12. Require confirmation before deleting a slot that contains active tasks.
+13. Never delete tasks silently when removing a slot.
+
+Do NOT:
+- Create a separate custom task system.
+- Hardcode custom slot limits.
+- Implement CoC API integration.
+- Implement Clan War or Clan Games.
+- Implement notifications separately.
+
+Verify:
+- Custom slots can be created.
+- Custom slots can be edited.
+- Custom slots can be deleted safely.
+- Tasks can use custom slots.
+- Existing tasks are handled safely when a slot is deleted.
+- Reminders continue to work.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7H  CoC Game Data Model
+Continue from existing project.
+
+Scope:
+Create the foundational Clash of Clans game-data model that will later drive account progression, maximum-level calculations, upgrade planning, and the Clash of Clans profile system.
+
+Requirements:
+1. Create a dedicated Clash of Clans game-data layer separate from user/account data.
+2. Define a stable structure for Clash of Clans upgradeable entities.
+3. Support the following entity groups:
+   - Home Village buildings
+   - Defenses
+   - Traps
+   - Heroes
+   - Pets
+   - Laboratory troops
+   - Spells
+   - Siege Machines
+   - Builder Base buildings
+   - Builder Base defenses
+   - Builder Base troops
+   - Other upgradeable Builder Base entities where required
+4. Each game-data entity should have a stable unique identifier.
+5. Each entity should contain enough information to identify:
+   - Entity name
+   - Category
+   - Subcategory
+   - Village type
+   - Whether it is upgradeable
+6. Create a structure capable of representing level-specific game data.
+7. Level-specific data must be separate from the user's current account level.
+8. The model must support different maximum levels depending on Town Hall, Hero Hall, or other applicable progression requirements.
+9. Do not hardcode maximum levels into UI components.
+10. Do not hardcode CoC progression rules into individual account records.
+11. Make the model extensible so future Clash of Clans updates can add:
+   - New entities
+   - New levels
+   - New Town Hall levels
+   - New Hero Hall levels
+   - Changed maximum levels
+12. Include enough structure for later phases to determine whether an entity is available/upgradable for a specific account.
+13. Keep game-data definitions separate from:
+   - Account profiles
+   - Tasks
+   - Reminders
+   - Events
+14. Use the existing persistence/data architecture where appropriate.
+15. Ensure the model can be versioned later without requiring a redesign.
+16. Create realistic DEMO DATA ONLY for the model where necessary to prove the structure works.
+17. Do not attempt to create a complete official CoC database in this step.
+
+Do NOT:
+- Build the account progression dashboard yet.
+- Implement Town Hall / Hero Hall maximum-level rules yet.
+- Implement the remaining-upgrade calculation engine yet.
+- Implement automatic online CoC data synchronization.
+- Scrape external websites.
+- Modify the existing Task or Reminder system.
+- Hardcode game data directly inside UI components.
+
+Verify:
+- Clash of Clans game data has its own clearly separated model/data layer.
+- Home Village and Builder Base entities can be represented.
+- Heroes, Pets, Laboratory entities, buildings, defenses, and traps can be represented.
+- Entity levels can be represented independently from account levels.
+- The model can support future CoC updates.
+- Demo data loads through the existing data/persistence layer.
+- Existing account, task, reminder, and event functionality still works.
+- Data survives application restart.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7I  Town Hall / Hero Hall Rules
+Continue from existing project.
+
+Scope:
+Create the Clash of Clans Town Hall and Hero Hall progression rules that determine which game-data levels are applicable to an account.
+
+Requirements:
+1. Build on the CoC Game Data Model created in 7H.
+2. Create a dedicated rules layer for Town Hall progression.
+3. Create a dedicated rules layer for Hero Hall progression.
+4. Represent which Town Hall level enables each applicable upgrade level.
+5. Represent which Hero Hall level enables each applicable hero level where required.
+6. Support separate rules for Home Village and Builder Base progression where applicable.
+7. Allow an entity to have different maximum levels depending on the account's Town Hall level.
+8. Allow heroes to use the appropriate Hero Hall progression rules.
+9. Keep Town Hall/Hero Hall rules separate from individual account profiles.
+10. Make rules data-driven rather than hardcoded into UI components.
+11. Make the structure extensible for future Town Hall and Hero Hall levels.
+12. Allow the rules to be updated when Clash of Clans changes progression limits.
+13. Ensure the rules can later be queried by the Max-Level & Remaining-Upgrade Engine.
+14. Use the existing persistence/data layer.
+15. Use DEMO DATA ONLY where actual rule data is necessary to verify the implementation.
+
+Do NOT:
+- Build the final account progression dashboard yet.
+- Implement the remaining-upgrade calculation engine yet.
+- Implement automatic CoC data synchronization.
+- Scrape external websites.
+- Modify the existing Task or Reminder system.
+- Hardcode Town Hall/Hero Hall rules into UI components.
+
+Verify:
+- Town Hall progression rules are represented separately from account data.
+- Hero Hall progression rules are represented separately from account data.
+- A game-data entity can be associated with an applicable Town Hall level.
+- Hero levels can be associated with the appropriate Hero Hall rule.
+- Rules can be changed without modifying account records.
+- The existing persistence layer loads the rules correctly.
+- Data survives application restart.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7J  Upgrade Level Database
+Continue from existing project.
+
+Scope:
+Create the level-by-level Clash of Clans upgrade database that connects each upgradeable game entity with its available levels and progression data.
+
+Requirements:
+1. Build on the existing CoC Game Data Model from 7H.
+2. Build on the Town Hall / Hero Hall Rules from 7I.
+3. Create a structured level database for upgradeable CoC entities.
+4. Each level record must identify:
+   - Entity
+   - Level
+   - Applicable Town Hall
+   - Applicable Hero Hall where relevant
+   - Availability/status
+5. Support level records for:
+   - Home Village buildings
+   - Defenses
+   - Traps
+   - Heroes
+   - Pets
+   - Laboratory troops
+   - Spells
+   - Siege Machines
+   - Builder Base content
+6. Allow an entity to have multiple level records.
+7. Allow different entities to have different maximum levels.
+8. Keep level data separate from the user's current account level.
+9. Make the database extensible for future CoC updates.
+10. Store upgrade-related metadata in a structured way so later phases can use it for:
+    - Upgrade duration
+    - Resource requirements
+    - Unlock requirements
+    - Other relevant progression information
+11. Do not require all upgrade metadata to be populated in this phase.
+12. Use stable IDs so account profiles can reference entities reliably.
+13. Ensure the database can determine the highest applicable level for an entity once the account's Town Hall/Hero Hall rules are known.
+14. Load the data through the existing persistence/data layer.
+15. Use DEMO DATA ONLY to demonstrate the structure; do not attempt to create a complete official CoC database.
+
+Do NOT:
+- Build the account progression dashboard.
+- Calculate an account's remaining upgrades yet.
+- Automatically modify account levels.
+- Implement automatic online CoC data synchronization.
+- Scrape external websites.
+- Hardcode level data into UI components.
+- Modify the existing Task or Reminder system.
+
+Verify:
+- Multiple levels can be stored for one CoC entity.
+- Levels correctly reference their entity.
+- Town Hall/Hero Hall applicability can be represented.
+- Different entities can have different maximum levels.
+- The database can identify the highest applicable level for later calculations.
+- Demo data loads through the persistence layer.
+- Data survives application restart.
+- Existing account/task/reminder/event functionality remains intact.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7K  Account Progression Profile
+Continue from existing project.
+
+Scope:
+Create the Clash of Clans account progression profile that stores the user's actual current game state separately from the CoC game-data and progression rules.
+
+Requirements:
+1. Build on the existing CoC Game Data Model from 7H.
+2. Build on the Town Hall / Hero Hall Rules from 7I.
+3. Build on the Upgrade Level Database from 7J.
+4. Extend the existing Clash of Clans account/profile data structure rather than creating a duplicate account system.
+5. Store each account's current Clash of Clans progression independently.
+6. Support multiple Clash of Clans accounts simultaneously.
+7. Store, where applicable:
+   - Account name
+   - Town Hall level
+   - Hero Hall level
+   - Clan
+   - Builder slots
+   - Research slots
+   - Pet Research slots
+   - Home Village entity levels
+   - Hero levels
+   - Pet levels
+   - Laboratory levels
+   - Builder Base entity levels
+8. Store the user's current level for each upgradeable entity separately from its maximum level.
+9. Reference CoC game-data entities using stable IDs instead of duplicating their definitions inside the account profile.
+10. Allow an account to contain entities at different progression levels.
+11. Support entities that are:
+   - Not unlocked
+   - Unavailable
+   - Available
+   - Currently upgrading
+   - Maxed
+12. Store enough account state for later phases to determine what can still be upgraded.
+13. Preserve existing active Task relationships where an upgrade task references a specific account/entity.
+14. Keep account progression data editable by the user in later phases.
+15. Load and save progression data through the existing persistence layer.
+16. Use realistic DEMO DATA for the existing Clash of Clans accounts where necessary.
+17. Do not hardcode progression values into UI components.
+
+Do NOT:
+- Calculate maximum applicable levels yet.
+- Calculate total remaining upgrades yet.
+- Build the final progression dashboard.
+- Build the editable profile UI yet.
+- Implement automatic CoC profile synchronization.
+- Scrape external websites.
+- Create a second account/profile data system.
+- Modify the existing reminder architecture.
+
+Verify:
+- Multiple Clash of Clans accounts can have independent progression profiles.
+- Each account stores its own current levels.
+- Current levels reference the shared CoC game-data entities.
+- Town Hall and Hero Hall values are stored per account.
+- Heroes, Pets, Laboratory, Home Village, and Builder Base progression can be represented.
+- Active upgrade tasks can still reference the correct account and entity.
+- Data loads through the existing persistence layer.
+- Progression data survives application restart.
+- Existing Tasks, Reminders, and Events remain functional.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7L  Max-Level & Remaining-Upgrade Engine
+Continue from existing project.
+
+Scope:
+Create the Clash of Clans progression calculation engine that determines the applicable maximum level and remaining upgrade levels for each account.
+
+Requirements:
+1. Build on:
+   - CoC Game Data Model from 7H
+   - Town Hall / Hero Hall Rules from 7I
+   - Upgrade Level Database from 7J
+   - Account Progression Profile from 7K
+2. Create a dedicated progression calculation/business-logic layer.
+3. For each upgradeable entity, determine the maximum level applicable to the specific account.
+4. Use the account's:
+   - Town Hall level
+   - Hero Hall level where applicable
+   - Other applicable progression requirements
+5. Never use a hardcoded maximum level from the UI or account profile.
+6. Calculate:
+   - Current level
+   - Applicable maximum level
+   - Remaining levels
+   - Progress percentage
+7. Remaining levels must be calculated from the current account level and applicable maximum.
+8. Correctly handle an entity that is already maxed.
+9. Correctly handle an entity that is not yet unlocked or unavailable.
+10. Correctly handle entities whose maximum level changes with Town Hall or Hero Hall progression.
+11. Support multiple accounts independently.
+12. Provide reusable calculation functions/services that later UI screens can consume.
+13. Ensure calculations update when:
+   - Account Town Hall changes
+   - Hero Hall changes
+   - Current entity level changes
+   - CoC game-data rules change
+14. If an active upgrade task represents a level increase, ensure the progression system can determine the expected post-upgrade level without permanently changing the account's current level before completion.
+15. Do not duplicate calculated values unnecessarily in persisted account data.
+16. Keep calculation logic separate from UI components.
+17. Use the existing persistence/data layer as the source of account and game data.
+
+Example behavior:
+- Account Queen level = 71.
+- Applicable maximum Queen level = 80.
+- Remaining levels = 9.
+- If the Queen is currently upgrading from 71 → 72, the current persisted level remains 71 until completion.
+- After the upgrade is completed, the account can become level 72 and remaining levels become 8.
+- If a future CoC data update changes the applicable maximum from 80 → 85, the same account at level 71 must automatically calculate 14 remaining levels.
+
+Do NOT:
+- Build the progression dashboard yet.
+- Build the editable profile UI yet.
+- Implement automatic CoC data synchronization.
+- Scrape external websites.
+- Modify the reminder scheduling system.
+- Hardcode CoC maximum levels into UI components.
+
+Verify:
+- A level 71 Queen correctly calculates its applicable maximum and remaining levels.
+- Maxed entities return zero remaining levels.
+- Different Town Hall levels produce different applicable maximums where appropriate.
+- Hero Hall rules affect hero maximums where appropriate.
+- Multiple accounts calculate independently.
+- Active upgrade tasks do not prematurely change the persisted current level.
+- Completing an upgrade can result in the correct new progression state.
+- Changing game-data maximums recalculates remaining levels without changing the account's current level.
+- Calculations remain correct after application restart.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7M  Account Progression Dashboard
+Continue from existing project.
+
+Scope:
+Create the Clash of Clans multi-account progression dashboard that gives the user a clear overview of the current development status of all Clash of Clans accounts.
+
+Requirements:
+1. Build on the existing CoC progression engine from 7L.
+2. Create a dedicated Clash of Clans progression dashboard.
+3. Show all Clash of Clans accounts in one overview.
+4. For each account, display:
+   - Account name
+   - Town Hall level
+   - Hero Hall level where applicable
+   - Clan
+   - Overall progression
+   - Total remaining upgrades
+5. Show high-level progression categories:
+   - Home Village
+   - Heroes
+   - Pets
+   - Laboratory
+   - Builder Base
+6. For each category, show useful progress information such as:
+   - Current progress
+   - Maximum applicable progress
+   - Remaining upgrades
+   - Progress percentage
+7. Clearly distinguish:
+   - Maxed
+   - In progress
+   - Available to upgrade
+   - Locked/unavailable
+8. Show currently active upgrades and their expected completion time where available.
+9. Allow the user to select an individual account to inspect its detailed progression.
+10. Support multiple accounts without mixing their data.
+11. Use the existing Account, CoC Game Data, Progression Profile, Task, and Progression Engine layers.
+12. Do not duplicate progression calculations inside UI components.
+13. Keep the dashboard visually clean and information-dense.
+14. Make the dashboard usable on mobile screens.
+15. Ensure the dashboard remains usable when more accounts are added.
+16. Use existing application design-system components and visual language.
+17. Load all information through the existing persistence/data layer.
+
+Suggested overview structure:
+
+CLASH OF CLANS
+
+Accounts
+
+MAIN
+TH 17
+Overall: 82%
+47 upgrades remaining
+
+Heroes     76%
+Buildings  87%
+Laboratory 91%
+Pets       68%
+Builder    73%
+
+MINI 1
+TH 15
+Overall: 74%
+63 upgrades remaining
+
+MINI 2
+TH 13
+Overall: 66%
+58 upgrades remaining
+
+The exact values should come from the progression engine rather than being hardcoded.
+
+Do NOT:
+- Create the editable account profile UI yet.
+- Create the detailed upgrade-by-upgrade progression screen yet.
+- Implement automatic CoC data synchronization.
+- Create a separate progression data store.
+- Hardcode maximum levels or progress values into UI components.
+- Modify the global navigation unnecessarily.
+
+Verify:
+- All demo Clash of Clans accounts appear.
+- Each account shows its own Town Hall and progression data.
+- Overall progression is calculated from the existing progression engine.
+- Remaining upgrade counts are correct.
+- Category progress is account-specific.
+- Active upgrades are displayed correctly where available.
+- Selecting an account opens the correct account context.
+- No account data is mixed between profiles.
+- Dashboard data survives application restart.
+- Mobile layout remains usable.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7N  Editable CoC Profile
+Continue from existing project.
+
+Scope:
+Create the editable Clash of Clans account profile interface so the user can manually maintain the current state of each CoC account as the game progresses.
+
+Requirements:
+1. Build on the existing Account Progression Profile from 7K.
+2. Build on the existing CoC progression calculations from 7L.
+3. Allow the user to select a specific Clash of Clans account.
+4. Provide an editable profile for that account.
+5. Allow editing of:
+   - Account name
+   - Town Hall level
+   - Hero Hall level where applicable
+   - Clan
+   - Builder slot count
+   - Research slot count
+   - Pet Research slot count
+6. Allow editing of current levels for:
+   - Home Village buildings
+   - Defenses
+   - Traps
+   - Heroes
+   - Pets
+   - Laboratory troops
+   - Spells
+   - Siege Machines
+   - Builder Base entities
+7. Organize editable entities by clear categories and subcategories.
+8. Show the current level and applicable maximum while editing where available.
+9. Prevent the user from entering a level that is invalid for the selected entity.
+10. Clearly indicate locked/unavailable entities.
+11. Allow the user to update multiple values before saving.
+12. Validate changes before they are persisted.
+13. Save changes through the existing persistence/data layer.
+14. After saving, immediately recalculate the account's progression using the existing progression engine.
+15. Ensure changes to one account never modify another account.
+16. Preserve existing active upgrade tasks unless the user explicitly changes the related account data.
+17. Provide clear save, cancel, and validation feedback.
+18. Keep the interface mobile-friendly and consistent with the existing design system.
+19. Do not duplicate account or CoC game data inside the UI.
+
+Example:
+
+Account:
+MAIN
+
+Town Hall
+17
+
+Hero Hall
+9
+
+Archer Queen
+Current: 71
+Maximum: 80
+
+[ − ] 71 [ + ]
+
+After changing the level and saving, the progression engine should automatically recalculate the remaining levels.
+
+Do NOT:
+- Implement automatic CoC profile synchronization.
+- Scrape external websites.
+- Modify CoC game-data rules from this profile editor.
+- Hardcode maximum levels into the UI.
+- Create a second account/profile data store.
+- Implement the detailed upgrade progression view yet.
+
+Verify:
+- A user can select any demo CoC account.
+- Account information can be edited.
+- Current levels can be edited by category.
+- Invalid levels are rejected.
+- Changes are persisted.
+- Progression values update after saving.
+- Maximum levels continue to come from the CoC game-data/rules layer.
+- Changes to one account do not affect other accounts.
+- Data survives application restart.
+- Existing tasks and reminders remain functional.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7O  Upgrade Progression View
+Continue from existing project.
+
+Scope:
+Create the detailed Clash of Clans upgrade progression view for an individual account, showing exactly what remains to be upgraded to reach the applicable maximum.
+
+Requirements:
+1. Build on the existing:
+   - CoC Game Data Model
+   - Town Hall / Hero Hall Rules
+   - Upgrade Level Database
+   - Account Progression Profile
+   - Max-Level & Remaining-Upgrade Engine
+   - Account Progression Dashboard
+   - Editable CoC Profile
+2. Create a detailed progression view for one selected Clash of Clans account.
+3. Organize progression into clear categories:
+   - Home Village
+   - Buildings
+   - Defenses
+   - Traps
+   - Heroes
+   - Pets
+   - Laboratory
+   - Builder Base
+4. For every relevant upgradeable entity show:
+   - Entity name
+   - Current level
+   - Applicable maximum level
+   - Remaining levels
+   - Progress percentage
+5. Clearly identify entities that are:
+   - Maxed
+   - Have upgrades remaining
+   - Currently upgrading
+   - Locked/unavailable
+6. Provide a clear "Remaining to Max" summary.
+7. Show total remaining upgrade levels for the selected account.
+8. Allow filtering by category.
+9. Allow filtering to show:
+   - All
+   - Upgrades remaining
+   - Maxed
+   - Currently upgrading
+10. Sort upgradeable entities in a useful and consistent manner.
+11. For entities with multiple remaining levels, make the remaining progression easy to understand.
+12. When an entity is currently upgrading, show:
+   - Current level
+   - Target level
+   - Upgrade status
+   - Expected completion time where available
+13. Connect active upgrades to the existing Task system.
+14. When an upgrade task completes, the progression view must reflect the updated account level through the existing data/logic layers.
+15. Use the existing progression engine for all maximum-level, remaining-level, and percentage calculations.
+16. Do not duplicate progression calculations inside UI components.
+17. Make the view usable with multiple accounts and never mix account data.
+18. Keep the interface clean and mobile-friendly.
+19. Make long entity lists efficient and easy to scan.
+20. Use existing design-system components and visual language.
+
+Example:
+
+MAIN — TH 17
+
+REMAINING TO MAX
+47 upgrade levels
+
+HEROES
+Archer Queen      71 / 80    9 remaining
+Barbarian King    76 / 80    4 remaining
+Grand Warden      62 / 65    3 remaining
+
+LABORATORY
+Electro Dragon     8 / 10   2 remaining
+...
+
+BUILDINGS
+Cannon            14 / 17   3 remaining
+...
+
+Do NOT:
+- Change CoC game-data rules.
+- Implement automatic CoC data synchronization.
+- Create a second progression engine.
+- Hardcode maximum levels or remaining values.
+- Modify the global navigation unnecessarily.
+- Add new reminder or notification behavior.
+
+Verify:
+- A selected account shows its complete progression.
+- Current and maximum levels are correct.
+- Remaining upgrade counts are correct.
+- Maxed entities are clearly identified.
+- Active upgrades show their current and target levels.
+- Category filters work.
+- Account switching does not mix data.
+- Progression updates when account data changes.
+- Progression updates after an upgrade task completes.
+- Data remains correct after application restart.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7P  CoC Data Versioning & Update Foundation
+Continue from existing project.
+
+Scope:
+Create the foundation for safely maintaining Clash of Clans game data across future CoC updates without corrupting existing account progression.
+
+Requirements:
+1. Build on the existing:
+   - CoC Game Data Model
+   - Town Hall / Hero Hall Rules
+   - Upgrade Level Database
+   - Account Progression Profile
+   - Max-Level & Remaining-Upgrade Engine
+2. Introduce a version identifier for the Clash of Clans game-data set.
+3. Store the game-data version separately from user/account data.
+4. Make it possible to update CoC game data without recreating or resetting user accounts.
+5. Preserve each account's actual current levels when game data is updated.
+6. When a maximum level changes, allow the existing progression engine to recalculate the account's remaining levels automatically.
+7. Support adding:
+   - New entities
+   - New levels
+   - New Town Hall levels
+   - New Hero Hall levels
+   - New progression rules
+8. Support updating existing entity data without changing the account's stored current level.
+9. Add validation for game-data updates.
+10. Prevent invalid or incomplete game-data records from being silently accepted.
+11. Keep game-data versioning separate from Task, Reminder, and Event data.
+12. Make the data structure suitable for future manual update/import functionality.
+13. Keep the current DEMO DATA setup functional.
+14. Use the existing persistence/data layer.
+15. Do not implement online synchronization yet.
+
+Example:
+
+Before update:
+
+CoC Data Version: v1
+Archer Queen maximum: 80
+
+Account:
+MAIN
+Queen current level: 71
+Remaining: 9
+
+After game-data update:
+
+CoC Data Version: v2
+Archer Queen maximum: 85
+
+The account must remain:
+
+Queen current level: 71
+
+But the progression engine should now calculate:
+
+Remaining: 14
+
+The account's current level must never be changed simply because the game-data version changed.
+
+Do NOT:
+- Implement automatic online CoC synchronization.
+- Scrape Supercell or third-party websites.
+- Automatically modify user account levels.
+- Build a cloud database.
+- Create a second persistence system.
+- Modify the existing Reminder scheduling system.
+- Redesign the progression dashboard.
+
+Verify:
+- A CoC game-data version is stored and retrievable.
+- Account data remains independent of game-data version.
+- A game-data update does not alter account current levels.
+- Changing a maximum level causes remaining-upgrade calculations to update correctly.
+- New entities and levels can be added without restructuring account data.
+- Invalid game-data records are rejected or clearly reported.
+- Existing progression dashboard and detailed progression view continue to work.
+- Data survives application restart.
+- Existing Tasks, Reminders, and Events remain functional.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7Q  CoC Saved Bases
+Continue from existing project.
+
+Scope:
+Create the Clash of Clans Saved Bases section for storing and launching saved CoC base layouts.
+
+Requirements:
+1. Create a dedicated Saved Bases data model and UI.
+2. Keep Saved Bases separate from:
+   - Account progression
+   - Tasks
+   - Reminders
+   - Events
+3. Each saved base must support:
+   - Base name
+   - Associated Clash of Clans account
+   - Village type
+   - Town Hall level where applicable
+   - Image/preview
+   - Clash of Clans layout link
+   - Notes
+   - Tags
+   - Favorite status
+   - Created date
+   - Updated date
+4. Support both:
+   - Home Village bases
+   - Builder Base layouts
+5. Allow the user to paste a Clash of Clans layout link.
+6. Store the original link without modifying it unnecessarily.
+7. Provide an "Open in Clash of Clans" action for saved layout links.
+8. Validate that pasted links are recognizable Clash of Clans layout/deep links before saving where practical.
+9. Allow the user to edit saved base information.
+10. Allow the user to delete a saved base.
+11. Allow the user to mark a base as favorite.
+12. Allow filtering by:
+    - Account
+    - Village type
+    - Town Hall
+    - Favorite
+    - Tags
+13. Display saved bases as clean visual cards.
+14. Use the saved image as the primary visual preview when available.
+15. Handle bases without an image gracefully.
+16. Allow multiple saved bases for the same account and Town Hall.
+17. Load and save all data through the existing persistence layer.
+18. Make the data structure extensible for future base-related metadata.
+19. Use DEMO DATA ONLY where necessary to demonstrate the feature.
+
+Suggested card:
+
+BASE NAME
+TH15 • MAIN VILLAGE
+
+[ Base Image ]
+
+⭐ Favorite
+Anti-2 Star • War
+
+[ Open in CoC ] [ Edit ]
+
+Do NOT:
+- Automatically download images from the Clash of Clans link.
+- Modify or rewrite the user's layout link.
+- Implement automatic base import from CoC.
+- Add base-building automation.
+- Mix Saved Bases with account progression data.
+- Implement Saved Armies yet.
+
+Verify:
+- A user can create a saved base.
+- A CoC layout link can be pasted and saved.
+- The saved link can be opened through an "Open in Clash of Clans" action.
+- Image preview works when an image is provided.
+- Home Village and Builder Base are distinguishable.
+- Bases can be associated with different accounts.
+- Edit/delete/favorite work.
+- Filters work.
+- Data survives application restart.
+- Existing CoC progression, Tasks, Reminders, and Events remain functional.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7R  CoC Saved Armies
+Continue from existing project.
+
+Scope:
+Create the Clash of Clans Saved Armies section for storing, viewing, and launching saved army compositions.
+
+Requirements:
+1. Create a dedicated Saved Armies data model and UI.
+2. Keep Saved Armies separate from:
+   - Account progression
+   - Tasks
+   - Reminders
+   - Events
+   - Saved Bases
+3. Each saved army must support:
+   - Army name
+   - Associated Clash of Clans account
+   - Village type
+   - Town Hall level where applicable
+   - Main troops
+   - Main spells
+   - Siege machine / relevant machine
+   - Clan Castle troops
+   - Clan Castle spells where applicable
+   - Heroes
+   - Hero equipment
+   - Pets
+   - Clash of Clans army link
+   - Notes
+   - Tags
+   - Favorite status
+   - Created date
+   - Updated date
+4. Represent troops as structured entries containing at minimum:
+   - Troop identifier
+   - Quantity
+5. Represent spells as structured entries containing at minimum:
+   - Spell identifier
+   - Quantity
+6. Represent Clan Castle troops separately from the main army.
+7. Represent Clan Castle spells separately from the main spells.
+8. Represent heroes separately.
+9. Allow each hero to reference selected equipment.
+10. Represent pets separately and associate them with the appropriate hero where applicable.
+11. Support saved army links using Clash of Clans army deep links.
+12. Store the original army link.
+13. Provide an "Open in Clash of Clans" action.
+14. Allow the user to manually create or edit the structured army information.
+15. Allow the user to save an army link together with its structured information.
+16. Allow editing and deletion.
+17. Allow favorite status.
+18. Allow filtering by:
+    - Account
+    - Village type
+    - Town Hall
+    - Army type
+    - Favorite
+    - Tags
+19. Display the army in a compact, visually readable composition.
+20. Clearly separate:
+    - Main Army
+    - Clan Castle
+    - Heroes
+    - Hero Equipment
+    - Pets
+21. Load and save all army information through the existing persistence layer.
+22. Use DEMO DATA ONLY where necessary to demonstrate the feature.
+
+Suggested display:
+
+ARMY NAME
+TH15 • MAIN VILLAGE
+
+MAIN ARMY
+🪖 Troops
+⚡ Spells
+⚔️ Siege Machine
+
+CLAN CASTLE
+🪖 Troops
+⚡ Spells
+
+HEROES
+👑 Barbarian King
+   Equipment: ...
+
+👸 Archer Queen
+   Equipment: ...
+
+PETS
+🐾 ...
+
+[ Open in CoC ] [ Edit ]
+
+Do NOT:
+- Attempt to parse arbitrary army links into complete troop data automatically yet.
+- Automatically modify the user's CoC army.
+- Add gameplay automation.
+- Create a second account data system.
+- Mix Saved Army data with progression data.
+- Implement army recommendations or optimization yet.
+
+Verify:
+- A saved army can be created.
+- Structured troops and quantities can be stored.
+- Spells and quantities can be stored.
+- Clan Castle troops/spells are separate from the main army.
+- Heroes, equipment, and pets can be stored.
+- An army link can be saved and opened.
+- Multiple armies can belong to the same account.
+- Edit/delete/favorite work.
+- Filters work.
+- Data survives application restart.
+- Existing CoC progression, Tasks, Reminders, Events, and Saved Bases remain functional.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  7S  CoC Data & Utility Checkpoint
+Continue from existing project.
+
+Scope:
+Perform a complete checkpoint of the Clash of Clans data, progression, saved-base, and saved-army systems before moving to the Events phase.
+
+Requirements:
+1. Review the complete Clash of Clans architecture created in Phase 7.
+2. Verify separation between:
+   - CoC game data
+   - Town Hall / Hero Hall rules
+   - Upgrade level database
+   - Account progression profiles
+   - Progression calculations
+   - Saved Bases
+   - Saved Armies
+3. Verify multiple Clash of Clans accounts can exist independently.
+4. Verify each account can maintain its own:
+   - Town Hall
+   - Hero Hall
+   - Current entity levels
+   - Builder slots
+   - Research slots
+   - Pet Research slots
+5. Verify maximum levels come from the CoC game-data/rules layer.
+6. Verify remaining upgrade levels and progress percentages come from the progression engine.
+7. Verify active upgrade tasks correctly reference:
+   - Account
+   - Upgradeable entity
+   - Current level
+   - Target level
+   - Completion time
+8. Verify upgrade completion can correctly update account progression.
+9. Verify the Account Progression Dashboard shows the correct account-specific information.
+10. Verify the Editable CoC Profile updates only the selected account.
+11. Verify the detailed Upgrade Progression View uses the existing progression engine.
+12. Verify CoC game-data versioning does not modify an account's stored current levels.
+13. Verify game-data changes correctly recalculate applicable maximums and remaining upgrades.
+14. Verify Saved Bases are independent persistent records.
+15. Verify a Saved Base can contain:
+    - Name
+    - Account
+    - Village type
+    - Town Hall/Builder Hall
+    - Image
+    - CoC layout link
+    - Tags
+    - Notes
+    - Favorite state
+16. Verify Saved Base links can be launched through the existing deep-link action.
+17. Verify Saved Armies are independent persistent records.
+18. Verify Saved Army data can contain:
+    - Account
+    - Village type
+    - Main troops
+    - Main spells
+    - Siege machine where applicable
+    - Clan Castle troops
+    - Clan Castle spells
+    - Heroes
+    - Hero equipment
+    - Pets
+    - CoC army link
+    - Tags
+    - Notes
+    - Favorite state
+19. Verify Home Village and Builder Base army structures can be represented appropriately.
+20. Verify Saved Bases and Saved Armies can coexist for multiple accounts without data mixing.
+21. Verify all Phase 7 data uses the existing persistence/data layer.
+22. Verify application restart preserves all Phase 7 data.
+23. Verify the existing Task, Reminder, and Event systems remain functional.
+24. Verify no UI component contains duplicated CoC game-data rules or progression calculations.
+25. Verify the architecture is extensible for future CoC updates.
+
+Do NOT:
+- Add new Clash of Clans features.
+- Implement automatic CoC synchronization.
+- Scrape external websites.
+- Implement automatic parsing of arbitrary CoC layout/army links.
+- Add Hay Day functionality.
+- Implement new Events functionality.
+- Redesign the global application.
+- Modify the notification/alarm architecture.
+
+Verify:
+- Multiple accounts remain completely independent.
+- CoC game data and account data are properly separated.
+- Town Hall / Hero Hall rules work.
+- Upgrade maximum and remaining-level calculations work.
+- Progression dashboard works.
+- Editable CoC Profile works.
+- Detailed Upgrade Progression View works.
+- Game-data versioning works.
+- Saved Bases work.
+- Saved Armies work.
+- CoC deep links are preserved and launch through the appropriate action.
+- Data survives application restart.
+- Existing Tasks, Reminders, and Events remain functional.
+- No duplicate progression/business logic has been introduced into the UI.
+- TypeScript check passes.
+- Web production build passes.
+- Android/Capacitor build configuration remains intact.
+
+Stop after this scope.
+
+PHASE 8 — EVENTS
+  8A  Event Framework
+Continue from existing project.
+
+Scope:
+Build the generic Clash of Clans Event framework.
+
+Requirements:
+1. Create an Events area accessible from the Clash of Clans section.
+2. Load events through the existing Event data-access layer.
+3. Display:
+   - Upcoming events
+   - Active events
+   - Recently ended events
+4. Display event:
+   - Name
+   - Type
+   - Start time
+   - End time
+   - Status
+5. Calculate and display remaining time for active events.
+6. Calculate and display time until upcoming events.
+7. Allow selecting an event to open Event Details.
+8. Allow creating a custom event.
+9. Allow editing and deleting custom events.
+10. Use the existing Event model.
+11. Use the existing Event Participation model.
+12. Do not create a second event storage system.
+
+Do NOT:
+- Implement Clan Games-specific logic.
+- Implement Clan War-specific logic.
+- Implement Raid Weekend-specific logic.
+- Implement event-specific progress yet.
+- Build Calendar functionality.
+
+Verify:
+- Events load from persistence.
+- Active/upcoming/ended states display correctly.
+- Countdown works.
+- Custom events can be created.
+- Events survive reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8B  Clan Games
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Clan Games event management.
+
+Requirements:
+1. Add Clan Games as a supported event type.
+2. Allow creating a Clan Games event.
+3. Store:
+   - Event name
+   - Start time
+   - End time
+   - Account participation
+4. Display the Clan Games event in the Events area.
+5. Show the event countdown.
+6. Allow selecting participating Clash of Clans accounts.
+7. Use the existing Event Participation model.
+8. Allow creating tasks related to Clan Games.
+9. Link Clan Games tasks to the relevant event.
+10. Keep event data separate from task data while allowing the relationship.
+
+Do NOT:
+- Implement Clan Games score/progress calculation yet.
+- Implement challenge/challenge-list management.
+- Implement automatic CoC data retrieval.
+- Implement event notifications yet.
+- Build Calendar functionality.
+
+Verify:
+- Clan Games can be created.
+- Multiple accounts can participate.
+- Event countdown works.
+- Clan Games tasks can be associated with the event.
+- Account participation persists.
+- Existing Event functionality is not broken.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8C  Clan Games Progress
+Continue from existing project.
+
+Scope:
+Implement Clan Games progress tracking.
+
+Requirements:
+1. Add progress tracking to Clan Games participation.
+2. Allow configuring a target score for each participating account.
+3. Allow entering current score/progress.
+4. Calculate remaining points.
+5. Calculate percentage progress.
+6. Display progress visually.
+7. Display:
+   - Current score
+   - Target score
+   - Remaining score
+   - Completion percentage
+8. Allow updating progress manually.
+9. Persist progress through Event Participation.
+10. Support multiple accounts independently.
+11. Show an overall Clan Games participation summary.
+
+Do NOT:
+- Implement automatic score retrieval.
+- Implement Clan Games challenge selection.
+- Implement reward calculation.
+- Implement notifications yet.
+
+Verify:
+- Each account has independent progress.
+- Percentage calculation is correct.
+- Remaining score is correct.
+- Progress survives reload.
+- Completed target is visually distinguishable.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8D  Clan Games Reminders
+Continue from existing project.
+
+Scope:
+Add reminder and countdown functionality specifically for Clan Games.
+
+Requirements:
+1. Allow reminders for Clan Games event deadlines.
+2. Support:
+   - Event starting reminder
+   - Progress reminder
+   - Event ending reminder
+3. Allow selecting reminder delivery:
+   - Push notification
+   - Alarm
+   - Both
+4. Use the existing Reminder system.
+5. Use the existing Event timing.
+6. Allow reminders to be associated with an event or an event-related task as appropriate.
+7. Display configured reminders on the Clan Games details screen.
+8. Allow editing and deleting reminders.
+9. Ensure event timing changes reschedule related reminders.
+10. Ensure an ended event cannot continue producing reminders.
+
+Do NOT:
+- Create a separate Clan Games notification system.
+- Implement Android notification logic here.
+- Implement Android alarm logic here.
+- Implement automatic Clan Games data retrieval.
+
+Verify:
+- Start reminder can be configured.
+- Ending reminder can be configured.
+- Push/Alarm/Both options work through the existing Reminder system.
+- Event time changes reschedule reminders.
+- Ended events cancel future reminders.
+- TypeScript check passes.
+- Web production build passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+  8E  Clan War
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Clan War event management.
+
+Requirements:
+1. Add Clan War as a supported event type.
+2. Allow creating a Clan War event.
+3. Store:
+   - War name
+   - Start time
+   - End time
+   - Preparation/active timing where applicable
+4. Allow selecting participating accounts.
+5. Use Event Participation for account participation.
+6. Display war countdowns.
+7. Show participating accounts.
+8. Allow creating War-related tasks.
+9. Keep War tasks linked to the Clan War event.
+10. Allow configuring reminders using the existing Reminder system.
+11. Keep war data account-specific where necessary.
+
+Do NOT:
+- Implement attack tracking yet.
+- Implement stars/score calculation.
+- Implement automatic war data retrieval.
+- Implement Clan Games changes.
+- Build Calendar functionality.
+
+Verify:
+- Clan War event can be created.
+- Accounts can participate independently.
+- War timing displays correctly.
+- War-related tasks can be created.
+- Reminders can be configured.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8F  War Attacks
+Continue from existing project.
+
+Scope:
+Implement Clan War attack tracking.
+
+Requirements:
+1. Allow creating an attack record for a participating account.
+2. Track:
+   - Attack number
+   - Target/opponent identifier
+   - Attack status
+   - Attack time
+   - Stars achieved
+   - Destruction percentage
+   - Notes
+3. Support attack states:
+   - Available
+   - Planned
+   - Completed
+   - Missed
+4. Allow marking an attack as completed.
+5. Allow editing attack results.
+6. Show remaining available attacks.
+7. Display attack information within Clan War details.
+8. Allow creating a reminder/task for an upcoming attack.
+9. Use the existing Task and Reminder systems.
+10. Keep attack records associated with the relevant event participation.
+
+Do NOT:
+- Implement automatic war API data retrieval.
+- Implement matchmaking.
+- Calculate actual in-game war matchmaking.
+- Modify unrelated Task logic.
+- Implement Raid Weekend.
+
+Verify:
+- Attack records can be created.
+- Attack status changes correctly.
+- Stars and destruction can be stored.
+- Account-specific attacks display correctly.
+- Attack reminders use the existing Reminder system.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8G  Raid Weekend
+Continue from existing project.
+
+Scope:
+Implement Clash of Clans Raid Weekend event management.
+
+Requirements:
+1. Add Raid Weekend as a supported event type.
+2. Allow creating a Raid Weekend event.
+3. Store:
+   - Event name
+   - Start time
+   - End time
+4. Allow participating accounts to be associated with the event.
+5. Display event countdown.
+6. Allow creating Raid Weekend tasks.
+7. Allow marking Raid Weekend tasks as completed.
+8. Support optional progress/notes for each participating account.
+9. Use Event Participation.
+10. Use the existing Task system.
+11. Use the existing Reminder system.
+12. Keep participation independent per account.
+
+Do NOT:
+- Implement automatic Raid Weekend data retrieval.
+- Implement detailed raid attack analytics.
+- Implement Clan Capital management.
+- Create a separate task/reminder system.
+
+Verify:
+- Raid Weekend event can be created.
+- Accounts can participate.
+- Countdown works.
+- Tasks can be created and completed.
+- Reminders work through the existing system.
+- Data survives reload.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8H  Event Details
+Continue from existing project.
+
+Scope:
+Build the unified Event Details screen.
+
+Requirements:
+1. Create a reusable Event Details screen.
+2. Display:
+   - Event name
+   - Event type
+   - Start time
+   - End time
+   - Current status
+   - Countdown
+3. Display participating accounts.
+4. Display account-specific progress where available.
+5. Display event-related tasks.
+6. Display configured reminders.
+7. Provide event-specific sections for:
+   - Clan Games
+   - Clan War
+   - Raid Weekend
+8. Allow editing the event.
+9. Allow deleting the event where appropriate.
+10. Preserve all existing relationships when editing.
+11. Use existing Event, Event Participation, Task, and Reminder systems.
+
+Do NOT:
+- Create new event storage.
+- Create a new task system.
+- Create a new reminder system.
+- Implement automatic CoC API synchronization.
+- Build Calendar functionality.
+
+Verify:
+- Clan Games details work.
+- Clan War details work.
+- Raid Weekend details work.
+- Participating accounts are correct.
+- Related tasks appear.
+- Related reminders appear.
+- Countdown is correct.
+- Editing preserves relationships.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8I  Event Filtering & Account Scope
+Continue from existing project.
+
+Scope:
+Add account-aware filtering to the Clash of Clans Events system.
+
+Requirements:
+1. Support:
+   - All accounts
+   - Individual account
+2. Show all events when All accounts is selected.
+3. Show account-relevant participation and tasks when an individual account is selected.
+4. Keep global events visible even if they are not yet assigned to an account.
+5. Clearly distinguish:
+   - Event-level information
+   - Account-specific participation
+6. Do not duplicate events for each account.
+7. Use Event Participation to determine account-specific information.
+8. Preserve the selected filter while navigating within Events.
+
+Do NOT:
+- Change the Event data model unnecessarily.
+- Duplicate event records.
+- Implement Calendar filtering.
+- Implement new task filtering.
+
+Verify:
+- All accounts view works.
+- Individual account view works.
+- Global events remain visible.
+- Account-specific participation is correct.
+- Event tasks are filtered correctly.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  8J  Events Checkpoint
+Continue from existing project.
+
+Scope:
+Perform the final Clash of Clans Events checkpoint.
+
+Requirements:
+1. Review the Event framework.
+2. Review Clan Games.
+3. Review Clan Games progress.
+4. Review Clan Games reminders.
+5. Review Clan War.
+6. Review War attacks.
+7. Review Raid Weekend.
+8. Review Event Details.
+9. Review account filtering.
+10. Ensure all event functionality uses the existing:
+   - Event model
+   - Event Participation model
+   - Task model
+   - Reminder model
+11. Remove only genuinely duplicated or obsolete event code.
+
+Do NOT:
+- Add new event types.
+- Implement automatic CoC API synchronization.
+- Build Calendar.
+- Build Launcher.
+- Redesign the application.
+
+Verify:
+- Clan Games works.
+- Clan Games progress works.
+- Clan Games reminders work.
+- Clan War works.
+- War attack tracking works.
+- Raid Weekend works.
+- Event Details works.
+- Multiple accounts remain independent.
+- Event/task/reminder relationships remain intact.
+- Data survives application restart.
+- TypeScript check passes.
+- Web production build passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+PHASE 9 — CALENDAR
+  9A  Calendar Data Aggregation
+Continue from existing project.
+
+Scope:
+Create the Calendar data aggregation layer.
+
+Requirements:
+1. Create a reusable Calendar data service.
+2. Aggregate existing:
+   - Tasks
+   - Reminders
+   - Events
+3. Convert each source into a common calendar-item representation.
+4. Preserve the original entity ID and entity type.
+5. Support:
+   - Task
+   - Reminder
+   - Event
+6. Include:
+   - Title
+   - Start time
+   - End time
+   - Account ID where applicable
+   - Category/type
+   - Status
+7. Do not duplicate the underlying records.
+8. Use existing persistence/data-access services.
+9. Keep aggregation logic independent from React UI.
+10. Handle overlapping items correctly.
+
+Do NOT:
+- Build Calendar UI yet.
+- Create a second Task/Event storage system.
+- Modify the existing Task, Reminder, or Event models unnecessarily.
+- Implement Calendar-specific editing yet.
+
+Verify:
+- Tasks can be aggregated.
+- Reminders can be aggregated.
+- Events can be aggregated.
+- Original IDs remain available.
+- Multiple accounts are handled.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9B  Calendar Day View
+Continue from existing project.
+
+Scope:
+Build the Calendar Day View.
+
+Requirements:
+1. Create a mobile-first Day View.
+2. Display the selected date.
+3. Display calendar items chronologically.
+4. Show:
+   - Tasks
+   - Reminders
+   - Events
+5. Display start and end times where applicable.
+6. Use the existing Calendar aggregation layer.
+7. Clearly distinguish item types.
+8. Show account context for account-specific items.
+9. Highlight the current time when viewing today.
+10. Allow selecting another date.
+11. Allow tapping an item to open its original entity.
+
+Do NOT:
+- Create new task/event/reminder records.
+- Implement Week View yet.
+- Implement advanced filters yet.
+- Build a separate calendar database.
+
+Verify:
+- Today's items appear.
+- Other dates can be selected.
+- Items are chronologically ordered.
+- Tasks/events/reminders are distinguishable.
+- Correct entity opens when tapped.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9C  Week View
+Continue from existing project.
+
+Scope:
+Build the Calendar Week View.
+
+Requirements:
+1. Add a Week View.
+2. Display seven days.
+3. Show tasks, reminders, and events within their correct dates.
+4. Display time positioning where practical.
+5. Support overlapping items without hiding them.
+6. Clearly indicate today.
+7. Allow selecting a day to open the Day View.
+8. Allow moving to previous and next weeks.
+9. Keep the selected week state separate from task/event data.
+10. Use the existing Calendar aggregation layer.
+
+Do NOT:
+- Create new task/event/reminder data.
+- Implement advanced filtering yet.
+- Implement drag-and-drop editing yet.
+- Implement month view.
+
+Verify:
+- Seven days display correctly.
+- Items appear on correct dates.
+- Events spanning multiple days are represented correctly.
+- Overlapping items remain visible.
+- Today is identifiable.
+- Day selection works.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9D  Calendar Navigation
+Continue from existing project.
+
+Scope:
+Add Calendar date navigation.
+
+Requirements:
+1. Support previous/next day navigation.
+2. Support previous/next week navigation.
+3. Add a "Today" action.
+4. Allow selecting a date from a date picker.
+5. Keep navigation state consistent between Day and Week views.
+6. Preserve the currently selected account/filter context.
+7. Prevent invalid date navigation states.
+8. Use the existing Calendar data aggregation layer.
+
+Do NOT:
+- Add new calendar item types.
+- Implement Calendar editing.
+- Implement advanced filtering.
+- Add a separate calendar data store.
+
+Verify:
+- Previous/next navigation works.
+- Today returns to the current date.
+- Date picker works.
+- Day and Week views remain synchronized.
+- Existing items remain correctly positioned.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9E  Calendar Filters
+Continue from existing project.
+
+Scope:
+Add filtering to the Calendar.
+
+Requirements:
+1. Support account filtering:
+   - All accounts
+   - Individual account
+2. Support item-type filtering:
+   - Tasks
+   - Reminders
+   - Events
+3. Support task status filtering where applicable.
+4. Support event type filtering.
+5. Allow multiple filters simultaneously.
+6. Display active filters clearly.
+7. Provide a clear/reset filters action.
+8. Do not modify underlying data when filtering.
+9. Use the existing Calendar aggregation layer.
+
+Do NOT:
+- Create duplicate records.
+- Modify Task/Event/Reminder models.
+- Implement Calendar editing.
+- Implement analytics.
+
+Verify:
+- Account filter works.
+- Task filter works.
+- Reminder filter works.
+- Event filter works.
+- Multiple filters combine correctly.
+- Reset restores all applicable items.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9F  Calendar Item Interaction
+Continue from existing project.
+
+Scope:
+Implement interaction with Calendar items.
+
+Requirements:
+1. Allow tapping a Task calendar item to open the Task.
+2. Allow tapping a Reminder to open the related Task/Reminder context.
+3. Allow tapping an Event to open Event Details.
+4. Preserve account context when opening an entity.
+5. Support both Day and Week views.
+6. Handle deleted or missing entities safely.
+7. Provide clear visual feedback for selected items.
+8. Use existing navigation and deep-link mechanisms where applicable.
+
+Do NOT:
+- Create new entities from Calendar yet.
+- Implement drag-and-drop.
+- Create a separate Calendar editing system.
+- Modify task/event/reminder storage.
+
+Verify:
+- Task opens correctly.
+- Reminder opens correct context.
+- Event opens correctly.
+- Invalid/deleted entities do not crash the app.
+- Navigation works from both views.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9G  Calendar Quick Add
+Continue from existing project.
+
+Scope:
+Allow creating a Task or Event directly from the Calendar.
+
+Requirements:
+1. Add a Calendar Quick Add action.
+2. Allow choosing:
+   - Task
+   - Event
+3. Pre-fill the selected date/time when creating an item.
+4. Use the existing Add Task flow.
+5. Use the existing Event creation flow.
+6. Do not create duplicate creation forms if existing flows can be reused.
+7. Preserve selected account context where applicable.
+8. Return to Calendar after successful creation.
+9. Refresh the Calendar automatically.
+
+Do NOT:
+- Create a separate Calendar task model.
+- Create a separate Calendar event model.
+- Implement reminder creation directly inside Calendar.
+- Implement drag-and-drop.
+
+Verify:
+- Task can be created from Calendar.
+- Event can be created from Calendar.
+- Selected date/time is transferred correctly.
+- Created item appears immediately.
+- Existing Add Task/Event flows remain functional.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9H  Calendar Drag & Reschedule
+Continue from existing project.
+
+Scope:
+Implement optional Calendar drag/reschedule interaction for Tasks.
+
+Requirements:
+1. Allow eligible Task items to be moved to a different time.
+2. Update the Task start/finish timing through the existing Task data-access layer.
+3. Preserve task duration when moving the task.
+4. Trigger the existing Reminder rescheduling system after timing changes.
+5. Update the Calendar immediately.
+6. Prevent moving completed, cancelled, or skipped tasks.
+7. Handle overlapping tasks safely.
+8. Provide a clear visual interaction state.
+9. Work in Day and Week views where supported.
+10. Do not alter the task's account, category, or slot.
+
+Do NOT:
+- Create a Calendar-specific task.
+- Modify event timing through drag-and-drop yet.
+- Implement a separate reminder scheduler.
+- Change task status rules.
+
+Verify:
+- Eligible tasks can be moved.
+- Task timing persists.
+- Duration is preserved.
+- Reminders are rescheduled.
+- Completed/cancelled/skipped tasks cannot be moved.
+- Calendar updates immediately.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9I  Empty / Loading / Error States
+Continue from existing project.
+
+Scope:
+Polish Calendar loading, empty, and error states.
+
+Requirements:
+1. Add a consistent loading state.
+2. Add a no-items state.
+3. Add a no-results state when filters hide everything.
+4. Handle data-access errors gracefully.
+5. Provide a Today action from empty states where appropriate.
+6. Provide a Clear Filters action when appropriate.
+7. Ensure a failure in one data source does not unnecessarily crash Calendar.
+8. Keep states consistent with the existing design system.
+
+Do NOT:
+- Add new Calendar functionality.
+- Change the data architecture.
+- Add new entity types.
+
+Verify:
+- Loading state works.
+- Empty state works.
+- Filtered empty state works.
+- Errors are handled gracefully.
+- Calendar remains navigable.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  9J  Calendar Checkpoint
+Continue from existing project.
+
+Scope:
+Perform the final Calendar verification and cleanup.
+
+Requirements:
+1. Review Calendar data aggregation.
+2. Review Day View.
+3. Review Week View.
+4. Review date navigation.
+5. Review filters.
+6. Review item interaction.
+7. Review Quick Add.
+8. Review Task rescheduling.
+9. Review loading/empty/error states.
+10. Remove only genuinely duplicated or obsolete Calendar code.
+11. Ensure Calendar remains a view over existing data rather than a second data system.
+
+Do NOT:
+- Add Month View.
+- Add new entity types.
+- Implement Launcher.
+- Implement new notification systems.
+- Redesign the entire application.
+
+Verify:
+- Tasks display correctly.
+- Reminders display correctly.
+- Events display correctly.
+- Account filters work.
+- Day and Week views work.
+- Quick Add works.
+- Task rescheduling works.
+- Reminder rescheduling works after Calendar changes.
+- Data survives application restart.
+- TypeScript check passes.
+- Web production build passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+PHASE 10 — LAUNCHER
+  10A  Launcher Screen
+Continue from existing project.
+
+Scope:
+Build the Clash of Clans Launcher screen.
+
+Requirements:
+1. Create a dedicated Launcher screen accessible from the main navigation or More section.
+2. Display all configured Clash of Clans accounts.
+3. For each account show:
+   - Account name
+   - Town Hall level
+   - Clan name when available
+   - Current attention state
+4. Show the account's most relevant pending task.
+5. Show the next available slot/time where available.
+6. Provide a prominent "Open Clash of Clans" action for each account.
+7. Keep the launcher visually compact and fast to scan.
+8. Use existing Account and Task data.
+9. Do not duplicate account records.
+10. Support multiple Clash of Clans accounts.
+11. Handle accounts with incomplete configuration gracefully.
+
+Do NOT:
+- Implement Android app launching yet.
+- Create a second account-management system.
+- Add automatic account switching.
+- Implement notification-to-launcher flow yet.
+
+Verify:
+- All Clash of Clans accounts appear.
+- Account information is correct.
+- Pending task information is correct.
+- Accounts remain independent.
+- Launcher works with zero, one, and multiple accounts.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  10B  Account Shortcuts
+Continue from existing project.
+
+Scope:
+Add account-specific launcher shortcuts.
+
+Requirements:
+1. Add a dedicated shortcut/action for each Clash of Clans account.
+2. Display the account name prominently.
+3. Display Town Hall level when available.
+4. Display a recognizable account avatar/initial.
+5. Allow opening the account details screen.
+6. Allow opening the account's task list.
+7. Allow opening the account's Clash of Clans dashboard.
+8. Keep "Open Clash of Clans" as a separate action.
+9. Preserve the selected account context during navigation.
+10. Use the existing navigation system.
+11. Ensure shortcuts are generated dynamically from stored accounts.
+
+Do NOT:
+- Create duplicate account data.
+- Implement native Android app launching yet.
+- Implement automatic CoC account selection.
+- Add cloud synchronization.
+
+Verify:
+- Each account has its own shortcuts.
+- Account Details opens correctly.
+- Account Tasks opens correctly.
+- CoC Dashboard opens correctly.
+- Multiple accounts work independently.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  10C  Open Clash of Clans
+Continue from existing project.
+
+Scope:
+Implement opening the Clash of Clans Android application from the Launcher.
+
+Requirements:
+1. Create an Android-specific launcher service.
+2. Detect whether Clash of Clans is installed where technically possible.
+3. Provide an "Open Clash of Clans" action.
+4. Attempt to launch the Clash of Clans Android application using the appropriate Android mechanism.
+5. Keep the package identifier/configuration isolated in one place.
+6. Handle the case where Clash of Clans is not installed.
+7. Provide a clear fallback message when launching is unavailable.
+8. Keep the web implementation safe when native Android APIs are unavailable.
+9. Do not block the rest of the launcher if native launching is unsupported.
+10. Keep platform-specific code outside the generic Account model.
+11. Avoid requesting unnecessary Android permissions.
+
+Do NOT:
+- Attempt to automate Clash of Clans login.
+- Attempt to select a specific CoC account automatically.
+- Automate taps or gameplay.
+- Implement notification-to-launcher flow yet.
+- Modify Clash of Clans itself.
+
+Verify:
+- Android debug build succeeds.
+- "Open Clash of Clans" launches the installed app.
+- Missing-app state is handled gracefully.
+- Web preview does not crash.
+- Multiple account buttons all launch CoC safely.
+- TypeScript check passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+  10D  Account → Launcher Flow
+Continue from existing project.
+
+Scope:
+Connect account-specific actions to the Clash of Clans Launcher.
+
+Requirements:
+1. Allow launching CoC from:
+   - Account Details
+   - Account Dashboard
+   - Launcher
+2. Use the selected account context.
+3. Show the account name before launching.
+4. Provide a brief launch feedback state.
+5. Prevent accidental duplicate launch actions from rapid repeated taps.
+6. Return cleanly to the planner when the user comes back from CoC.
+7. Do not modify account data merely by opening CoC.
+8. Keep native launch behavior centralized in the launcher service.
+
+Do NOT:
+- Implement automatic account switching inside CoC.
+- Read CoC account credentials.
+- Automate gameplay.
+- Add accessibility/tap automation.
+- Build notification deep links yet.
+
+Verify:
+- Launch works from all supported locations.
+- Correct account context is shown.
+- Rapid taps do not cause unwanted repeated launches.
+- Returning from CoC leaves the planner in a valid state.
+- Android debug build passes.
+
+Stop after this scope.
+
+  10E  Notification → Task → Launcher Flow
+Continue from existing project.
+
+Scope:
+Connect reminder interaction to the Task screen and Clash of Clans Launcher.
+
+Requirements:
+1. When a reminder notification is opened, resolve its associated Task.
+2. Open the relevant Task when possible.
+3. Display the associated Clash of Clans account.
+4. Provide an "Open Account" action.
+5. Provide an "Open Clash of Clans" action.
+6. Use the existing deep-link system.
+7. Use the existing Android launcher service.
+8. Support the app being:
+   - Already open
+   - In background
+   - Completely closed
+9. Handle deleted/completed tasks safely.
+10. Preserve the notification → task → account context.
+11. Do not automatically launch CoC immediately when a notification is tapped.
+12. Require the user to explicitly select "Open Clash of Clans."
+
+Do NOT:
+- Automatically launch CoC from a notification.
+- Automatically switch the CoC account.
+- Automate gameplay.
+- Read CoC credentials.
+- Create a separate notification system.
+
+Verify:
+- Notification opens the correct Task.
+- Correct CoC account is shown.
+- "Open Clash of Clans" launches CoC.
+- Flow works after cold start.
+- Completed/deleted tasks are handled safely.
+- Android debug build passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  10F  Launcher Context & Recent Accounts
+Continue from existing project.
+
+Scope:
+Improve the Clash of Clans Launcher with recent account context.
+
+Requirements:
+1. Track the most recently opened Clash of Clans account locally.
+2. Display the most recently used account prominently.
+3. Allow quickly opening that account's dashboard.
+4. Allow quickly launching Clash of Clans.
+5. Keep the full account list available.
+6. Update recent-account information only when the user explicitly launches/opens an account.
+7. Do not modify the Account model unnecessarily.
+8. Persist the recent-account state locally.
+9. Handle deleted accounts safely.
+10. Keep this feature optional and lightweight.
+
+Do NOT:
+- Track gameplay activity.
+- Attempt to detect which CoC account is currently active.
+- Automatically switch accounts.
+- Collect external CoC data.
+
+Verify:
+- Most recent account is displayed correctly.
+- Launching an account updates the recent state.
+- Deleted accounts do not cause errors.
+- State survives application restart.
+- Multiple accounts work correctly.
+- TypeScript check passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+  10G  Launcher UI Polish
+Continue from existing project.
+
+Scope:
+Polish the Clash of Clans Launcher UI.
+
+Requirements:
+1. Establish a clear visual hierarchy.
+2. Make the primary "Open Clash of Clans" action obvious.
+3. Keep account identity prominent.
+4. Make pending task information easy to scan.
+5. Distinguish account actions from application-launch actions.
+6. Use the existing design system.
+7. Keep the interface mobile-first.
+8. Avoid oversized cards.
+9. Support many accounts without excessive scrolling.
+10. Provide useful empty and unavailable states.
+
+Do NOT:
+- Add new launcher functionality.
+- Change the underlying data architecture.
+- Implement automatic CoC account switching.
+- Add gameplay automation.
+
+Verify:
+- Launcher remains usable with multiple accounts.
+- Primary action is obvious.
+- Account information is readable.
+- Missing CoC installation state is clear.
+- Mobile layout is clean.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  10H  Launcher Security & Platform Check
+Continue from existing project.
+
+Scope:
+Review the Launcher implementation for safe platform behavior.
+
+Requirements:
+1. Review all Android-specific launcher code.
+2. Ensure the launcher does not store CoC credentials.
+3. Ensure the launcher does not attempt to automate gameplay.
+4. Ensure no unnecessary Android permissions were introduced.
+5. Ensure package/application identifiers are centralized.
+6. Ensure web builds safely ignore Android-only functionality.
+7. Ensure unsupported devices receive graceful fallback behavior.
+8. Ensure notification-to-launcher flow requires explicit user interaction.
+9. Remove dead or duplicated launcher code.
+
+Do NOT:
+- Add gameplay automation.
+- Add account credential handling.
+- Add accessibility automation.
+- Implement external account switching.
+
+Verify:
+- Android debug build passes.
+- Web production build passes.
+- No unnecessary permissions are present.
+- Native launcher failure is handled gracefully.
+- Notification deep-link flow remains functional.
+- TypeScript check passes.
+
+Stop after this scope.
+
+  10I  Launcher Checkpoint
+Continue from existing project.
+
+Scope:
+Perform the final Launcher verification and integration checkpoint.
+
+Requirements:
+1. Review Launcher screen.
+2. Review account shortcuts.
+3. Review Android Clash of Clans launching.
+4. Review Account → Launcher flow.
+5. Review Notification → Task → Launcher flow.
+6. Review recent-account handling.
+7. Review Launcher UI.
+8. Review Android/web platform separation.
+9. Ensure Launcher uses the existing Account, Task, Reminder, and Deep Link systems.
+10. Remove only genuinely duplicated or obsolete launcher code.
+
+Do NOT:
+- Add automatic CoC account switching.
+- Add gameplay automation.
+- Add credential storage.
+- Implement Data Export/Import yet.
+- Implement Android release packaging yet.
+
+Verify:
+- Multiple CoC accounts work.
+- Account shortcuts work.
+- CoC launches successfully on Android.
+- Notification → Task works.
+- Task → Account → CoC works.
+- Cold-start deep links work.
+- Web preview remains functional.
+- Android debug build passes.
+- Web production build passes.
+
+Stop after this scope.
+
+PHASE 11 — DATA
+  11A  Export Data
+Continue from existing project.
+
+Scope:
+Implement complete application data export.
+
+Requirements:
+1. Create an Export Data function.
+2. Export all user-created persisted data required to reconstruct the application.
+3. Include:
+   - Games
+   - Accounts
+   - Task Slots
+   - Tasks
+   - Reminders
+   - Events
+   - Event Participation
+   - User preferences relevant to application behavior
+4. Do not export temporary UI state.
+5. Create a structured JSON backup format.
+6. Include:
+   - Backup format version
+   - Export timestamp
+   - Application identifier
+   - Data payload
+7. Preserve IDs and relationships between records.
+8. Export data through the existing persistence/data-access layer.
+9. Do not expose internal implementation details unnecessarily.
+10. Allow the user to save/share the exported backup using the appropriate platform mechanism.
+11. Ensure the exported file has a clear filename.
+
+Do NOT:
+- Implement Import yet.
+- Modify stored data during export.
+- Add cloud synchronization.
+- Export passwords, credentials, or unrelated device information.
+
+Verify:
+- Export contains all required entities.
+- Relationships remain intact.
+- Exported JSON is valid.
+- Export does not modify application data.
+- Export works with multiple accounts.
+- Export works with empty datasets.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  11B  Import Data
+Continue from existing project.
+
+Scope:
+Implement application data import from a previously exported backup.
+
+Requirements:
+1. Allow selecting an exported backup file.
+2. Parse the backup JSON.
+3. Validate the basic backup structure before importing.
+4. Check the backup format version.
+5. Restore:
+   - Games
+   - Accounts
+   - Task Slots
+   - Tasks
+   - Reminders
+   - Events
+   - Event Participation
+   - Relevant application preferences
+6. Preserve IDs and relationships.
+7. Use the existing persistence/data-access layer.
+8. Do not partially import invalid data silently.
+9. Refresh application state after successful import.
+10. Clearly report import success or failure.
+11. Keep the original dataset untouched until validation succeeds.
+
+Do NOT:
+- Implement advanced validation yet.
+- Automatically merge conflicting datasets yet.
+- Upload backups to a server.
+- Add cloud synchronization.
+
+Verify:
+- A previously exported backup can be imported.
+- Accounts are restored.
+- Tasks are restored.
+- Reminders are restored.
+- Events and participation are restored.
+- Relationships remain intact.
+- Invalid files are rejected safely.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  11C  Import Validation
+Continue from existing project.
+
+Scope:
+Create robust validation for imported backup data.
+
+Requirements:
+1. Validate the backup before modifying persisted data.
+2. Validate:
+   - Backup identifier
+   - Backup version
+   - Required collections
+   - Record structure
+   - Required IDs
+   - References between entities
+3. Detect duplicate IDs.
+4. Detect broken relationships.
+5. Detect invalid dates/timestamps.
+6. Detect invalid enum/status values.
+7. Detect unsupported backup versions.
+8. Produce human-readable validation errors.
+9. Do not modify existing data when validation fails.
+10. Keep validation logic separate from the UI.
+11. Make the validator reusable for future backup versions.
+
+Do NOT:
+- Add cloud backup.
+- Automatically repair ambiguous data.
+- Silently discard invalid records.
+- Change existing models unnecessarily.
+
+Verify:
+- Valid backups pass.
+- Missing required fields are detected.
+- Duplicate IDs are detected.
+- Broken references are detected.
+- Invalid timestamps are detected.
+- Unsupported versions are rejected.
+- Existing data remains untouched after failed validation.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  11D  Backup / Restore UX
+Continue from existing project.
+
+Scope:
+Create the user-facing Backup & Restore interface.
+
+Requirements:
+1. Add a Backup & Restore section under More/Settings.
+2. Provide:
+   - Export Backup
+   - Import Backup
+3. Show the most recent successful export time when available.
+4. Before importing, clearly warn that existing data may be replaced.
+5. Show backup metadata before confirmation:
+   - Backup date
+   - Backup version
+   - Number of accounts
+   - Number of tasks
+   - Number of events
+6. Require explicit confirmation before replacing existing data.
+7. Show validation errors clearly.
+8. Show import progress/state where appropriate.
+9. Show success confirmation after restore.
+10. Refresh the application after successful restore.
+11. Keep the interface consistent with the existing design system.
+
+Do NOT:
+- Implement cloud backup.
+- Automatically upload backups.
+- Add account synchronization.
+- Replace existing data without confirmation.
+
+Verify:
+- Export action is accessible.
+- Import action is accessible.
+- Backup metadata is displayed.
+- Invalid backup produces a useful error.
+- User must confirm destructive restore.
+- Successful restore refreshes the application.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  11E  Backup Conflict Strategy
+Continue from existing project.
+
+Scope:
+Define and implement the local backup restore conflict strategy.
+
+Requirements:
+1. Treat a backup restore as a complete dataset restore.
+2. Do not silently merge records by default.
+3. Require explicit user confirmation before replacing the current dataset.
+4. Preserve the backup's IDs and relationships.
+5. Ensure all related records are restored consistently.
+6. Prevent orphaned Tasks, Reminders, Events, or Participation records.
+7. If the application detects an incompatible dataset, reject the restore safely.
+8. Keep the strategy documented in the data layer.
+9. Keep future merge support possible without implementing it now.
+
+Do NOT:
+- Implement automatic merging.
+- Implement cloud synchronization.
+- Create duplicate records.
+- Modify the backup file during restore.
+
+Verify:
+- Complete restore replaces the dataset consistently.
+- No orphaned records remain.
+- IDs remain stable.
+- Existing data is untouched when the user cancels.
+- Invalid/incompatible restores are rejected safely.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  11F  Backup Versioning & Migration Foundation
+Continue from existing project.
+
+Scope:
+Create the foundation for versioned backup formats and future data migrations.
+
+Requirements:
+1. Define a backup format version.
+2. Define the current schema version separately where appropriate.
+3. Create a migration pipeline interface.
+4. Allow older supported backup versions to be upgraded before import.
+5. Keep migrations deterministic.
+6. Do not modify the original backup file.
+7. Reject unsupported future versions safely.
+8. Keep migration logic separate from persistence and UI.
+9. Document the current backup schema.
+10. Make the system extensible for future Task, Reminder, Event, and Account changes.
+
+Do NOT:
+- Add cloud synchronization.
+- Implement automatic conflict merging.
+- Change existing application behavior unnecessarily.
+- Add speculative migrations for future versions.
+
+Verify:
+- Current backup version imports correctly.
+- Migration pipeline can process supported older versions.
+- Unsupported future versions are rejected.
+- Original backup remains unchanged.
+- Existing data is not corrupted during migration.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  11G  Backup Integrity Check
+Continue from existing project.
+
+Scope:
+Add a final integrity check for exported and restored application data.
+
+Requirements:
+1. Create a reusable dataset integrity checker.
+2. Check:
+   - Unique IDs
+   - Valid relationships
+   - Valid account references
+   - Valid Task Slot references
+   - Valid Reminder references
+   - Valid Event references
+   - Valid Event Participation references
+3. Detect orphaned records.
+4. Detect duplicate records.
+5. Detect invalid dates.
+6. Detect impossible status relationships.
+7. Return structured validation results.
+8. Use the checker after successful restore.
+9. Do not silently repair data.
+10. Provide useful diagnostics for development and safe user-facing errors.
+
+Do NOT:
+- Automatically repair corrupted data.
+- Delete records automatically.
+- Add cloud functionality.
+
+Verify:
+- Clean datasets pass.
+- Broken references are detected.
+- Orphan records are detected.
+- Duplicate IDs are detected.
+- Restore performs an integrity check.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  11H  Data Phase Checkpoint
+Continue from existing project.
+
+Scope:
+Perform the final Data and Backup/Restore checkpoint.
+
+Requirements:
+1. Review Export.
+2. Review Import.
+3. Review Validation.
+4. Review Backup/Restore UX.
+5. Review conflict strategy.
+6. Review versioning/migration foundation.
+7. Review integrity checking.
+8. Ensure all data flows through the existing persistence layer.
+9. Ensure IDs and relationships remain stable.
+10. Remove only genuinely duplicated or obsolete data-management code.
+
+Do NOT:
+- Add cloud synchronization.
+- Add automatic account synchronization.
+- Implement speculative data migrations.
+- Redesign the application.
+
+Verify:
+- Complete backup can be exported.
+- Exported backup can be restored.
+- Invalid backups are rejected.
+- Existing data is protected from failed imports.
+- Relationships remain intact after restore.
+- Multiple Clash of Clans accounts restore correctly.
+- Tasks, reminders, and events remain associated correctly.
+- Application restart works after restore.
+- TypeScript check passes.
+- Web production build passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+PHASE 12 — ANDROID PACKAGING
+  12A  Android Permissions
+Continue from existing project.
+
+Scope:
+Review and configure the Android permissions required by Clash Planner.
+
+Requirements:
+1. Inspect the current AndroidManifest and Capacitor configuration.
+2. Identify permissions actually required by implemented features.
+3. Keep only necessary permissions.
+4. Ensure notification permission is configured correctly for supported Android versions.
+5. Ensure alarm-related permissions/configuration are present only where required by the implemented alarm system.
+6. Ensure no unnecessary storage, location, contacts, microphone, camera, SMS, phone, or accessibility permissions are added.
+7. Keep Android-specific permission handling isolated from the web application.
+8. Ensure runtime permission requests occur only when needed.
+9. Keep the application compatible with the target Android SDK.
+10. Document important Android permissions/configuration in the project where appropriate.
+
+Do NOT:
+- Add permissions for future features.
+- Add accessibility automation.
+- Add location access.
+- Add unnecessary background services.
+- Change application functionality unrelated to Android permissions.
+
+Verify:
+- AndroidManifest contains only required permissions.
+- Notification permission works where required.
+- Alarm functionality remains functional.
+- Web build remains unaffected.
+- Android debug build passes.
+- No unnecessary permissions are present.
+
+Stop after this scope.
+
+  12B  App Icon
+Continue from existing project.
+
+Scope:
+Configure the production Clash Planner Android application icon.
+
+Requirements:
+1. Create/configure the Android launcher icon.
+2. Use the project's existing visual identity.
+3. Support Android launcher icon requirements.
+4. Provide appropriate foreground/background assets where required.
+5. Generate required Android density variants through the appropriate tooling.
+6. Ensure the icon looks correct at small launcher sizes.
+7. Configure the application icon in the Android project.
+8. Do not change the in-app UI iconography unnecessarily.
+9. Keep source icon assets organized.
+10. Ensure the icon is applied consistently to the Android application.
+
+Do NOT:
+- Redesign the application UI.
+- Replace unrelated icons.
+- Add unnecessary third-party icon packages.
+- Change the app's functionality.
+
+Verify:
+- Android launcher displays the correct icon.
+- Icon assets exist in required Android resources.
+- Debug APK installs successfully.
+- Icon remains correct after reinstall.
+- Android build passes.
+
+Stop after this scope.
+
+  12C  Splash Screen
+Continue from existing project.
+
+Scope:
+Configure the production Android splash screen.
+
+Requirements:
+1. Configure the Android splash screen using the existing Clash Planner branding.
+2. Use a clean minimal composition.
+3. Keep the splash screen visually consistent with the app design system.
+4. Configure appropriate Android splash resources.
+5. Ensure the splash screen does not remain visible longer than necessary.
+6. Ensure the application transitions cleanly into the Home screen.
+7. Support the Android splash-screen behavior required by the target SDK.
+8. Avoid unnecessary animations or dependencies.
+9. Keep splash assets organized.
+10. Ensure the splash screen works on different Android screen sizes.
+
+Do NOT:
+- Redesign the Home screen.
+- Add a long loading animation.
+- Add network-dependent startup behavior.
+- Add new application functionality.
+
+Verify:
+- Splash appears during app startup.
+- Splash transitions correctly to the application.
+- No blank/black/incorrect intermediate screen appears unnecessarily.
+- Android debug build passes.
+- App launches correctly after reinstall.
+
+Stop after this scope.
+
+  12D  Android App Identity & Build Configuration
+Continue from existing project.
+
+Scope:
+Finalize the Android application identity and build configuration.
+
+Requirements:
+1. Review the Android application ID/package name.
+2. Ensure it is stable and production-appropriate.
+3. Configure the application display name as Clash Planner.
+4. Review:
+   - compileSdk
+   - targetSdk
+   - minSdk
+   - Gradle configuration
+   - Android Gradle Plugin compatibility
+   - Kotlin/Java configuration where applicable
+5. Ensure Capacitor Android configuration is consistent with the web project.
+6. Ensure debug and release build variants are configured correctly.
+7. Remove development-only configuration that should not ship.
+8. Keep build configuration reproducible.
+9. Do not change SDK versions unnecessarily if the current project is already compatible.
+10. Document any important version constraints.
+
+Do NOT:
+- Upgrade major dependencies without need.
+- Change the app architecture.
+- Add release signing credentials to source control.
+- Add unrelated Android libraries.
+
+Verify:
+- Gradle sync succeeds.
+- Android project builds.
+- Application ID is correct.
+- App name is correct.
+- Debug build succeeds.
+- Release build configuration can be assembled.
+- Web production build passes.
+
+Stop after this scope.
+
+  12E  Release Signing Preparation
+Continue from existing project.
+
+Scope:
+Prepare the Android project for signed release builds without exposing private signing credentials.
+
+Requirements:
+1. Configure the project so a release signing configuration can be supplied securely.
+2. Keep keystore credentials outside source-controlled application code.
+3. Support environment variables or an ignored local properties mechanism where appropriate.
+4. Ensure debug signing remains available for development.
+5. Ensure release builds do not depend on hardcoded passwords.
+6. Add appropriate .gitignore entries for private signing files and credentials.
+7. Document the required release signing configuration.
+8. Keep signing configuration compatible with APK and AAB generation.
+
+Do NOT:
+- Generate or expose a private keystore password.
+- Commit a private keystore to the repository.
+- Hardcode signing credentials.
+- Upload signing credentials anywhere.
+
+Verify:
+- Debug build still works.
+- Release signing configuration is recognized.
+- Missing credentials fail clearly rather than silently.
+- Private signing files are ignored by Git.
+- No credentials appear in source files.
+- Gradle configuration passes validation.
+
+Stop after this scope.
+
+  12F  APK Build
+Continue from existing project.
+
+Scope:
+Create and verify the Android APK build.
+
+Requirements:
+1. Synchronize the latest web application with Capacitor Android.
+2. Build the Android debug APK.
+3. Build a release APK using the configured release signing mechanism when available.
+4. Place generated artifacts in a clearly identifiable output location.
+5. Ensure the APK contains the current web application.
+6. Ensure Android native functionality is included.
+7. Do not modify application features during packaging.
+8. Record the build variant and version information.
+9. Ensure generated build artifacts are not accidentally committed to source control unless explicitly intended.
+
+Do NOT:
+- Change application functionality.
+- Add new permissions.
+- Modify task/reminder behavior.
+- Skip Gradle errors by disabling checks.
+
+Verify:
+- Debug APK builds successfully.
+- Release APK builds successfully when signing is configured.
+- APK installs on an Android device/emulator.
+- App launches successfully.
+- Existing reminders/alarms remain functional.
+- Clash of Clans launcher works.
+- Data persistence works.
+- Export/import works.
+- No startup crash occurs.
+
+Stop after this scope.
+
+  12G  AAB Build
+Continue from existing project.
+
+Scope:
+Create and verify the Android App Bundle build.
+
+Requirements:
+1. Build a release Android App Bundle.
+2. Use the production application ID.
+3. Use the configured release signing mechanism.
+4. Ensure the AAB contains the latest web application.
+5. Ensure all required Capacitor Android functionality is included.
+6. Keep the AAB output clearly identifiable.
+7. Do not modify application functionality for the bundle.
+8. Ensure the release configuration is reproducible.
+9. Keep signing credentials outside source control.
+
+Do NOT:
+- Upload the AAB to Google Play.
+- Publish the application.
+- Change application features.
+- Commit signing credentials.
+
+Verify:
+- Release AAB builds successfully.
+- Signing configuration works.
+- AAB contains the current application version.
+- Android debug functionality remains intact.
+- No unnecessary permissions were introduced.
+- Gradle build completes without errors.
+
+Stop after this scope.
+
+  12H  Versioning
+Continue from existing project.
+
+Scope:
+Finalize Android application versioning.
+
+Requirements:
+1. Review the current Android versionCode.
+2. Review the current Android versionName.
+3. Establish a clear versioning convention.
+4. Ensure versionCode increases for future releases.
+5. Ensure versionName is human-readable.
+6. Keep web application version information consistent where appropriate.
+7. Avoid duplicate version sources when possible.
+8. Ensure APK and AAB use the intended version information.
+9. Document how future versions should be incremented.
+
+Do NOT:
+- Change the version unnecessarily multiple times.
+- Implement automatic release publishing.
+- Add CI/CD yet.
+- Modify application functionality.
+
+Verify:
+- APK has the intended version.
+- AAB has the intended version.
+- versionCode is valid.
+- versionName is valid.
+- Future increment process is documented.
+- Android build passes.
+
+Stop after this scope.
+
+  12I  Clean Build Verification
+Continue from existing project.
+
+Scope:
+Verify that the Android project can be built from a clean state.
+
+Requirements:
+1. Remove generated build artifacts where appropriate.
+2. Perform a clean Gradle build.
+3. Rebuild the web application.
+4. Synchronize the web build with Capacitor.
+5. Rebuild Android.
+6. Ensure required Gradle files are present.
+7. Ensure Capacitor configuration is present.
+8. Ensure package configuration is present.
+9. Ensure Android resources are present.
+10. Ensure no generated local-only dependency is required unexpectedly.
+11. Ensure the project can be opened and built from the project root.
+12. Do not rely on files outside the project directory except documented SDK/toolchain requirements.
+
+Do NOT:
+- Delete source files.
+- Delete required configuration.
+- Change application features.
+- Commit generated build artifacts unnecessarily.
+
+Verify:
+- Clean web build succeeds.
+- Capacitor sync succeeds.
+- Clean Gradle build succeeds.
+- Debug APK can be rebuilt.
+- Release APK can be rebuilt when signing is configured.
+- AAB can be rebuilt when signing is configured.
+- No missing project files are discovered.
+- Android application launches successfully.
+
+Stop after this scope.
+
+  12J  Install & Runtime Verification
+Continue from existing project.
+
+Scope:
+Perform an Android runtime verification of the packaged application.
+
+Requirements:
+1. Install the generated APK on an Android device/emulator.
+2. Launch the application from a clean installation.
+3. Verify:
+   - Splash screen
+   - Home
+   - Navigation
+   - Accounts
+   - Tasks
+   - Reminders
+   - Events
+   - Calendar
+   - Launcher
+4. Verify Android notifications.
+5. Verify Android alarms.
+6. Verify notification deep links.
+7. Verify Clash of Clans launching.
+8. Verify local persistence after closing/reopening the app.
+9. Verify backup export/import.
+10. Check for startup crashes or obvious runtime errors.
+
+Do NOT:
+- Add new features.
+- Change the application architecture.
+- Ignore runtime errors just because the build succeeds.
+- Perform destructive tests on real user data.
+
+Verify:
+- Clean installation launches.
+- Navigation works.
+- Data persists.
+- Notifications work.
+- Alarms work.
+- Deep links work.
+- CoC launcher works.
+- Export/import works.
+- No critical runtime errors remain.
+
+Stop after this scope.
+
+  12K  Android Packaging Checkpoint
+Continue from existing project.
+
+Scope:
+Perform the final Android Packaging checkpoint.
+
+Requirements:
+1. Review Android permissions.
+2. Review application identity.
+3. Review icon.
+4. Review splash screen.
+5. Review Gradle configuration.
+6. Review signing configuration.
+7. Review versioning.
+8. Review APK generation.
+9. Review AAB generation.
+10. Review clean-build reproducibility.
+11. Review runtime behavior.
+12. Ensure the Android project remains fully contained within the project.
+
+Do NOT:
+- Add new application features.
+- Implement cloud synchronization.
+- Change Clash of Clans functionality.
+- Start final UI redesign yet.
+
+Verify:
+- Clean web build passes.
+- Capacitor sync passes.
+- Clean Gradle build passes.
+- Debug APK builds.
+- Release APK builds when signing is configured.
+- Release AAB builds when signing is configured.
+- APK installs successfully.
+- Application launches successfully.
+- Notifications work.
+- Alarms work.
+- Deep links work.
+- CoC launcher works.
+- Backup/restore works.
+- No unnecessary Android permissions exist.
+
+Stop after this scope.
+
+  12L  Edge-to-Edge & Notch Support
+Continue from existing project.
+
+Scope:
+Configure Clash Planner for modern Android edge-to-edge and display cutout support.
+
+Requirements:
+1. Support Android devices with:
+   - Notches
+   - Punch-hole cameras
+   - Rounded corners
+   - Status bars
+   - Navigation bars
+2. Use edge-to-edge layout appropriately.
+3. Ensure important UI does not overlap the display cutout.
+4. Apply appropriate safe-area/insets handling.
+5. Ensure top navigation remains readable.
+6. Ensure bottom navigation/actions remain accessible.
+7. Ensure dialogs and bottom sheets respect system insets.
+8. Ensure Calendar and Launcher screens use available screen space correctly.
+9. Support different aspect ratios.
+10. Keep web preview and Android rendering consistent where practical.
+
+Do NOT:
+- Hardcode dimensions for one device.
+- Hide system UI unnecessarily.
+- Create device-specific layouts.
+- Break existing responsive behavior.
+
+Verify:
+- Notched device layout works.
+- Punch-hole device layout works.
+- Navigation bar does not cover controls.
+- Top content does not overlap the cutout.
+- Landscape/small-width behavior remains stable.
+- Android debug build passes.
+
+Stop after this scope.
+
+  12M  Android Window Configuration
+Continue from existing project.
+
+Scope:
+Configure the Android application to support resizable windows and modern Android window behavior.
+
+Requirements:
+1. Ensure Clash Planner supports Android multi-window mode.
+2. Ensure the application is resizable where supported.
+3. Do not force a fixed orientation unnecessarily.
+4. Do not force full-screen mode.
+5. Allow Android to manage window resizing.
+6. Ensure the application handles configuration/window-size changes correctly.
+7. Preserve navigation and application state during resizing.
+8. Ensure edge-to-edge configuration remains compatible with multi-window mode.
+9. Ensure widgets and notification behavior are unaffected.
+10. Keep configuration compatible with supported Android versions.
+
+Do NOT:
+- Disable multi-window.
+- Force a fixed window size.
+- Force immersive full-screen mode.
+- Create device-specific Android configurations.
+
+Verify:
+- Split-screen can launch Clash Planner.
+- Window can be resized where Android permits.
+- UI reflows correctly.
+- Application state is preserved.
+- Android debug build passes.
+
+Stop after this scope.
+
+PHASE 13 — POLISH
+  13A  Responsive Layout
+Continue from existing project.
+
+Scope:
+Make the entire Clash Planner interface responsive and mobile-first.
+
+Requirements:
+1. Review all major screens:
+   - Home
+   - Games
+   - Clash of Clans
+   - Accounts
+   - Tasks
+   - Events
+   - Calendar
+   - Launcher
+   - More/Settings
+2. Optimize layouts for Android phone screens first.
+3. Support small phone widths without horizontal scrolling.
+4. Ensure buttons and interactive controls have comfortable touch targets.
+5. Handle portrait orientation cleanly.
+6. Ensure cards, lists, dialogs, sheets, and forms fit smaller screens.
+7. Support larger phone screens without excessive empty space.
+8. Preserve the existing design system.
+9. Keep desktop/web preview usable.
+10. Fix overflow, clipping, wrapping, and spacing problems.
+11. Do not introduce separate mobile and desktop implementations unless necessary.
+
+Do NOT:
+- Add new application features.
+- Redesign the entire visual language.
+- Change the data architecture.
+- Remove existing functionality.
+
+Verify:
+- Small phone layout works.
+- Normal Android phone layout works.
+- Large phone layout works.
+- Desktop/web preview remains usable.
+- No horizontal overflow exists on major screens.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  13B  Accessibility
+Continue from existing project.
+
+Scope:
+Improve accessibility across the application.
+
+Requirements:
+1. Review all interactive controls.
+2. Ensure buttons have meaningful accessible labels.
+3. Ensure icon-only buttons have accessible names.
+4. Ensure form fields have associated labels.
+5. Ensure dialogs and sheets have accessible titles.
+6. Ensure keyboard navigation works in the web version.
+7. Ensure visible focus states exist.
+8. Maintain sufficient text/background contrast.
+9. Do not rely on color alone to communicate status.
+10. Ensure important status information has textual meaning.
+11. Ensure touch targets are appropriately sized.
+12. Preserve the existing visual design while improving accessibility.
+
+Do NOT:
+- Redesign the entire application.
+- Remove icons unnecessarily.
+- Add unnecessary accessibility libraries.
+- Change application functionality.
+
+Verify:
+- Major controls have accessible names.
+- Forms are navigable.
+- Dialogs are accessible.
+- Focus states are visible.
+- Statuses are understandable without color alone.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  13C  Empty & Error States
+Continue from existing project.
+
+Scope:
+Standardize empty, loading, unavailable, and error states across the application.
+
+Requirements:
+1. Review:
+   - Home
+   - Accounts
+   - Tasks
+   - Events
+   - Calendar
+   - Launcher
+   - Settings
+2. Add appropriate empty states where missing.
+3. Add appropriate loading states where needed.
+4. Add useful error states for failed data operations.
+5. Distinguish:
+   - No data
+   - No search/filter results
+   - Loading
+   - Error
+   - Feature unavailable
+6. Provide useful next actions where appropriate.
+7. Use the existing design system.
+8. Keep error messages understandable.
+9. Avoid exposing internal technical errors to normal users.
+10. Ensure empty states do not look like broken screens.
+
+Do NOT:
+- Add new functionality.
+- Create a new error-handling architecture unless genuinely necessary.
+- Hide actual errors.
+- Use generic "Something went wrong" where a useful explanation is possible.
+
+Verify:
+- Empty accounts state works.
+- Empty tasks state works.
+- Empty events state works.
+- Calendar empty state works.
+- Launcher unavailable state works.
+- Data errors are handled gracefully.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  13D  Performance
+Continue from existing project.
+
+Scope:
+Optimize application performance without changing functionality.
+
+Requirements:
+1. Review unnecessary React renders.
+2. Review expensive calculations.
+3. Review Calendar aggregation performance.
+4. Review Home dashboard calculations.
+5. Review Task and Event list rendering.
+6. Review unnecessary persistence reads/writes.
+7. Avoid repeatedly calculating countdowns through expensive full-app renders.
+8. Use memoization only where it provides a real benefit.
+9. Avoid premature optimization.
+10. Ensure large account/task datasets remain usable.
+11. Remove unused dependencies where safe.
+12. Keep startup time reasonable.
+
+Do NOT:
+- Rewrite the application architecture.
+- Add a state-management library without necessity.
+- Remove functionality to improve performance.
+- Optimize code without measuring or identifying a real issue.
+
+Verify:
+- App starts normally.
+- Home remains responsive.
+- Task lists remain responsive.
+- Calendar remains responsive.
+- Countdown updates do not cause excessive rendering.
+- Multiple accounts remain usable.
+- Web production build passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+  13E  Countdown & Time Accuracy
+Continue from existing project.
+
+Scope:
+Audit and stabilize all time and countdown behavior.
+
+Requirements:
+1. Review all countdown displays.
+2. Review task start/end calculations.
+3. Review event start/end calculations.
+4. Review reminder scheduling calculations.
+5. Ensure timestamps are stored consistently.
+6. Ensure local timezone is handled correctly.
+7. Ensure daylight-saving changes do not create incorrect calculations where applicable.
+8. Ensure countdowns update without unnecessary rendering.
+9. Handle expired timers correctly.
+10. Handle application restart correctly.
+11. Ensure future reminders remain correctly scheduled after restart.
+12. Ensure completed/cancelled items do not continue counting down.
+
+Do NOT:
+- Create a new time/date library without need.
+- Change the user's stored times unexpectedly.
+- Add server synchronization.
+- Modify unrelated task/event behavior.
+
+Verify:
+- Countdown reaches zero correctly.
+- Expired items transition correctly.
+- Restart preserves correct times.
+- Reminder timing remains correct.
+- Event timing remains correct.
+- Calendar dates remain correct.
+- Android timezone behavior is correct.
+- TypeScript check passes.
+- Android debug build passes.
+
+Stop after this scope.
+
+  13F  Data & Persistence Audit
+Continue from existing project.
+
+Scope:
+Perform a final audit of application persistence and data integrity.
+
+Requirements:
+1. Review all persisted entities:
+   - Games
+   - Accounts
+   - Task Slots
+   - Tasks
+   - Reminders
+   - Events
+   - Event Participation
+2. Ensure every persisted entity has stable IDs.
+3. Ensure relationships remain valid.
+4. Ensure deletion does not create orphan records.
+5. Ensure editing does not break relationships.
+6. Ensure application restart preserves data.
+7. Ensure backup/restore preserves data.
+8. Ensure multiple Clash of Clans accounts remain independent.
+9. Review migration/version handling.
+10. Remove obsolete persistence code only when safe.
+
+Do NOT:
+- Add cloud synchronization.
+- Change the data model unnecessarily.
+- Delete user data during testing.
+- Add new features.
+
+Verify:
+- Create/edit/delete flows preserve integrity.
+- Restart preserves data.
+- Backup/restore preserves relationships.
+- No orphan tasks/reminders/events exist.
+- Multiple accounts remain independent.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  13G  Visual Consistency
+Continue from existing project.
+
+Scope:
+Perform a visual consistency pass across the complete application.
+
+Requirements:
+1. Review typography.
+2. Review spacing.
+3. Review border radius.
+4. Review cards.
+5. Review buttons.
+6. Review inputs.
+7. Review icons.
+8. Review dialogs and bottom sheets.
+9. Review navigation.
+10. Review status indicators.
+11. Ensure the same component behaves consistently across screens.
+12. Ensure Clash of Clans-specific screens still feel part of the same application.
+13. Remove accidental one-off styling.
+14. Use the established design tokens/design system.
+
+Do NOT:
+- Redesign the application from scratch.
+- Introduce a new visual theme.
+- Change navigation architecture.
+- Add features.
+
+Verify:
+- Home and inner screens feel consistent.
+- Typography is consistent.
+- Spacing is consistent.
+- Buttons are consistent.
+- Dialogs are consistent.
+- Status indicators are consistent.
+- Mobile UI looks professional.
+- TypeScript check passes.
+- Web production build passes.
+
+Stop after this scope.
+
+  13H  Navigation & UX Audit
+Continue from existing project.
+
+Scope:
+Perform a complete navigation and user-flow audit.
+
+Requirements:
+1. Review navigation between:
+   - Home
+   - Games
+   - Clash of Clans
+   - Accounts
+   - Tasks
+   - Events
+   - Calendar
+   - Launcher
+   - More
+2. Ensure back navigation behaves predictably.
+3. Ensure selected account context is preserved where appropriate.
+4. Ensure deep links resolve correctly.
+5. Ensure notification → task → account → launcher flow remains intact.
+6. Ensure Add actions open the correct creation flow.
+7. Ensure cancelled forms do not accidentally create data.
+8. Ensure successful creation returns to a logical destination.
+9. Ensure deleted entities cannot be opened through stale navigation.
+10. Keep navigation hierarchy simple.
+
+Do NOT:
+- Add new navigation sections.
+- Replace the navigation architecture.
+- Add unrelated features.
+
+Verify:
+- Major user flows can be completed without dead ends.
+- Back navigation works.
+- Deep links work.
+- Add flows work.
+- Account context is preserved.
+- Notification flow works.
+- Android navigation behaves correctly.
+
+Stop after this scope.
+
+  13I  Android Runtime QA
+Continue from existing project.
+
+Scope:
+Perform a focused Android runtime QA pass.
+
+Requirements:
+1. Test the packaged Android application.
+2. Verify:
+   - App startup
+   - Splash
+   - Navigation
+   - Accounts
+   - Tasks
+   - Reminders
+   - Events
+   - Calendar
+   - Launcher
+   - Backup/restore
+3. Test notification permission behavior.
+4. Test notification delivery.
+5. Test alarms.
+6. Test notification deep links.
+7. Test Clash of Clans launching.
+8. Test application restart.
+9. Test Android back navigation.
+10. Test app behavior after being backgrounded.
+11. Test behavior after force closing and reopening.
+12. Check for crashes and obvious UI regressions.
+
+Do NOT:
+- Add features.
+- Ignore reproducible crashes.
+- Change functionality merely to hide a QA failure.
+
+Verify:
+- Clean installation works.
+- Existing data survives restart.
+- Notifications work.
+- Alarms work.
+- Deep links work.
+- CoC launcher works.
+- Back navigation works.
+- No critical crashes remain.
+- Debug Android build passes.
+
+Stop after this scope.
+
+  13J  Final Web QA
+Continue from existing project.
+
+Scope:
+Perform final QA of the web application.
+
+Requirements:
+1. Test the complete web application.
+2. Verify:
+   - Home
+   - Games
+   - Clash of Clans
+   - Accounts
+   - Tasks
+   - Reminders
+   - Events
+   - Calendar
+   - Launcher
+   - More
+3. Verify create/edit/delete flows.
+4. Verify filtering.
+5. Verify countdowns.
+6. Verify backup/restore.
+7. Verify empty/error states.
+8. Verify responsive layouts.
+9. Check browser console for actionable errors.
+10. Check broken navigation and dead actions.
+11. Ensure Android-only functionality degrades gracefully in web preview.
+
+Do NOT:
+- Add new features.
+- Replace working architecture.
+- Ignore reproducible errors.
+
+Verify:
+- Major flows work.
+- No critical console errors remain.
+- Responsive layout works.
+- Data persists.
+- Backup/restore works.
+- Web production build passes.
+
+Stop after this scope.
+
+  13K  Final Build & Repository Audit
+Continue from existing project.
+
+Scope:
+Perform a final project-structure and build audit.
+
+Requirements:
+1. Review the complete project structure.
+2. Identify unused files.
+3. Identify obsolete code.
+4. Identify duplicated components.
+5. Identify unused dependencies.
+6. Verify required Android/Gradle files exist.
+7. Verify Capacitor configuration exists.
+8. Verify build scripts work.
+9. Verify environment/configuration files are documented.
+10. Verify secrets and private signing credentials are excluded from source control.
+11. Verify export/import files and generated APK/AAB outputs are handled appropriately.
+12. Ensure another developer can understand how to build the project from the repository.
+
+Do NOT:
+- Rewrite working systems unnecessarily.
+- Delete files without confirming they are unused.
+- Commit generated secrets.
+- Add CI/CD yet.
+
+Verify:
+- Clean web build passes.
+- Clean Android build passes.
+- Project structure is understandable.
+- No required file is missing.
+- No secret is committed.
+- APK can be generated.
+- AAB can be generated.
+- TypeScript check passes.
+
+Stop after this scope.
+
+  13L  Final End-to-End QA
+Continue from existing project.
+
+Scope:
+Perform the final end-to-end QA of Clash Planner.
+
+Requirements:
+1. Test the application as a real user.
+2. Start from a clean application state.
+3. Create multiple Clash of Clans accounts.
+4. Configure account slots.
+5. Create tasks.
+6. Create reminders.
+7. Create Clan Games.
+8. Create Clan War.
+9. Create War attacks.
+10. Create Raid Weekend.
+11. View everything through Calendar.
+12. Test account filtering.
+13. Complete/cancel/skip tasks.
+14. Test reminder behavior.
+15. Test notification → task → account → Clash of Clans launcher.
+16. Test backup export.
+17. Clear/replace test data.
+18. Restore the backup.
+19. Verify restored relationships.
+20. Restart the application.
+21. Verify data remains intact.
+22. Test Android packaged application.
+23. Test web production build.
+24. Record any remaining critical, major, and minor issues.
+
+Do NOT:
+- Add major new features.
+- Change architecture unless required to fix a verified defect.
+- Hide or ignore reproducible errors.
+- Introduce unrelated improvements.
+
+Verify:
+- Complete user workflow succeeds.
+- Multiple accounts work independently.
+- Tasks work.
+- Reminders work.
+- Events work.
+- Calendar works.
+- Launcher works.
+- Backup/restore works.
+- Android build works.
+- Web build works.
+- No critical blockers remain.
+
+At the end:
+Provide a concise QA report containing:
+- PASS items
+- FAIL items
+- Critical issues
+- Major issues
+- Minor issues
+- Recommended fixes
+
+Stop after this scope.
+
+  13M  Final Release Readiness Check
+Continue from existing project.
+
+Scope:
+Perform the final release-readiness review without adding new functionality.
+
+Requirements:
+1. Review the results of the previous QA.
+2. Fix only confirmed critical or major defects.
+3. Do not introduce unrelated changes.
+4. Re-run affected tests after each fix.
+5. Verify the final application version.
+6. Verify Android application identity.
+7. Verify icon and splash.
+8. Verify permissions.
+9. Verify notification and alarm behavior.
+10. Verify backup/restore.
+11. Verify Clash of Clans launcher.
+12. Verify responsive UI.
+13. Verify accessibility basics.
+14. Verify clean web build.
+15. Verify clean Android build.
+16. Verify release APK.
+17. Verify release AAB.
+
+Do NOT:
+- Add new features.
+- Begin Hay Day development.
+- Redesign the application.
+- Introduce experimental architecture.
+- Publish anything automatically.
+
+Verify:
+- No critical defects remain.
+- No major release-blocking defects remain.
+- Clean build succeeds.
+- Release APK succeeds.
+- Release AAB succeeds.
+- Final application is internally consistent.
+- Final QA status is clearly reported.
+
+Stop after this scope.
+
+  13N  Split-Screen & Small Window Support
+Continue from existing project.
+
+Scope:
+Optimize Clash Planner for Android split-screen and small-window usage.
+
+Requirements:
+1. Support Android split-screen mode.
+2. Support resizable/freeform windows where the device allows them.
+3. Treat the available window size as the responsive viewport.
+4. Ensure the application does not assume full-screen width.
+5. Ensure navigation remains usable in narrow windows.
+6. Ensure Home remains readable in compact width.
+7. Ensure Tasks remain usable.
+8. Ensure Calendar adapts to narrow widths.
+9. Ensure Launcher adapts to narrow widths.
+10. Prevent horizontal overflow.
+11. Ensure dialogs and sheets fit within the available window.
+12. Reflow multi-column layouts when space becomes limited.
+13. Preserve state while the window is resized.
+14. Ensure touch targets remain usable.
+15. Do not create a separate split-screen application.
+
+Do NOT:
+- Disable Android resizing.
+- Force full-screen mode.
+- Hardcode phone dimensions.
+- Hide important functionality in small windows.
+
+Verify:
+- Split-screen mode works.
+- Narrow window remains usable.
+- Window resizing does not break layout.
+- Calendar remains usable.
+- Tasks remain usable.
+- Launcher remains usable.
+- No horizontal scrolling occurs unexpectedly.
+- Android debug build passes.
+
+Stop after this scope.
+
+  13O  Android Widget System
+Continue from existing project.
+
+Scope:
+Design and implement the foundation for visually polished Clash Planner Android home-screen widgets.
+
+Requirements:
+1. Create a widget architecture that reads existing persisted Clash Planner data.
+2. Do not create a second data store for widgets.
+3. Support widgets that remain useful when the main application is closed.
+4. Create an initial widget set:
+   - Next Attention
+   - Today's Tasks
+   - Account Status
+   - Event Countdown
+   - Quick Launcher
+5. Make widget content account-aware.
+6. Allow the user to select a Clash of Clans account where appropriate.
+7. Use the existing Task, Reminder, Event, and Account data.
+8. Make widgets visually consistent with the Clash Planner design system.
+9. Keep widget layouts readable at different widget sizes.
+10. Support widget refresh after relevant data changes.
+11. Handle missing/empty data gracefully.
+12. Allow widget taps to deep-link into the appropriate Clash Planner screen.
+13. Allow the Quick Launcher widget to open the Clash of Clans launcher flow.
+14. Keep widget implementation platform-specific and separate from generic web UI.
+15. Do not duplicate application business logic unnecessarily.
+
+Do NOT:
+- Create a second persistence layer.
+- Add cloud synchronization.
+- Build dozens of widget types.
+- Attempt to automatically switch CoC accounts inside the game.
+- Add gameplay automation.
+
+Verify:
+- Widgets can be added to the Android home screen.
+- Widget content is correct.
+- Widgets work when the main app is closed.
+- Widget taps open the correct screen.
+- Account-specific widgets show the correct account.
+- Event countdown updates correctly.
+- Empty states work.
+- Android debug build passes.
+
+Stop after this scope.
